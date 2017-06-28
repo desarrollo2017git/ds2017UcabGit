@@ -7,13 +7,13 @@ namespace DoctorWebServiciosWCF.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Notificaciones : IMigrationMetadata
+    public sealed partial class MigracionNotificaciones : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Notificaciones));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(MigracionNotificaciones));
         
         string IMigrationMetadata.Id
         {
-            get { return "201706220653104_Notificaciones"; }
+            get { return "201706281800404_MigracionNotificaciones"; }
         }
         
         string IMigrationMetadata.Source

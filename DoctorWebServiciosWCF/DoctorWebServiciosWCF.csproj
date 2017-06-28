@@ -85,9 +85,9 @@
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
-    <Compile Include="Migrations\201706281122266_Init.cs" />
-    <Compile Include="Migrations\201706281122266_Init.Designer.cs">
-      <DependentUpon>201706281122266_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.cs" />
+    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.Designer.cs">
+      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Notificacion.cs" />
@@ -108,9 +108,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Properties\PublishProfiles\PublicarEnLocalhostIIS.pubxml" />
     <None Include="Web.Debug.config">
@@ -121,8 +118,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706281122266_Init.resx">
-      <DependentUpon>201706281122266_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706281800404_MigracionNotificaciones.resx">
+      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
