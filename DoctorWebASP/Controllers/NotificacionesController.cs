@@ -136,10 +136,7 @@ namespace DoctorWebASP.Controllers
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Borrar(out mensaje, codigo);
             }
-            catch
-            {
-                
-            }
+            catch {}
             return RedirectToAction("Index");
         }
     }
