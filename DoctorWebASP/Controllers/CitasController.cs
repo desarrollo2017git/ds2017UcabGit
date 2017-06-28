@@ -302,10 +302,8 @@ namespace DoctorWebASP.Controllers
             try
             {
                 var cita = new Cita();
-                string userId = consulta.ObtenerUsuarioLoggedIn(this);
-                
+                string userId = consulta.ObtenerUsuarioLoggedIn(this);               
                 cita.CentroMedico = consulta.ObtenerCentroMedico(centroMedicoId);
-
                 cita.Paciente = consulta.ObtenerPaciente(userId);
                 var calendario = consulta.ObtenerCalendario(calendarioId);
                 cita.Calendario = calendario;

@@ -49,5 +49,39 @@ namespace DoctorWebPruebasUnitarias
             Assert.AreEqual(1, redirect.RouteValues.Keys.Count);
             Assert.AreEqual("Index", redirect.RouteValues["action"]);
         }
+
+        [TestMethod]
+        public void PruebaEliminarCita()
+        {
+            //Inicializar
+            // Flujo exitoso
+            int calendarioId = 0;
+            int id = 0;
+            Cita cita = new Cita();
+            Calendario calendario = new Calendario();
+
+            var controller = new CitasController();
+            var mock = new Mock<ICitasConsultas>();
+
+            mock.Setup(db => db.ObtenerCita(id)).Returns(new Cita());
+            mock.Setup(db => db.ObtenerCalendario(calendarioId)).Returns(new Calendario());
+            mock.Setup(db => db.EliminarCita(cita, calendario));
+
+
+            controller.consulta = mock.Object;
+
+
+            //Ejecutar
+            var resultado = controller.DeleteConfirmed(id);
+
+            //Evaluar
+            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
+            var redirect = (RedirectToRouteResult)resultado;
+            Assert.IsNotNull(redirect.RouteValues);
+
+
+            //Assert.AreEqual(1, redirect.RouteValues.Keys.Count);
+            //Assert.AreEqual("Index", redirect.RouteValues["action"]);
+        }
     }
 }

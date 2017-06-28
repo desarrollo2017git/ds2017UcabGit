@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity.Migrations;
+using System.Collections.Generic;
 
 namespace DoctorWebASP.Models
 {
@@ -36,7 +38,6 @@ namespace DoctorWebASP.Models
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-
     protected override void OnModelCreating(DbModelBuilder modelBuilder)
     {
         modelBuilder.Entity<ApplicationUser>()

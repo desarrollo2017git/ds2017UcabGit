@@ -1,5 +1,7 @@
 namespace DoctorWebASP.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
