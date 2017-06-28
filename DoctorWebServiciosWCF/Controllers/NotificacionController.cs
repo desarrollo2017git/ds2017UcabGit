@@ -1,5 +1,5 @@
-﻿using DoctorWebServiciosWCF.Model;
-using DoctorWebServiciosWCF.Model.ORM;
+﻿using DoctorWebServiciosWCF.Models;
+using DoctorWebServiciosWCF.Models.ORM;
 using DoctorWebServiciosWCF.Models.Service;
 using System;
 using System.Collections.Generic;

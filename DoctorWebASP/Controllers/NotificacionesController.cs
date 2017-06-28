@@ -40,12 +40,15 @@ namespace DoctorWebASP.Controllers
                 ViewData["error"] = ex.Message;
                 notificaciones = new List<Notificacion>();
             }
+
             ViewData["nombre"] = nombre;
             ViewData["filas"] = filas;
-            ViewData["permitirSiguiente"] = indice < cantidadPaginas-1;            
+            ViewData["permitirSiguiente"] = indice < cantidadPaginas-1;
             ViewData["permitirAnterior"] = indice > 0;
             ViewData["siguienteIndice"] = indice + 1;
             ViewData["anteriorIndice"] = indice - 1;
+            ViewData["totalPaginas"] = cantidadPaginas;
+            
             return View(model: notificaciones);
         }
 
@@ -136,10 +139,7 @@ namespace DoctorWebASP.Controllers
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Borrar(out mensaje, codigo);
             }
-            catch
-            {
-                
-            }
+            catch {}
             return RedirectToAction("Index");
         }
     }

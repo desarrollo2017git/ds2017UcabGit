@@ -31,31 +31,34 @@ namespace DoctorWebASP.Models
         public DbSet<Almacen> Almacenes { get; set; }
         public DbSet<UsoRecurso> UsoRecursos { get; set; }
         public DbSet<Bitacora> Bitacoras { get; set; }
+        public DbSet<ObservacionMedica> ObservacionMedicas { get; set; }
+        public DbSet<ResultadoExamenMedico> ResultadoExamenMedicos { get; set; }
+        public DbSet<ObservacionDeAtencionClinica> ObservacionDeAtencionClincas { get; set; }
 
 
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ApplicationUser>()
-                .HasOptional(p => p.PersonaId)
-                .WithRequired(d => d.ApplicationUser);
-            base.OnModelCreating(modelBuilder);
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ApplicationUser>()
+            .HasOptional(p => p.PersonaId)
+            .WithRequired(d => d.ApplicationUser);
+        base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Calendario>()
-                .HasOptional(c => c.Cita)
-                .WithRequired(c => c.Calendario);
-
-
-        }
-
-        public static ApplicationDbContext Create()
-        {
-            return new ApplicationDbContext();
-        }
-
-        public System.Data.Entity.DbSet<DoctorWebASP.Models.HistoriaMedica> HistoriaMedicas { get; set; }
+        modelBuilder.Entity<Calendario>()
+            .HasOptional(c => c.Cita)
+            .WithRequired(c => c.Calendario);
     }
+
+
+
+    public static ApplicationDbContext Create()
+    {
+        return new ApplicationDbContext();
+    }
+
+    public System.Data.Entity.DbSet<DoctorWebASP.Models.HistoriaMedica> HistoriaMedicas { get; set; }
+}
 }
