@@ -94,14 +94,13 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         <label>Métricas</label>
-                                        <select class="form-control select"  data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled>
-                                        </select>
+                                        <select class="form-control select" data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled></select>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="box-footer">
-                            <input type="button" class="btn btn-primary pull-right" id="generate-report" value="Generar" disabled/>
+                            <input type="button" class="btn btn-primary pull-right" id="generate-report" value="Generar" disabled />
                         </div>
                     </div>
                 </div>
@@ -119,7 +118,13 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    AQUÍ VA EL REPORTE!
+                                    <table class="table" id="report">
+                                        <tr>
+                                            <th>Medico</th>
+                                            <th>Paciente</th>
+                                        </tr>
+
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -205,7 +210,7 @@
                     datatype: "application/json",
                     success: function (result) {
                         console.log(result.metricas);
-                        
+
                         var selectMet = $("#select-metrics");
                         var submitMet = $("#generate-report");
 
@@ -217,6 +222,49 @@
                         }
                         $(selectMet).prop('disabled', false);
                         $(submitMet).prop('disabled', false);
+                    },
+                    error: function (xmlhttprequest, textstatus, errorthrown) {
+                        alert(" conection to the server failed ");
+                        console.log("error: " + errorthrown);
+                    }
+                });
+            });
+
+            $("#generate-report").click(function () {
+                var selectedMetric = $('#select-metrics option:selected');
+                console.log(selectedMetric.val());
+
+                var parameters = { selectedMetric: selectedMetric.val() };
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    url: "@Url.Action(actionName: "getReport", controllerName: "Reportes")",
+                    data: JSON.stringify(parameters),
+                    datatype: "application/json",
+                    success: function (result) {
+                        console.log(result);
+                        var tBodyContent = '';
+                        $.each(JSON.parse(result), function (key, value) {
+                            console.log(value.Medico);
+                            var element =
+                                '<tr>' +
+                                '<td>' +
+                                value.Medico +
+                                '</td>' +
+                                '<td>' +
+                                value.Paciente +
+                                '</td>' +
+                                '</tr>';
+                            tBodyContent += element;
+                        });
+                        $("#report").append(tBodyContent);
+                        //for (var i in result) {
+                        //    $("#report").append($("<tr>"));
+                        //    $("#report").append($("<td>" + result[i] + "</td>"));
+                        //    $("#report").append($("<td>" + result[i] + "</td>"));
+                        //    $("#report").append($("</tr>"));
+                        //};
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" conection to the server failed ");

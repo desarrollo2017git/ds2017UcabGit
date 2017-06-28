@@ -250,6 +250,66 @@ namespace DoctorWebASP.Controllers
             return Json(new { metricas = metrics });
         }
 
+        [HttpPost]
+        public string getReport(string selectedMetric)
+        {
+
+            dynamic pacientesPorMedico = from m in db.Personas
+                                         where m is Medico
+                                         join ca in db.Calendarios
+                                         on m equals ca.Medico
+                                         join ci in db.Citas
+                                         on ca equals ci.Calendario
+                                         /*select new
+                                         {
+                                             m.Nombre,
+                                             ca.HoraInicio,
+                                             ca.HoraFin
+                                         };*/
+                                         join pa in db.Personas
+                                         on ci.Paciente equals pa
+                                         where pa is Paciente
+                                         select new
+                                         {
+                                             Medico = m.Nombre + " " + m.Apellido,
+                                             Paciente = pa.Nombre + " " + pa.Apellido
+                                         };
+
+            //if (selectedMetric.Equals("Lista de pacientes por medico."))
+            //{
+            /*var pacientesPorMedico = from m in db.Personas
+                                     where m is Medico
+                                     let cal = (from ca in db.Calendarios
+                                                where ca.Medico == m
+                                                let cit = (from c in db.Citas
+                                                           where c.Calendario == ca
+                                                           let pac = (from pa in db.Personas
+                                                                      where pa is Paciente & c.Paciente == pa
+                                                                      select pa.NombreCompleto)
+                                                           select pac)
+                                                select cit)
+                                     select new
+                                     {
+                                         m.NombreCompleto, cal
+                                     };*/
+
+
+            //dynamic pacientesPorMedico = (from m in db.Personas
+            //                                   where m is Medico
+            //                                   select new { m.Nombre, m.Email });
+
+                /*join ci in db.Citas on p equals ci.Paciente
+                join m in db.Personas
+                where (p is Paciente)
+                select ci.CentroMedico = m.*/
+
+                                     //return Json(new { reporte = "1" });
+            return (Newtonsoft.Json.JsonConvert.SerializeObject(pacientesPorMedico));
+            //}
+
+            //return Json(new { reporte = selectedMetric });
+        }
+
         public int pruebaunitaria()
         {
             var result = 2 + 2;
