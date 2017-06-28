@@ -8,16 +8,27 @@
     <section class="content">
         <div class="row">
             <div class="col-md-3">
-                <div class="box box-solid">
+                <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Eventos disponibles</h4>
+                        <h4 class="box-title">Acciones</h4>
+                    </div>
+                    <br/>
+                    <div class="box-body">
+                        <a href="Create">
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Crear" />
+                        </a>
                     </div>
                     <div class="box-body">
-                        <!-- the events -->
-                        <div id="external-events">
-                            <div class="external-event bg-green">Tiempo disponible para citas</div>
-                        </div>
+                        <a href="Index">
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Sync" />
+                        </a>
                     </div>
+                    <div class="box-body">
+                        <a href="Eliminar">
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Eliminar tiempo libre agendado" />
+                        </a>
+                    </div>
+                    <br/>
                     <!-- /.box-body -->
                 </div>
             </div>
@@ -40,7 +51,7 @@
 </div>
 <!-- /.content-wrapper -->
 <script>
-  $(function () {
+    $(function () {
 
     /* initialize the external events
      -----------------------------------------------------------------*/
@@ -75,7 +86,12 @@
     var d = date.getDate(),
         m = date.getMonth(),
         y = date.getFullYear();
+    $.ajax({
+        type: 'POST',
+        url: '@Url.Action("Json", "Calendarios")'
+    })
     $('#calendar').fullCalendar({
+        events: '/Content/calendario.json',
         defaultView: 'agendaWeek',
         columnFormat: {
             month: 'ddd',   
@@ -88,8 +104,9 @@
         dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
         allDayText: 'Todo el día',
         weekNumberTitle: 'Sem ',
-
+        eventOverlap: false,
         firstDay: 1,
+        allDaySlot: false,
       header: {
         left: 'prev,next today',
         center: 'title',
@@ -101,12 +118,15 @@
         week: 'semana',
         day: 'día',
       },
-      //Random default events
+
+
+        //Random default events
+        /*
       events: [
-            
+
+            //REALIZAR FUNCION JSON EN CONTROLADOR
             /*
             {
-              title: 'All Day Event',
               start: new Date(y, m, 1),
               backgroundColor: "#f56954", //red
               borderColor: "#f56954" //red
@@ -148,13 +168,13 @@
               url: 'http://google.com/',
               backgroundColor: "#3c8dbc", //Primary (light-blue)
               borderColor: "#3c8dbc" //Primary (light-blue)
-            }*/
-      ],
+            }
+      ],*/
       weekNumbers: true,
       weekNumbersWithinDays: true,
       weekNumberCalculation: 'ISO',
-      editable: true, // this allows thing to be editable in the calendar
-      droppable: true, // this allows things to be dropped onto the calendar !!!
+      editable: false, // this allows thing to be editable in the calendar
+      droppable: false, // this allows things to be dropped onto the calendar !!!
       drop: function (date, allDay) { // this function is called when something is dropped
 
         // retrieve the dropped element's stored Event Object
