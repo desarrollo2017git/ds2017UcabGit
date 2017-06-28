@@ -34,6 +34,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -254,9 +255,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201706281420330_Init.cs" />
-    <Compile Include="Migrations\201706281420330_Init.Designer.cs">
-      <DependentUpon>201706281420330_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201706271435190_Init.cs" />
+    <Compile Include="Migrations\201706271435190_Init.Designer.cs">
+      <DependentUpon>201706271435190_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1333,14 +1334,15 @@
     <Content Include="Views\Notificaciones\Detail.cshtml" />
     <Content Include="Views\Notificaciones\Index.cshtml" />
     <Content Include="Views\Reportes\getPersonasByReport.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Reportes\Configurados.cshtml" />
     <Content Include="Views\Calendarios\Create.cshtml" />
     <Content Include="Views\Calendarios\Delete.cshtml" />
     <Content Include="Views\Calendarios\Details.cshtml" />
     <Content Include="Views\Calendarios\Edit.cshtml" />
-    <Content Include="Views\Calendarios\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Calendarios\ErrorCalendario.cshtml" />
     <Content Include="Views\Calendarios\Eliminar.cshtml" />
+    <Content Include="Views\Calendarios\ErrorCalendario.cshtml" />
+    <Content Include="Views\Calendarios\Index.cshtml" />
     <Content Include="Views\Calendarios\listaCalendario.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -1356,8 +1358,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706281420330_Init.resx">
-      <DependentUpon>201706281420330_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706271435190_Init.resx">
+      <DependentUpon>201706271435190_Init.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
   </ItemGroup>
