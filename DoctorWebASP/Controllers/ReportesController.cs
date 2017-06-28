@@ -2,19 +2,12 @@
 using DoctorWebASP.Models;
 using DoctorWebASP.Models.Service;
 using DoctorWebASP.ViewModels;
-using Microsoft.Reporting.WebForms;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Script.Serialization;
 using System.Web.UI.WebControls;
 
 namespace DoctorWebASP.Controllers

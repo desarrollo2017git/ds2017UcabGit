@@ -244,14 +244,6 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\Services\IServicioNotificaciones.cs" />
-    <Compile Include="getPersonasDS.cs">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="getPersonasDS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -391,8 +383,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Gruntfile.js" />
-    <Content Include="index.html" />
-    <Content Include="index2.html" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Content\plugins\bootstrap-slider\slider.css" />
     <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
@@ -1195,7 +1185,6 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1246,18 +1235,7 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="getPersonasDS.xsc">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Content>
     <Content Include="Content\calendario.json" />
-    <None Include="getPersonasDS.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>getPersonasDS.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="getPersonasDS.xss">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\PublicarEnLocalhostIIS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1335,7 +1313,6 @@
     <Content Include="Views\Notificaciones\Delete.cshtml" />
     <Content Include="Views\Notificaciones\Detail.cshtml" />
     <Content Include="Views\Notificaciones\Index.cshtml" />
-    <Content Include="Views\Reportes\getPersonasByReport.cshtml" />
     <Content Include="Views\Calendarios\Create.cshtml" />
     <Content Include="Views\Calendarios\Delete.cshtml" />
     <Content Include="Views\Calendarios\Details.cshtml" />
@@ -1363,7 +1340,6 @@
     <EmbeddedResource Include="Migrations\201706270433122_AddingBitacora.resx">
       <DependentUpon>201706270433122_AddingBitacora.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
