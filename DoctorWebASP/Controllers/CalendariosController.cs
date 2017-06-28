@@ -150,7 +150,8 @@ namespace DoctorWebASP.Controllers
 
         public ActionResult listaCalendario()
         {
-            return View(db.Calendarios.ToList());
+            string userID = User.Identity.GetUserId();
+            return View(db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.Disponible == 1).ToList());
         }
 
         [HttpPost]
@@ -161,7 +162,39 @@ namespace DoctorWebASP.Controllers
             {
                 try
                 {
-                    var calendarios = new SelectList("");
+                    string userID = User.Identity.GetUserId();
+                    var medicos = db.Personas.OfType<Medico>().Select(p => p.ApplicationUser.Id == userID);
+                    if (medicos.Count() > 0)
+                    {
+                        try
+                        {
+                            Calendario cal2 = new Calendario();
+                            var cal = db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.CalendarioId == calendario.CalendarioId).ToList();
+                            int a = 1;
+                            if (cal.Count() > 0)
+                            {
+                                cal2 = cal.First();
+                                if (cal2.CalendarioId == calendario.CalendarioId && cal2.Disponible == 1)
+                                {
+                                    calendario.Cancelada = false;
+                                    //calendario.HoraFin = calendario.HoraInicio.AddHours(2);
+                                    calendario.Disponible = 1;
+                                    db.Calendarios.Remove(cal2);
+                                    db.SaveChanges();
+                                    return RedirectToAction("Eliminar");
+                                }
+                                else
+                                    return RedirectToAction("ErrorCalendario");
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            return RedirectToAction("ErrorCalendario");
+                        }
+                    }
+                    else
+                        return new HttpNotFoundResult("Fecha inválida!");
                 }
                 catch (Exception e)
                 {
