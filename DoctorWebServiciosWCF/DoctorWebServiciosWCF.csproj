@@ -85,10 +85,6 @@
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
-    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.cs" />
-    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.Designer.cs">
-      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Notificacion.cs" />
     <Compile Include="Controllers\NotificacionController.cs" />
@@ -116,11 +112,6 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706281800404_MigracionNotificaciones.resx">
-      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
