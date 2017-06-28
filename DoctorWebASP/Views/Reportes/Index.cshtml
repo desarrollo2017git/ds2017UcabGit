@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li><a href="#">Reportes</a></li>
-        <li class="active">Reportes Preestablecidos @Model.resultadoProcesoR2.SinProblemas</li>
+        <li class="active">Reportes Preestablecidos</li>
     </ol>
 </section>
 
@@ -68,7 +68,14 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Promedio uso a la aplicación.</span>
-                            <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
+                            @if (Model.resultadoProcesoR3.SinProblemas)
+                            {
+                                <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
+                            }
+                            else
+                            {
+                            <span class="info-box-number"><small style="color: #d33724;">@Model.resultadoProcesoR3.Mensaje</small></span>
+                            }
                         </div>
                     </div>
                 </div>
