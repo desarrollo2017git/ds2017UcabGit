@@ -1,0 +1,42 @@
+﻿@model IEnumerable<DoctorWebASP.Models.Calendario>
+
+@{
+    ViewBag.Title = "Ver lista calendario";
+}
+
+<h2>Lista de referencia de horario agendado para consultas</h2>
+
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid box-primary table-responsive">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr class="">
+                            <th class="info">
+                                Id
+                            </th>
+                            <th class="info">
+                                Hora de Inicio
+                            </th>
+                            <th class="info">
+                                Hora Final
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ToList())
+                        {
+                            <tr>
+                                <td>@item.CalendarioId</td>
+                                <td>@item.HoraInicio</td>
+                                <td>@item.HoraFin</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <a href="Eliminar" class="btn btn-primary">Regresar</a>
+</section>

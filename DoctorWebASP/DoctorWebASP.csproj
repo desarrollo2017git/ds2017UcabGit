@@ -1334,13 +1334,16 @@
     <Content Include="Views\Notificaciones\Detail.cshtml" />
     <Content Include="Views\Notificaciones\Index.cshtml" />
     <Content Include="Views\Reportes\getPersonasByReport.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Reportes\Configurados.cshtml" />
     <Content Include="Views\Calendarios\Create.cshtml" />
     <Content Include="Views\Calendarios\Delete.cshtml" />
     <Content Include="Views\Calendarios\Details.cshtml" />
     <Content Include="Views\Calendarios\Edit.cshtml" />
+    <Content Include="Views\Calendarios\Eliminar.cshtml" />
+    <Content Include="Views\Calendarios\ErrorCalendario.cshtml" />
     <Content Include="Views\Calendarios\Index.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Reportes\Configurados.cshtml" />
+    <Content Include="Views\Calendarios\listaCalendario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
