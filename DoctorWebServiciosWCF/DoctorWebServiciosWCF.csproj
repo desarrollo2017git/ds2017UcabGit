@@ -31,6 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,15 +77,17 @@
     </Content>
     <Content Include="Services\NotificacionService.svc" />
     <Content Include="Services\ReporteService.svc" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
-    <Compile Include="Migrations\201706281122266_Init.cs" />
-    <Compile Include="Migrations\201706281122266_Init.Designer.cs">
-      <DependentUpon>201706281122266_Init.cs</DependentUpon>
+    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.cs" />
+    <Compile Include="Migrations\201706281800404_MigracionNotificaciones.Designer.cs">
+      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Notificacion.cs" />
@@ -114,10 +117,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706281122266_Init.resx">
-      <DependentUpon>201706281122266_Init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706281800404_MigracionNotificaciones.resx">
+      <DependentUpon>201706281800404_MigracionNotificaciones.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
