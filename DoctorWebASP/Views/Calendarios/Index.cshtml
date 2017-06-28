@@ -10,50 +10,26 @@
             <div class="col-md-3">
                 <div class="box box-solid box-primary">
                     <div class="box-header with-border">
-                        <h4 class="box-title">Nuevo espacio para citas</h4>
+                        <h4 class="box-title">Acciones</h4>
                     </div>
+                    <br/>
                     <div class="box-body">
                         <a href="Create">
-                            <input type="button" class="btn btn-primary" value="Crear"/>
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Crear" />
                         </a>
-                        <a href="Index">
-                            <input type="button" class="btn btn-primary col-md-offset-1" value="Sync" />
-                        </a>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-                <div class="box box-solid box-primary active" style="cursor:pointer" onmouseup="drop-event()">
-                    <!-- Aqui se debe llamar la funcion eliminar -->
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Liberar tiempo</h3>
                     </div>
                     <div class="box-body">
-                        <form id="borrarCalendario">
-                            <h5>Fecha de inicio:</h5>
-                            <input type="datetime-local" name="fechaI" /><br />
-                            <h5>Fecha de finalización:</h5>
-                            <input type="datetime-local" name="fechaF" /><br /><br />
-                            <input class="btn btn-primary" type="submit" value="Liberar" />
-                        </form>
-                        <!--<div class="input-group">
-                            <div style="border:1px dotted red" align="center" class="input-group-btn">
-
-                                <img src="~/Content/Resources/basura.png" border="0" width="150" height="150">
-
-                                <h5> <b> ... Coloque eventos aqui ... </b> </h5>
-
-
-                            </div>
-                        </div>
+                        <a href="Index">
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Sync" />
+                        </a>
                     </div>
-                    <div class="input-group">
-                        <p>Input event name to delete</p>
-                        <input id="new-event" type="text" class="form-control" placeholder="Event Title">
-                        <div class="input-group-btn">
-                            <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Delete</button>
-                        </div>
-                    </div>-->
+                    <div class="box-body">
+                        <a href="Eliminar">
+                            <input type="button" class="btn btn-primary col-md-8 col-md-offset-2" value="Eliminar tiempo libre agendado" />
+                        </a>
                     </div>
+                    <br/>
+                    <!-- /.box-body -->
                 </div>
             </div>
             <!-- /.col -->
