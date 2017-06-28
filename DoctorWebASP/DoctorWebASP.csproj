@@ -1249,6 +1249,7 @@
     <Content Include="getPersonasDS.xsc">
       <DependentUpon>getPersonasDS.xsd</DependentUpon>
     </Content>
+    <Content Include="Content\calendario.json" />
     <None Include="getPersonasDS.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>getPersonasDS.Designer.cs</LastGenOutput>
@@ -1363,6 +1364,12 @@
       <DependentUpon>201706270433122_AddingBitacora.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
+      <Project>{3d0059c1-13fc-4b21-9316-182dc3743056}</Project>
+      <Name>DoctorWebServiciosWCF</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
