@@ -241,7 +241,7 @@ namespace DoctorWebASP.Controllers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return RedirectToAction("ErrorCalendario");
+                return RedirectToAction("ErrorCalendario"); // hola
             }
         }
     }
