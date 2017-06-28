@@ -1,13 +1,11 @@
 ﻿@model IEnumerable<DoctorWebASP.Models.ObservacionDeAtencionClinica>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Observación de Atención Clinica";
 }
-
-<h2>Index</h2>
-
+<h1 style="text-align:center;">Crear nueva Observación de Atención Clinica</h1>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear Nueva Observación de Atención Clinica", "Create")
 </p>
 <table class="table">
     <tr>
@@ -22,24 +20,23 @@
         </th>
         <th></th>
     </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observacion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comentario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipo)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.ObservacionDeAtencionMedicaId }) |
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Observacion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comentario)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tipo)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ObservacionDeAtencionMedicaId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ObservacionDeAtencionMedicaId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ObservacionDeAtencionMedicaId })
-        </td>
-    </tr>
-}
-
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.ObservacionDeAtencionMedicaId })
+            </td>
+        </tr>
+    }
 </table>
