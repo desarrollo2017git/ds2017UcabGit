@@ -1377,6 +1377,15 @@
     <Content Include="Views\ResultadoExamenMedicoes\Details.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Edit.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Index.cshtml" />
+    <Content Include="Views\HistoriaMedicas\AgregarHistorial.cshtml" />
+    <Content Include="Views\HistoriaMedicas\AgregarRecipe.cshtml" />
+    <Content Include="Views\HistoriaMedicas\Historial.cshtml" />
+    <Content Include="Views\HistoriaMedicas\HistPersona.cshtml" />
+    <Content Include="Views\HistoriaMedicas\Inicio.cshtml" />
+    <Content Include="Views\HistoriaMedicas\NotaDeGuardia.cshtml" />
+    <Content Include="Views\HistoriaMedicas\NotaDeGuardiaPaciente.cshtml" />
+    <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
+    <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
