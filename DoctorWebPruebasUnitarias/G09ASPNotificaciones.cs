@@ -252,7 +252,8 @@ namespace DoctorWebPruebasUnitarias
         }
 
         [TestMethod]
-        public void ASPNotificacionCtrlCreate()
+        // El controlador recibe los datos del formulario y guarda la notificacion sin problemas.
+        public void ASPNotificacionCtrlCreateCaso1()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -262,7 +263,7 @@ namespace DoctorWebPruebasUnitarias
             collection.Add("Descripcion", "Prueba Descripcion");
             collection.Add("Contenido", "Prueba Contenido");
             collection.Add("Asunto", "Prueba Asunto");
-            
+
             Notificacion registro = new Notificacion();
             string mensajeError = String.Empty;
             servicio_mocked
@@ -281,12 +282,145 @@ namespace DoctorWebPruebasUnitarias
         }
 
         [TestMethod]
-        public void ASPNotificacionCtrlDelete()
+        // El controlador recibe los datos del formulario y falla al guardar la notificacion.
+        public void ASPNotificacionCtrlCreateCaso2()
         {
             //Inicializar
+            FormCollection collection = new FormCollection();
+            collection.Add("NotificacionId", "0");
+            collection.Add("Estado", "1");
+            collection.Add("Nombre", "Prueba");
+            collection.Add("Descripcion", "Prueba Descripcion");
+            collection.Add("Contenido", "Prueba Contenido");
+            collection.Add("Asunto", "Prueba Asunto");
+
+            Notificacion registro = new Notificacion();
+            string mensajeError = It.IsAny<string>();
+            servicio_mocked
+                .Setup(servicio => servicio.Guardar(out mensajeError, It.IsAny<Notificacion>()))
+                .OutCallback(new OutAction<string, Notificacion>((out string mensaje, Notificacion notificacion) => mensaje = String.Empty))
+                .Returns(() => { throw new Exception(); });
+
+            var controlador = new NotificacionesController(servicio_mocked.Object);
+
             //Ejecutar
+            var resultado = controlador.Create(collection);
+
             //Evaluar
+            // El resultado es redireccionar al usuario?
+            Assert.IsInstanceOfType(resultado, typeof(ViewResult));
         }
+
+        [TestMethod]
+        // El controlador recibe los datos del formulario y guarda la notificacion.
+        public void ASPNotificacionCtrlEditareCaso1()
+        {
+            //Inicializar
+            FormCollection collection = new FormCollection();
+            collection.Add("NotificacionId", "1");
+            collection.Add("Estado", "1");
+            collection.Add("Nombre", "Prueba");
+            collection.Add("Descripcion", "Prueba Descripcion");
+            collection.Add("Contenido", "Prueba Contenido");
+            collection.Add("Asunto", "Prueba Asunto");
+
+            Notificacion registro = new Notificacion();
+            string mensajeError = It.IsAny<string>();
+            servicio_mocked
+                .Setup(servicio => servicio.Guardar(out mensajeError, It.IsAny<Notificacion>()))
+                .OutCallback(new OutAction<string, Notificacion>((out string mensaje, Notificacion notificacion) => mensaje = String.Empty))
+                .Returns(() => { return true; });
+
+            var controlador = new NotificacionesController(servicio_mocked.Object);
+
+            //Ejecutar
+            var resultado = controlador.Edit(collection);
+
+            //Evaluar
+            // El resultado es redireccionar al usuario?
+            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        // El controlador recibe los datos del formulario y falla al guardar la notificacion.
+        public void ASPNotificacionCtrlEditareCaso2()
+        {
+            //Inicializar
+            FormCollection collection = new FormCollection();
+            collection.Add("NotificacionId", "1");
+            collection.Add("Estado", "1");
+            collection.Add("Nombre", "Prueba");
+            collection.Add("Descripcion", "Prueba Descripcion");
+            collection.Add("Contenido", "Prueba Contenido");
+            collection.Add("Asunto", "Prueba Asunto");
+
+            Notificacion registro = new Notificacion();
+            string mensajeError = It.IsAny<string>();
+            servicio_mocked
+                .Setup(servicio => servicio.Guardar(out mensajeError, It.IsAny<Notificacion>()))
+                .OutCallback(new OutAction<string, Notificacion>((out string mensaje, Notificacion notificacion) => mensaje = String.Empty))
+                .Returns(() => { throw new Exception(); });
+
+            var controlador = new NotificacionesController(servicio_mocked.Object);
+
+            //Ejecutar
+            var resultado = controlador.Edit(collection);
+
+            //Evaluar
+            // El resultado es redireccionar al usuario?
+            Assert.IsInstanceOfType(resultado, typeof(ViewResult));
+        }
+
+        [TestMethod]
+        // El controlador recibe la notificacion y el servicio la borra correctamente.
+        public void ASPNotificacionCtrlDeleteCaso1()
+        {
+            //Inicializar
+            FormCollection collection = new FormCollection();
+            collection.Add("NotificacionId", "1");
+
+            Notificacion registro = new Notificacion();
+            string mensajeError = It.IsAny<string>();
+            servicio_mocked
+                .Setup(servicio => servicio.Borrar(out mensajeError, It.IsAny<int>()))
+                .OutCallback(new OutAction<string, int>((out string mensaje, int notificacionId) => mensaje = String.Empty))
+                .Returns(() => { return true; });
+
+            var controlador = new NotificacionesController(servicio_mocked.Object);
+
+            //Ejecutar
+            var resultado = controlador.Delete(collection);
+
+            //Evaluar
+            // El resultado es redireccionar al usuario?
+            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
+        }
+
+        [TestMethod]
+        // El controlador recibe la notificacion y falla al borrarla con el servicio.
+        public void ASPNotificacionCtrlDeleteCaso2()
+        {
+            //Inicializar
+            FormCollection collection = new FormCollection();
+            collection.Add("NotificacionId", "1");
+
+            Notificacion registro = new Notificacion();
+            string mensajeError = It.IsAny<string>();
+            servicio_mocked
+                .Setup(servicio => servicio.Borrar(out mensajeError, It.IsAny<int>()))
+                .OutCallback(new OutAction<string, int>((out string mensaje, int notificacionId) => mensaje = String.Empty))
+                .Returns(() => { throw new Exception(); });
+
+            var controlador = new NotificacionesController(servicio_mocked.Object);
+
+            //Ejecutar
+            var resultado = controlador.Delete(collection);
+
+            //Evaluar
+            // El resultado es redireccionar al usuario?
+            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
+        }
+
         #endregion
 
     }

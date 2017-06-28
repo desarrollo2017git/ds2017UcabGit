@@ -10,7 +10,7 @@ using System.Net.Mail;
 using System.Threading;
 using System.Web;
 
-namespace DoctorWebServiciosWCF.Model
+namespace DoctorWebServiciosWCF.Models
 {
     public class Notificacion
     {

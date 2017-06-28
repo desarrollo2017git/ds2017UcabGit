@@ -11,5 +11,8 @@ namespace DoctorWebASP.Models
 
         public virtual ICollection<HistoriaMedica> HistoriasMedicas { get; set; }
         public virtual ICollection<Cita> Citas { get; set; }
+        public virtual ICollection<ObservacionMedica> ObservacionMedicas { get; set; }
+        public virtual ICollection<ObservacionDeAtencionClinica> ObservacionDeAtencionClinicas { get; set; }
+        public virtual ICollection<ResultadoExamenMedico> ResultadoExamenMedicos { get; set; }
     }
 }

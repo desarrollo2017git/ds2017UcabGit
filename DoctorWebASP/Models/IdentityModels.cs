@@ -33,6 +33,9 @@ namespace DoctorWebASP.Models
         public DbSet<Almacen> Almacenes { get; set; }
         public DbSet<UsoRecurso> UsoRecursos { get; set; }
         public DbSet<Bitacora> Bitacoras { get; set; }
+        public DbSet<ObservacionMedica> ObservacionMedicas { get; set; }
+        public DbSet<ResultadoExamenMedico> ResultadoExamenMedicos { get; set; }
+        public DbSet<ObservacionDeAtencionClinica> ObservacionDeAtencionClincas { get; set; }
 
 
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)
