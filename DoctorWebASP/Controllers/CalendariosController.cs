@@ -186,6 +186,9 @@ namespace DoctorWebASP.Controllers
                                 else
                                     return RedirectToAction("ErrorCalendario");
                             }
+                            else
+                                return RedirectToAction("ErrorCalendario");
+
                         }
                         catch (Exception e)
                         {
