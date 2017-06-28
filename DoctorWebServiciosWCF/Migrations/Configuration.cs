@@ -27,7 +27,6 @@ namespace DoctorWebServiciosWCF.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
-
             #region Grupo 9
             context.Notificaciones.AddOrUpdate(
                 notificacion => notificacion.Nombre,
