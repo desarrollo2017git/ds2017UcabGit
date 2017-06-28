@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using DoctorWebServiciosWCF.Model;
+using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Service;
 using DoctorWebServiciosWCF.Controllers;
 

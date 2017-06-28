@@ -1,18 +1,19 @@
 namespace DoctorWebServiciosWCF.Migrations
 {
+    using DoctorWebServiciosWCF.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<DoctorWebServiciosWCF.Model.ORM.ContextoBD>
+    internal sealed class Configuration : DbMigrationsConfiguration<DoctorWebServiciosWCF.Models.ORM.ContextoBD>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(DoctorWebServiciosWCF.Model.ORM.ContextoBD context)
+        protected override void Seed(DoctorWebServiciosWCF.Models.ORM.ContextoBD context)
         {
             //  This method will be called after migrating to the latest version.
 
