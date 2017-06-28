@@ -10,6 +10,7 @@ using DoctorWebASP.Models;
 using Microsoft.AspNet.Identity;
 using Newtonsoft.Json;
 using System.Web.Script.Serialization;
+using DoctorWebASP.ViewModels;
 
 namespace DoctorWebASP.Controllers
 {
@@ -38,9 +39,19 @@ namespace DoctorWebASP.Controllers
             return View(calendario);
         }
 
+        [HttpPost]
         public ActionResult ErrorCalendario()
         {
             return View();
+        }
+
+        public ActionResult ErrorCalendario(string mensaje)
+        {
+            var model = new SadFaceViewModel
+            {
+                Mensaje = mensaje
+            };
+            return View("ErrorCalendario", model);
         }
 
         // GET: Calendarios/Create
@@ -81,11 +92,15 @@ namespace DoctorWebASP.Controllers
                         catch (Exception e)
                         {
                             Console.WriteLine(e);
-                            return RedirectToAction("ErrorCalendario");
+                            string mensaje = "Hubo un problema creando su horario de cita";
+                            return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                         }
                     }
                     else
-                        return new HttpNotFoundResult("Fecha inválida!");
+                    {
+                        string mensaje = "Su horario no pudo ser agendado";
+                        return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -186,6 +201,12 @@ namespace DoctorWebASP.Controllers
                                 else
                                     return RedirectToAction("ErrorCalendario");
                             }
+                            else
+                            {
+                                string mensaje = "ID incorrecto";
+                                return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                            }
+
                         }
                         catch (Exception e)
                         {
@@ -194,7 +215,10 @@ namespace DoctorWebASP.Controllers
                         }
                     }
                     else
-                        return new HttpNotFoundResult("Fecha inválida!");
+                    {
+                        string mensaje = "Fecha invalida";
+                        return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                    }
                 }
                 catch (Exception e)
                 {
@@ -261,7 +285,6 @@ namespace DoctorWebASP.Controllers
                 string path;
                 var login = db.Personas.OfType<Medico>().Where(p => p.ApplicationUser.Id == userID);
                 var login2 = db.Personas.OfType<Paciente>().Where(p => p.ApplicationUser.Id == userID);
-                int a = 1;
                 if (login.Count() > 0)
                 {
                     medicoid = login.First().PersonaId;    
