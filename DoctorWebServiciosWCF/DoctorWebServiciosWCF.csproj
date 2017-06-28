@@ -71,6 +71,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\DoctorWebBD.mdf" />
+    <Content Include="App_Data\DoctorWebBD_log.ldf">
+      <DependentUpon>DoctorWebBD.mdf</DependentUpon>
+    </Content>
     <Content Include="Services\NotificacionService.svc" />
     <Content Include="Services\ReporteService.svc" />
     <Content Include="Web.config">
@@ -81,9 +85,9 @@
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\ReporteController.cs" />
-    <Compile Include="Migrations\201706271539536_init.cs" />
-    <Compile Include="Migrations\201706271539536_init.Designer.cs">
-      <DependentUpon>201706271539536_init.cs</DependentUpon>
+    <Compile Include="Migrations\201706281122266_Init.cs" />
+    <Compile Include="Migrations\201706281122266_Init.Designer.cs">
+      <DependentUpon>201706281122266_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Notificacion.cs" />
@@ -117,8 +121,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706271539536_init.resx">
-      <DependentUpon>201706271539536_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201706281122266_Init.resx">
+      <DependentUpon>201706281122266_Init.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
