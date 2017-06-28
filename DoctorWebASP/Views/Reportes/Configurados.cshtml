@@ -118,16 +118,13 @@
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <table class="table" id="report">
-                                        <tr>
-                                            <th>Medico</th>
-                                            <th>Paciente</th>
-                                        </tr>
-
-                                    </table>
+                                    <table class="table" id="report"></table>
                                 </div>
                             </div>
                         </div>
+                        @*<div class="box-footer">
+                            <input type="button" class="btn btn-primary pull-right" id="finish" value="Finalizar" disabled />
+                        </div>*@
                     </div>
                 </div>
 
@@ -147,7 +144,6 @@
                 var selectedEntities = [];
 
                 $(selections).each(function (index) {
-                    //console.log($(this).val());
                     selectedEntities.push($(this).val())
                 });
 
@@ -160,9 +156,6 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result.atributos);
-                        //console.log($("#select-attributes"));
-
                         var selectAttr = $("#select-attributes");
                         var submitAttr = $("#submit-attributes");
 
@@ -172,9 +165,9 @@
                             var newOption = new Option(result.atributos[i], result.atributos[i], true, false);
                             selectAttr.append(newOption).trigger('change');
                         }
+
                         $(selectAttr).prop('disabled', false);
                         $(submitAttr).prop('disabled', false);
-
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" conection to the server failed ");
@@ -190,7 +183,6 @@
                 $(selections).each(function (index) {
                     selectedEntities.push($(this).val())
                 });
-                //console.log($(selectedEntities));
 
                 var selections2 = $('#select-attributes option:selected');
                 var selectedAttributes = [];
@@ -198,7 +190,6 @@
                 $(selections2).each(function (index) {
                     selectedAttributes.push($(this).val())
                 });
-                //console.log($(selectedAttributes));
 
                 var parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
 
@@ -209,8 +200,6 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result.metricas);
-
                         var selectMet = $("#select-metrics");
                         var submitMet = $("#generate-report");
 
@@ -220,6 +209,7 @@
                             var newOption = new Option(result.metricas[i], result.metricas[i], true, false);
                             selectMet.append(newOption).trigger('change');
                         }
+
                         $(selectMet).prop('disabled', false);
                         $(submitMet).prop('disabled', false);
                     },
@@ -232,8 +222,6 @@
 
             $("#generate-report").click(function () {
                 var selectedMetric = $('#select-metrics option:selected');
-                console.log(selectedMetric.val());
-
                 var parameters = { selectedMetric: selectedMetric.val() };
 
                 $.ajax({
@@ -243,28 +231,33 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
+                        $("#report").empty();
+
+                        var selections = $('#select-entities option:selected');
                         var tBodyContent = '';
+                        var element = '';
+
+                        tBodyContent += '<thead><tr>';
+
+                        $(selections).each(function (index) {
+                            element = '<th>' + $(this).val() + '</th>';
+                            tBodyContent += element;
+                        });
+
+                        tBodyContent += '</tr></thead><tbody>';
+
                         $.each(JSON.parse(result), function (key, value) {
-                            console.log(value.Medico);
-                            var element =
+                            element =
                                 '<tr>' +
-                                '<td>' +
-                                value.Medico +
-                                '</td>' +
-                                '<td>' +
-                                value.Paciente +
-                                '</td>' +
+                                    '<td>' + value.Medico + '</td>' +
+                                    '<td>' + value.Paciente + '</td>' +
                                 '</tr>';
                             tBodyContent += element;
                         });
-                        $("#report").append(tBodyContent);
-                        //for (var i in result) {
-                        //    $("#report").append($("<tr>"));
-                        //    $("#report").append($("<td>" + result[i] + "</td>"));
-                        //    $("#report").append($("<td>" + result[i] + "</td>"));
-                        //    $("#report").append($("</tr>"));
-                        //};
+
+                        $("#report").append('</tbody>' + tBodyContent);
+
+                        $(finish).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" conection to the server failed ");
@@ -272,6 +265,21 @@
                     }
                 });
             });
+
+            //$("#finish").click(function () {
+            //    $("#select-entities").reset();
+
+            //    $("#select-attributes").empty();
+            //    $("#select-attributes").prop('disabled', true);
+            //    $("#submit-attributes").prop('disabled', true);
+
+            //    $("#select-metrics").empty();
+            //    $("#select-metrics").prop('disabled', true);
+            //    $("#generate-report").prop('disabled', true);
+
+            //    $("#report").empty();
+            //    $("#finish").prop('disabled', true);
+            //});
         });
     </script>
 }
