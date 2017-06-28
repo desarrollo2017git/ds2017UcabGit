@@ -235,8 +235,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificacionesController.cs" />
+    <Compile Include="Controllers\ObservacionDeAtencionClinicasController.cs" />
+    <Compile Include="Controllers\ObservacionMedicasController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
     <Compile Include="Controllers\Services\IServicioNotificaciones.cs" />
     <Compile Include="getPersonasDS.cs">
       <DependentUpon>getPersonasDS.xsd</DependentUpon>
@@ -256,6 +259,10 @@
     <Compile Include="Migrations\201706281924142_agregandonuevasclases.cs" />
     <Compile Include="Migrations\201706281924142_agregandonuevasclases.Designer.cs">
       <DependentUpon>201706281924142_agregandonuevasclases.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706282229246_correciones.cs" />
+    <Compile Include="Migrations\201706282229246_correciones.Designer.cs">
+      <DependentUpon>201706282229246_correciones.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1355,6 +1362,21 @@
     <Content Include="Views\Calendarios\ErrorCalendario.cshtml" />
     <Content Include="Views\Calendarios\Index.cshtml" />
     <Content Include="Views\Calendarios\listaCalendario.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Create.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Delete.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Details.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Edit.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Index.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Create.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Delete.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Details.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Edit.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Index.cshtml" />
+    <Content Include="Views\ResultadoExamenMedicoes\Create.cshtml" />
+    <Content Include="Views\ResultadoExamenMedicoes\Delete.cshtml" />
+    <Content Include="Views\ResultadoExamenMedicoes\Details.cshtml" />
+    <Content Include="Views\ResultadoExamenMedicoes\Edit.cshtml" />
+    <Content Include="Views\ResultadoExamenMedicoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1373,6 +1395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706281924142_agregandonuevasclases.resx">
       <DependentUpon>201706281924142_agregandonuevasclases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706282229246_correciones.resx">
+      <DependentUpon>201706282229246_correciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
   </ItemGroup>

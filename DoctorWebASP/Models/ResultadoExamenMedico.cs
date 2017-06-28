@@ -13,7 +13,7 @@ namespace DoctorWebASP.Models
         [Key]
         public int ResultadoExamenMedicoID { get; set; }
         [Required]
-        public String[] Comentario { get; set; }
+        public String Comentario { get; set; }
         public virtual Paciente Paciente { get; set; }
 
     }
