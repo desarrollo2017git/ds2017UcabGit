@@ -11,7 +11,7 @@ namespace DoctorWebASP.Models
         [DataType(DataType.Currency)]
         public decimal Sueldo { get; set; }
 
-        public EspecialidadMedica EspecialidadMedica { get; set; }
+        public virtual EspecialidadMedica EspecialidadMedica { get; set; }
         public virtual ICollection<Calendario> Eventos { get; set; }
         public virtual CentroMedico CentroMedico { get; set; }
     }

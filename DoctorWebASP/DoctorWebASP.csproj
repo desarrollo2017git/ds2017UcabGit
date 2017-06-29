@@ -227,13 +227,16 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendariosController.cs" />
+    <Compile Include="Controllers\CentrosMedicosController.cs" />
     <Compile Include="Controllers\CitasController.cs" />
+    <Compile Include="Controllers\EspecialidadMedicaController.cs" />
     <Compile Include="Controllers\Helpers\Dominios.cs" />
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\HistoriaMedicasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MedicosController.cs" />
     <Compile Include="Controllers\NotificacionesController.cs" />
     <Compile Include="Controllers\ObservacionDeAtencionClinicasController.cs" />
     <Compile Include="Controllers\ObservacionMedicasController.cs" />
@@ -263,6 +266,10 @@
     <Compile Include="Migrations\201706282229246_correciones.cs" />
     <Compile Include="Migrations\201706282229246_correciones.Designer.cs">
       <DependentUpon>201706282229246_correciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706282338016_fixEspecialidadMedica.cs" />
+    <Compile Include="Migrations\201706282338016_fixEspecialidadMedica.Designer.cs">
+      <DependentUpon>201706282338016_fixEspecialidadMedica.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -298,6 +305,7 @@
     <Compile Include="ViewModels\CalendarioViewModel.cs" />
     <Compile Include="ViewModels\DoctorCitaViewModel.cs" />
     <Compile Include="ViewModels\EspecialidadViewModel.cs" />
+    <Compile Include="ViewModels\MedicoBackdoorViewModel.cs" />
     <Compile Include="ViewModels\MedicoViewModel.cs" />
     <Compile Include="ViewModels\SadFaceViewModel.cs" />
     <Compile Include="ViewModels\ReportesViewModel.cs" />
@@ -1377,6 +1385,21 @@
     <Content Include="Views\ResultadoExamenMedicoes\Details.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Edit.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Index.cshtml" />
+    <Content Include="Views\CentrosMedicos\Create.cshtml" />
+    <Content Include="Views\CentrosMedicos\Delete.cshtml" />
+    <Content Include="Views\CentrosMedicos\Details.cshtml" />
+    <Content Include="Views\CentrosMedicos\Edit.cshtml" />
+    <Content Include="Views\CentrosMedicos\Index.cshtml" />
+    <Content Include="Views\EspecialidadMedica\Create.cshtml" />
+    <Content Include="Views\EspecialidadMedica\Delete.cshtml" />
+    <Content Include="Views\EspecialidadMedica\Details.cshtml" />
+    <Content Include="Views\EspecialidadMedica\Edit.cshtml" />
+    <Content Include="Views\EspecialidadMedica\Index.cshtml" />
+    <Content Include="Views\Medicos\Create.cshtml" />
+    <Content Include="Views\Medicos\Delete.cshtml" />
+    <Content Include="Views\Medicos\Details.cshtml" />
+    <Content Include="Views\Medicos\Edit.cshtml" />
+    <Content Include="Views\Medicos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1398,6 +1421,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706282229246_correciones.resx">
       <DependentUpon>201706282229246_correciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706282338016_fixEspecialidadMedica.resx">
+      <DependentUpon>201706282338016_fixEspecialidadMedica.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
   </ItemGroup>
