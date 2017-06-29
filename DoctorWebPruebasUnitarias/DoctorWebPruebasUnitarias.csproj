@@ -83,6 +83,7 @@
     <Compile Include="G09ASPNotificaciones.cs" />
     <Compile Include="G09WCFNotificaciones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="G08ASPReportes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
