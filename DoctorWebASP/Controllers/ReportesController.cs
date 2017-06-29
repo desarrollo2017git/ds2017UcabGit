@@ -21,18 +21,28 @@ namespace DoctorWebASP.Controllers
         private string lastTimeOnDay = "11:59:59 PM";
         private string firstTimeOnDay = "12:00:00 AM";
 
-
+        /// <summary>
+        /// Método constructor de la clase ReportesController
+        /// </summary>
         public ReportesController()
         {
             db = new ApplicationDbContext();
         }
 
+        /// <summary>
+        /// Método utilizado para liberar recursos no administrados que usa la aplicación.
+        /// </summary>
+        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
         }
 
         #region REPORTES PRESTABLECIDOS
+        /// <summary>
+        /// Método que instancia la interfaz o vista para los reportes preestablecidos.
+        /// </summary>
+        /// <returns>Retorna un objeto de tipo View</returns>
         // GET: Reportes
         public ActionResult Index()
         {
@@ -91,6 +101,13 @@ namespace DoctorWebASP.Controllers
         }
 
         #region REPORTE #1 - Cantidad de usuarios registrados en un tiempo determinado
+        /// <summary>
+        /// Método utilizado para obtener la cantidad de usuarios registrados durante el periodo de tiempo seleccionado por el usuario.
+        /// Recibe los parámetros:
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Retorna un objeto de tipo JSon</returns>
         [HttpPost]
         public ActionResult getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr)
         {
@@ -109,7 +126,7 @@ namespace DoctorWebASP.Controllers
 
                 resultadoProceso.Inicializar(result.Count().ToString());
 
-                return Json( new { resultadoProceso });
+                return Json(new { resultadoProceso });
             }
             catch (Exception ex)
             {
@@ -126,11 +143,15 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region CHECKHED ***** REPORTE #2 - Promedio de edad de los pacientes.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de edad de los pacientes.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato double.</returns>
         public double getPromedioEdadPaciente()
         {
             var result = from p in db.Personas
-                            where (p is Paciente)
-                            select p.FechaNacimiento;
+                         where (p is Paciente)
+                         select p.FechaNacimiento;
 
             if (result == null)
                 throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
@@ -158,14 +179,18 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region CHECKHED ***** REPORTE #3 - Promedio de citas por médico.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas por médico.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato double.</returns>
         public double getPromedioCitasPorMedico()
         {
             double? cantidadCitas = (from c in db.Calendarios
-                                 where !c.Cancelada & c.Disponible == 0
-                                 select c).Count();
+                                     where !c.Cancelada & c.Disponible == 0
+                                     select c).Count();
             double? cantidadMedicos = (from p in db.Personas
-                                   where p is Medico
-                                   select p).Count();
+                                       where p is Medico
+                                       select p).Count();
             if (cantidadMedicos == null || cantidadCitas == null)
                 throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
 
@@ -182,6 +207,13 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region REPORTE #4 - Promedio de recursos disponibles en un tiempo determinado.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de recursos disponibles en un periodo de tiempo seleccionado por el usuario.
+        /// Recibe los parámetros:
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
         public ActionResult getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr)
         {
@@ -226,16 +258,16 @@ namespace DoctorWebASP.Controllers
                     }
                 }
 
-                double promedio = (double) totalCantidadRecursos / (double) cantidadRecursos;
+                double promedio = (double)totalCantidadRecursos / (double)cantidadRecursos;
 
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
                 resultadoProceso.Inicializar(promedio.ToString());
 
-                return Json(new { resultadoProceso } );
-            }            
-            catch(Exception ex)
+                return Json(new { resultadoProceso });
+            }
+            catch (Exception ex)
             {
                 if (ex is SqlException || ex is DataException || ex is EntityException)
                     resultadoProceso.Mensaje = "Hay un error de conexión con la base de datos.";
@@ -250,13 +282,17 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region CHECKHED ***** REPORTE #5 - Promedio de uso de la aplicación
+        /// <summary>
+        /// Método utilizado para obtener el promedio de uso de la aplicación.
+        /// </summary>
+        /// <returns>Returna un tipo de dato double.</returns>
         public double getPromedioUsoApp()
         {
             double? bitacora = (from b in db.Bitacoras
-                               select b).Count();
+                                select b).Count();
 
             double? usuarios = (from u in db.Users
-                               select u).Count();
+                                select u).Count();
 
             if (bitacora == null || usuarios == null)
                 throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
@@ -274,6 +310,12 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region REPORTE #6 - Promedio de citas canceladas por médico en un tiempo determinado
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas canceladas por médico en un periodo de tiempo seleccionado por el usuario.
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
         public ActionResult getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
         {
@@ -285,11 +327,11 @@ namespace DoctorWebASP.Controllers
                 DateTime dtFechaFin = DateTime.Parse(fechaFinStr, CultureInfo.InvariantCulture);
 
                 double? cantidadCitasCanceladas = (from c in db.Calendarios
-                                                  where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
-                                                  select c).Count();
+                                                   where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
+                                                   select c).Count();
                 double? cantidadMedicos = (from p in db.Personas
-                                          where p is Medico
-                                          select p).Count();
+                                           where p is Medico
+                                           select p).Count();
 
                 if (cantidadCitasCanceladas == null || cantidadMedicos == null)
                     throw new Exception("Hay un problema con la consulta en la base de datos.");
@@ -322,6 +364,10 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region REPORTES CONFIGURADOS
+        /// <summary>
+        /// Método que instancia la interfaz o vista para los reportes configurados.
+        /// </summary>
+        /// <returns>Retorna un objeto de tipo View</returns>
         public ActionResult Configurados()
         {
             IEnumerable<string> result = getEntities();
@@ -329,6 +375,10 @@ namespace DoctorWebASP.Controllers
             return View(result);
         }
 
+        /// <summary>
+        /// Metodo utilizado para llenar una lista de entidades.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato IEnumerable </returns>
         public IEnumerable<string> getEntities()
         {
             List<string> entities = new List<string>();
@@ -341,6 +391,11 @@ namespace DoctorWebASP.Controllers
             return entities;
         }
 
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
         public ActionResult getAttributes(List<string> selectedEntities)
         {
@@ -400,6 +455,12 @@ namespace DoctorWebASP.Controllers
             return Json(new { atributos = attributes });
         }
 
+        /// <summary>
+        /// Método utilizado para llenar una lista de métricas, según los parámetros recibidos.
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <param name="selectedAttributes">Parámetro que indica los atributos seleccionados.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
         public ActionResult getMetrics(List<string> selectedEntities, List<string> selectedAttributes)
         {
@@ -419,6 +480,11 @@ namespace DoctorWebASP.Controllers
             return Json(new { metricas = metrics });
         }
 
+        /// <summary>
+        /// Método utilizado para obtener el resultado de la métrica seleccionada.
+        /// </summary>
+        /// <param name="selectedMetric">Parámetro que indica la métrica seleccionada.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
         public string getReport(string selectedMetric)
         {
