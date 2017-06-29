@@ -1326,7 +1326,7 @@
     <Content Include="Views\Citas\IndexDoctor.cshtml" />
     <Content Include="Views\Citas\DetailsDoctor.cshtml" />
     <Content Include="Views\Reportes\Index.cshtml" />
-	<Content Include="Views\Reportes\Configurados.cshtml" />
+    <Content Include="Views\Reportes\Configurados.cshtml" />
     <Content Include="Views\Notificaciones\Delete.cshtml" />
     <Content Include="Views\Notificaciones\Detail.cshtml" />
     <Content Include="Views\Notificaciones\Index.cshtml" />
