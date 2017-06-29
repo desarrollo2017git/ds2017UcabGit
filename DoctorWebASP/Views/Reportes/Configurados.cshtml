@@ -40,7 +40,7 @@
                                         <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione la(s) entidad(es) que desea" style="width: 100%;" id="select-entities">
                                             @foreach (var entities in Model)
                                             {
-                                            <option value="@entities">@entities</option>
+                                                <option value="@entities">@entities</option>
                                             }
                                         </select>
                                     </div>
@@ -122,9 +122,9 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="box-footer">
+                        <div class="box-footer">
                             <input type="button" class="btn btn-primary pull-right" id="finish" value="Finalizar" disabled />
-                        </div>*@
+                        </div>
                     </div>
                 </div>
 
@@ -142,12 +142,13 @@
             $("#submit-entities").click(function () {
                 var selections = $('#select-entities option:selected');
                 var selectedEntities = [];
+                var parameters = { };
 
                 $(selections).each(function (index) {
                     selectedEntities.push($(this).val())
                 });
 
-                var parameters = { selectedEntities: selectedEntities };
+                parameters = { selectedEntities: selectedEntities };
 
                 $.ajax({
                     type: "POST",
@@ -159,7 +160,7 @@
                         var selectAttr = $("#select-attributes");
                         var submitAttr = $("#submit-attributes");
 
-                        selectAttr.empty();
+                        $(selectAttr).empty();
 
                         for (var i in result.atributos) {
                             var newOption = new Option(result.atributos[i], result.atributos[i], true, false);
@@ -170,7 +171,7 @@
                         $(submitAttr).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
-                        alert(" conection to the server failed ");
+                        alert("Debe seleccionar al menos una entidad para poder continuar.");
                         console.log("error: " + errorthrown);
                     }
                 });
@@ -179,19 +180,19 @@
             $("#submit-attributes").click(function () {
                 var selections = $('#select-entities option:selected');
                 var selectedEntities = [];
+                var selections2 = $('#select-attributes option:selected');
+                var selectedAttributes = [];
+                var parameters = { };
 
                 $(selections).each(function (index) {
                     selectedEntities.push($(this).val())
                 });
 
-                var selections2 = $('#select-attributes option:selected');
-                var selectedAttributes = [];
-
                 $(selections2).each(function (index) {
                     selectedAttributes.push($(this).val())
                 });
 
-                var parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
+                parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
 
                 $.ajax({
                     type: "POST",
@@ -203,7 +204,7 @@
                         var selectMet = $("#select-metrics");
                         var submitMet = $("#generate-report");
 
-                        selectMet.empty();
+                        $(selectMet).empty();
 
                         for (var i in result.metricas) {
                             var newOption = new Option(result.metricas[i], result.metricas[i], true, false);
@@ -214,7 +215,7 @@
                         $(submitMet).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
-                        alert(" conection to the server failed ");
+                        alert(" Debe seleccionar al menos un atributo para continuar. ");
                         console.log("error: " + errorthrown);
                     }
                 });
@@ -231,7 +232,10 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        $("#report").empty();
+                        var tableRep = $("#report");
+                        var finish = $("#finish");
+
+                        $(tableRep).empty();
 
                         var selections = $('#select-entities option:selected');
                         var tBodyContent = '';
@@ -255,31 +259,30 @@
                             tBodyContent += element;
                         });
 
-                        $("#report").append('</tbody>' + tBodyContent);
-
+                        $(tableRep).append('</tbody>' + tBodyContent);
                         $(finish).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
-                        alert(" conection to the server failed ");
+                        alert(" Ha habido un error de conexión, vuelva a intentarlo. ");
                         console.log("error: " + errorthrown);
                     }
                 });
             });
 
-            //$("#finish").click(function () {
-            //    $("#select-entities").reset();
+            $("#finish").click(function () {
+                $('#select-entities').val([]).trigger('change');
 
-            //    $("#select-attributes").empty();
-            //    $("#select-attributes").prop('disabled', true);
-            //    $("#submit-attributes").prop('disabled', true);
+                $("#select-attributes").val([]).trigger('change');
+                $("#select-attributes").prop('disabled', true);
+                $("#submit-attributes").prop('disabled', true);
 
-            //    $("#select-metrics").empty();
-            //    $("#select-metrics").prop('disabled', true);
-            //    $("#generate-report").prop('disabled', true);
+                $("#select-metrics").val([]).trigger('change');
+                $("#select-metrics").prop('disabled', true);
+                $("#generate-report").prop('disabled', true);
 
-            //    $("#report").empty();
-            //    $("#finish").prop('disabled', true);
-            //});
+                $("#report").empty();
+                $("#finish").prop('disabled', true);
+            });
         });
     </script>
 }

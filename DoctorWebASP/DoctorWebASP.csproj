@@ -1352,6 +1352,7 @@
     <Content Include="Views\ResultadoExamenMedicoes\Details.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Edit.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Index.cshtml" />
+    <Content Include="Views\Reportes\Configurados.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
