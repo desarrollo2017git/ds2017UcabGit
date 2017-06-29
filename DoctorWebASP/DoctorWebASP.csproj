@@ -1410,7 +1410,6 @@
     <EmbeddedResource Include="Migrations\201706282338016_fixEspecialidadMedica.resx">
       <DependentUpon>201706282338016_fixEspecialidadMedica.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reportes2\R0Personas.rdlc" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
