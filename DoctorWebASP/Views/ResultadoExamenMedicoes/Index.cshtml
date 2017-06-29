@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<DoctorWebASP.Models.ResultadoExamenMedico>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Resultados de Examenes Médicos";
 }
 
-<h2>Index</h2>
+<h1 style="text-align:center;">Resultado de Examenes Médicos</h1>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -23,9 +23,8 @@
             @Html.DisplayFor(modelItem => item.Comentario)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ResultadoExamenMedicoID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ResultadoExamenMedicoID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ResultadoExamenMedicoID })
+            @Html.ActionLink("Editar", "Edit", new { id=item.ResultadoExamenMedicoID }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.ResultadoExamenMedicoID })
         </td>
     </tr>
 }

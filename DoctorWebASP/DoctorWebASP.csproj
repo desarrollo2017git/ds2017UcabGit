@@ -244,14 +244,6 @@
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
     <Compile Include="Controllers\Services\IServicioNotificaciones.cs" />
-    <Compile Include="getPersonasDS.cs">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="getPersonasDS.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -407,8 +399,6 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Gruntfile.js" />
-    <Content Include="index.html" />
-    <Content Include="index2.html" />
     <Content Include="Content\plugins\bootstrap-slider\bootstrap-slider.js" />
     <Content Include="Content\plugins\bootstrap-slider\slider.css" />
     <Content Include="Content\plugins\bootstrap-wysihtml5\bootstrap3-wysihtml5.all.js" />
@@ -1211,7 +1201,6 @@
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.css" />
     <Content Include="Content\plugins\timepicker\bootstrap-timepicker.min.js" />
-    <Content Include="ReportViewerWebForm.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -1262,9 +1251,6 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
-    <Content Include="getPersonasDS.xsc">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Content>
     <Content Include="Content\calendario.json" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
@@ -1274,14 +1260,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <None Include="getPersonasDS.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>getPersonasDS.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="getPersonasDS.xss">
-      <DependentUpon>getPersonasDS.xsd</DependentUpon>
-    </Content>
     <None Include="Properties\PublishProfiles\PublicarEnLocalhostIIS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -1356,12 +1334,10 @@
     <Content Include="Views\Citas\IndexDoctor.cshtml" />
     <Content Include="Views\Citas\DetailsDoctor.cshtml" />
     <Content Include="Views\Reportes\Index.cshtml" />
+    <Content Include="Views\Reportes\Configurados.cshtml" />
     <Content Include="Views\Notificaciones\Delete.cshtml" />
     <Content Include="Views\Notificaciones\Detail.cshtml" />
     <Content Include="Views\Notificaciones\Index.cshtml" />
-    <Content Include="Views\Reportes\getPersonasByReport.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Reportes\Configurados.cshtml" />
     <Content Include="Views\Calendarios\Create.cshtml" />
     <Content Include="Views\Calendarios\Delete.cshtml" />
     <Content Include="Views\Calendarios\Details.cshtml" />
@@ -1400,6 +1376,15 @@
     <Content Include="Views\Medicos\Details.cshtml" />
     <Content Include="Views\Medicos\Edit.cshtml" />
     <Content Include="Views\Medicos\Index.cshtml" />
+    <Content Include="Views\HistoriaMedicas\AgregarHistorial.cshtml" />
+    <Content Include="Views\HistoriaMedicas\AgregarRecipe.cshtml" />
+    <Content Include="Views\HistoriaMedicas\Historial.cshtml" />
+    <Content Include="Views\HistoriaMedicas\HistPersona.cshtml" />
+    <Content Include="Views\HistoriaMedicas\Inicio.cshtml" />
+    <Content Include="Views\HistoriaMedicas\NotaDeGuardia.cshtml" />
+    <Content Include="Views\HistoriaMedicas\NotaDeGuardiaPaciente.cshtml" />
+    <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
+    <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

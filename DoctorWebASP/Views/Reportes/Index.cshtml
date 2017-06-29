@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
         <li><a href="#">Reportes</a></li>
-        <li class="active">Reportes Preestablecidos @Model.resultadoProcesoR2.SinProblemas</li>
+        <li class="active">Reportes Preestablecidos</li>
     </ol>
 </section>
 
@@ -68,7 +68,14 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Promedio uso a la aplicación.</span>
-                            <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
+                            @if (Model.resultadoProcesoR3.SinProblemas)
+                            {
+                                <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
+                            }
+                            else
+                            {
+                            <span class="info-box-number"><small style="color: #d33724;">@Model.resultadoProcesoR3.Mensaje</small></span>
+                            }
                         </div>
                     </div>
                 </div>
@@ -182,9 +189,11 @@
                         data: JSON.stringify(parameters),
                         datatype: "application/json",
                         success: function (result) {
-                            //do something
                             console.log(result);
-                            $(dateRange1).parent().next().text("Hay un total de " + result.cantidad + " usuarios registrados durante este período de tiempo.");
+                            if (result.resultadoProceso.SinProblemas)
+                                dateRange1.parent().next().text("Hay un total de " + result.resultadoProceso.Mensaje + " usuarios registrados durante este período de tiempo.");
+                            else
+                                dateRange1.parent().next().text(result.resultadoProceso.Mensaje);
                         },
                         error: function (xmlhttprequest, textstatus, errorthrown) {
                             alert(" conection to the server failed ");
@@ -220,7 +229,10 @@
                         success: function (result) {
                             //do something
                             console.log(result);
-                            $(dateRange2).parent().next().text("Hay un promedio de " + result.cantidad + " recursos disponibles durante este período de tiempo.");
+                            if (result.resultadoProceso.SinProblemas)
+                                dateRange2.parent().next().text("Hay un promedio de " + result.resultadoProceso.Mensaje + " recursos disponibles durante este período de tiempo.");
+                            else
+                                dateRange2.parent().next().text(result.resultadoProceso.Mensaje);
                         },
                         error: function (xmlhttprequest, textstatus, errorthrown) {
                             alert(" conection to the server failed ");
@@ -255,7 +267,10 @@
                     success: function (result) {
                         //do something
                         console.log(result);
-                        $(dateRange3).parent().next().text("Hay un promedio de " + result.cantidad + " citas canceladas por médico.");
+                        if (result.resultadoProceso.SinProblemas)
+                            dateRange3.parent().next().text("Hay un promedio de " + result.resultadoProceso.Mensaje + " citas canceladas por médico.");
+                        else
+                            dateRange3.parent().next().text(result.resultadoProceso.Mensaje);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" conection to the server failed ");
