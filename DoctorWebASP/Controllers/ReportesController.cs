@@ -142,7 +142,7 @@ namespace DoctorWebASP.Controllers
         }
         #endregion
 
-        #region CHECKHED ***** REPORTE #2 - Promedio de edad de los pacientes.
+        #region REPORTE #2 - Promedio de edad de los pacientes.
         /// <summary>
         /// Método utilizado para obtener el promedio de edad de los pacientes.
         /// </summary>
@@ -178,7 +178,7 @@ namespace DoctorWebASP.Controllers
         }
         #endregion
 
-        #region CHECKHED ***** REPORTE #3 - Promedio de citas por médico.
+        #region REPORTE #3 - Promedio de citas por médico.
         /// <summary>
         /// Método utilizado para obtener el promedio de citas por médico.
         /// </summary>
@@ -281,7 +281,7 @@ namespace DoctorWebASP.Controllers
         }
         #endregion
 
-        #region CHECKHED ***** REPORTE #5 - Promedio de uso de la aplicación
+        #region REPORTE #5 - Promedio de uso de la aplicación
         /// <summary>
         /// Método utilizado para obtener el promedio de uso de la aplicación.
         /// </summary>
