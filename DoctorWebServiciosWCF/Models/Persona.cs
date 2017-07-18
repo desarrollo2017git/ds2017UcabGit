@@ -1,0 +1,47 @@
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace DoctorWebServiciosWCF.Models
+{
+    public class Persona
+    {
+        [Key]
+        public int PersonaId { get; set; }
+        [Required]
+        public string Nombre { get; set; }
+        [Required]
+        public string Apellido { get; set; }
+        [Required]
+        public string Cedula { get; set; }
+        [Required]
+        public string Genero { get; set; }
+        [Required]
+        public string Telefono { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
+        public string Direccion { get; set; }
+
+        public string ApplicationUserId { get; set; }
+
+
+        public string ConcatUserName
+        {
+            get
+            {
+                return Nombre +" "+ Apellido;
+            }
+        }
+
+
+        public string NombreCompleto
+        {
+            get
+            {
+                return Nombre + " " + Apellido;
+            }
+        }
+
+    }
+}

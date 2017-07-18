@@ -244,25 +244,11 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
+    <Compile Include="Controllers\Services\IServicioCitas.cs" />
     <Compile Include="Controllers\Services\IServicioNotificaciones.cs" />
+    <Compile Include="Controllers\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706271435190_Init.cs" />
-    <Compile Include="Migrations\201706271435190_Init.Designer.cs">
-      <DependentUpon>201706271435190_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706281924142_agregandonuevasclases.cs" />
-    <Compile Include="Migrations\201706281924142_agregandonuevasclases.Designer.cs">
-      <DependentUpon>201706281924142_agregandonuevasclases.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706282229246_correciones.cs" />
-    <Compile Include="Migrations\201706282229246_correciones.Designer.cs">
-      <DependentUpon>201706282229246_correciones.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201706282338016_fixEspecialidadMedica.cs" />
-    <Compile Include="Migrations\201706282338016_fixEspecialidadMedica.Designer.cs">
-      <DependentUpon>201706282338016_fixEspecialidadMedica.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1398,20 +1384,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201706271435190_Init.resx">
-      <DependentUpon>201706271435190_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706281924142_agregandonuevasclases.resx">
-      <DependentUpon>201706281924142_agregandonuevasclases.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706282229246_correciones.resx">
-      <DependentUpon>201706282229246_correciones.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201706282338016_fixEspecialidadMedica.resx">
-      <DependentUpon>201706282338016_fixEspecialidadMedica.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">

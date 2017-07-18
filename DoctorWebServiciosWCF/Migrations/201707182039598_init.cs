@@ -1,9 +1,9 @@
-namespace DoctorWebASP.Migrations
+namespace DoctorWebServiciosWCF.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -39,16 +39,16 @@ namespace DoctorWebASP.Migrations
                 c => new
                     {
                         CitaId = c.Int(nullable: false),
-                        Paciente_PersonaId = c.Int(),
                         CentroMedico_CentroMedicoId = c.Int(),
+                        Paciente_PersonaId = c.Int(),
                     })
                 .PrimaryKey(t => t.CitaId)
                 .ForeignKey("dbo.Calendarios", t => t.CitaId)
-                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
                 .ForeignKey("dbo.CentroMedicoes", t => t.CentroMedico_CentroMedicoId)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
                 .Index(t => t.CitaId)
-                .Index(t => t.Paciente_PersonaId)
-                .Index(t => t.CentroMedico_CentroMedicoId);
+                .Index(t => t.CentroMedico_CentroMedicoId)
+                .Index(t => t.Paciente_PersonaId);
             
             CreateTable(
                 "dbo.Calendarios",
@@ -79,65 +79,27 @@ namespace DoctorWebASP.Migrations
                         FechaCreacion = c.DateTime(nullable: false),
                         Email = c.String(),
                         Direccion = c.String(),
+                        ApplicationUserId = c.String(),
                         Sueldo = c.Decimal(precision: 18, scale: 2),
                         TipoSangre = c.String(),
                         Discriminator = c.String(nullable: false, maxLength: 128),
-                        ApplicationUser_Id = c.String(nullable: false, maxLength: 128),
                         CentroMedico_CentroMedicoId = c.Int(),
                         EspecialidadMedica_EspecialidadMedicaId = c.Int(),
                     })
                 .PrimaryKey(t => t.PersonaId)
-                .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUser_Id)
                 .ForeignKey("dbo.CentroMedicoes", t => t.CentroMedico_CentroMedicoId)
                 .ForeignKey("dbo.EspecialidadMedicas", t => t.EspecialidadMedica_EspecialidadMedicaId)
-                .Index(t => t.ApplicationUser_Id)
                 .Index(t => t.CentroMedico_CentroMedicoId)
                 .Index(t => t.EspecialidadMedica_EspecialidadMedicaId);
             
             CreateTable(
-                "dbo.AspNetUsers",
+                "dbo.EspecialidadMedicas",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Email = c.String(maxLength: 256),
-                        EmailConfirmed = c.Boolean(nullable: false),
-                        PasswordHash = c.String(),
-                        SecurityStamp = c.String(),
-                        PhoneNumber = c.String(),
-                        PhoneNumberConfirmed = c.Boolean(nullable: false),
-                        TwoFactorEnabled = c.Boolean(nullable: false),
-                        LockoutEndDateUtc = c.DateTime(),
-                        LockoutEnabled = c.Boolean(nullable: false),
-                        AccessFailedCount = c.Int(nullable: false),
-                        UserName = c.String(nullable: false, maxLength: 256),
+                        EspecialidadMedicaId = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.UserName, unique: true, name: "UserNameIndex");
-            
-            CreateTable(
-                "dbo.AspNetUserClaims",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        ClaimType = c.String(),
-                        ClaimValue = c.String(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
-            
-            CreateTable(
-                "dbo.AspNetUserLogins",
-                c => new
-                    {
-                        LoginProvider = c.String(nullable: false, maxLength: 128),
-                        ProviderKey = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(nullable: false, maxLength: 128),
-                    })
-                .PrimaryKey(t => new { t.LoginProvider, t.ProviderKey, t.UserId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .Index(t => t.UserId);
+                .PrimaryKey(t => t.EspecialidadMedicaId);
             
             CreateTable(
                 "dbo.HistoriaMedicas",
@@ -151,26 +113,43 @@ namespace DoctorWebASP.Migrations
                 .Index(t => t.Paciente_PersonaId);
             
             CreateTable(
-                "dbo.AspNetUserRoles",
+                "dbo.ObservacionDeAtencionClinicas",
                 c => new
                     {
-                        UserId = c.String(nullable: false, maxLength: 128),
-                        RoleId = c.String(nullable: false, maxLength: 128),
+                        ObservacionDeAtencionMedicaId = c.Int(nullable: false, identity: true),
+                        Observacion = c.String(nullable: false),
+                        Comentario = c.String(nullable: false),
+                        tipo = c.Int(nullable: false),
+                        Paciente_PersonaId = c.Int(),
                     })
-                .PrimaryKey(t => new { t.UserId, t.RoleId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetRoles", t => t.RoleId, cascadeDelete: true)
-                .Index(t => t.UserId)
-                .Index(t => t.RoleId);
+                .PrimaryKey(t => t.ObservacionDeAtencionMedicaId)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+                .Index(t => t.Paciente_PersonaId);
             
             CreateTable(
-                "dbo.EspecialidadMedicas",
+                "dbo.ObservacionMedicas",
                 c => new
                     {
-                        EspecialidadMedicaId = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(),
+                        ObservacionMedicaId = c.Int(nullable: false, identity: true),
+                        Diagnostico = c.String(nullable: false),
+                        Indicacion = c.String(nullable: false),
+                        Paciente_PersonaId = c.Int(),
                     })
-                .PrimaryKey(t => t.EspecialidadMedicaId);
+                .PrimaryKey(t => t.ObservacionMedicaId)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+                .Index(t => t.Paciente_PersonaId);
+            
+            CreateTable(
+                "dbo.ResultadoExamenMedicoes",
+                c => new
+                    {
+                        ResultadoExamenMedicoID = c.Int(nullable: false, identity: true),
+                        Comentario = c.String(nullable: false),
+                        Paciente_PersonaId = c.Int(),
+                    })
+                .PrimaryKey(t => t.ResultadoExamenMedicoID)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+                .Index(t => t.Paciente_PersonaId);
             
             CreateTable(
                 "dbo.Tratamientoes",
@@ -210,14 +189,17 @@ namespace DoctorWebASP.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.AspNetRoles",
+                "dbo.Notificacions",
                 c => new
                     {
-                        Id = c.String(nullable: false, maxLength: 128),
-                        Name = c.String(nullable: false, maxLength: 256),
+                        NotificacionId = c.Int(nullable: false, identity: true),
+                        Estado = c.Byte(nullable: false),
+                        Nombre = c.String(nullable: false, maxLength: 60),
+                        Descripcion = c.String(nullable: false, maxLength: 255),
+                        Asunto = c.String(nullable: false, maxLength: 128),
+                        Contenido = c.String(nullable: false),
                     })
-                .PrimaryKey(t => t.Id)
-                .Index(t => t.Name, unique: true, name: "RoleNameIndex");
+                .PrimaryKey(t => t.NotificacionId);
             
             CreateTable(
                 "dbo.UsoRecursoes",
@@ -240,51 +222,44 @@ namespace DoctorWebASP.Migrations
         {
             DropForeignKey("dbo.UsoRecursoes", "RecursoHospitalario_RecursoHospitalarioId", "dbo.RecursoHospitalarios");
             DropForeignKey("dbo.UsoRecursoes", "Cita_CitaId", "dbo.Citas");
-            DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.Almacens", "RecursoHospitalario_RecursoHospitalarioId", "dbo.RecursoHospitalarios");
             DropForeignKey("dbo.Almacens", "CentroMedico_CentroMedicoId", "dbo.CentroMedicoes");
             DropForeignKey("dbo.Tratamientoes", "Cita_CitaId", "dbo.Citas");
+            DropForeignKey("dbo.ResultadoExamenMedicoes", "Paciente_PersonaId", "dbo.Personas");
+            DropForeignKey("dbo.ObservacionMedicas", "Paciente_PersonaId", "dbo.Personas");
+            DropForeignKey("dbo.ObservacionDeAtencionClinicas", "Paciente_PersonaId", "dbo.Personas");
+            DropForeignKey("dbo.HistoriaMedicas", "Paciente_PersonaId", "dbo.Personas");
+            DropForeignKey("dbo.Citas", "Paciente_PersonaId", "dbo.Personas");
             DropForeignKey("dbo.Citas", "CentroMedico_CentroMedicoId", "dbo.CentroMedicoes");
             DropForeignKey("dbo.Calendarios", "Medico_PersonaId", "dbo.Personas");
             DropForeignKey("dbo.Personas", "EspecialidadMedica_EspecialidadMedicaId", "dbo.EspecialidadMedicas");
             DropForeignKey("dbo.Personas", "CentroMedico_CentroMedicoId", "dbo.CentroMedicoes");
-            DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.Personas", "ApplicationUser_Id", "dbo.AspNetUsers");
-            DropForeignKey("dbo.HistoriaMedicas", "Paciente_PersonaId", "dbo.Personas");
-            DropForeignKey("dbo.Citas", "Paciente_PersonaId", "dbo.Personas");
-            DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Citas", "CitaId", "dbo.Calendarios");
             DropIndex("dbo.UsoRecursoes", new[] { "RecursoHospitalario_RecursoHospitalarioId" });
             DropIndex("dbo.UsoRecursoes", new[] { "Cita_CitaId" });
-            DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Tratamientoes", new[] { "Cita_CitaId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
-            DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
+            DropIndex("dbo.ResultadoExamenMedicoes", new[] { "Paciente_PersonaId" });
+            DropIndex("dbo.ObservacionMedicas", new[] { "Paciente_PersonaId" });
+            DropIndex("dbo.ObservacionDeAtencionClinicas", new[] { "Paciente_PersonaId" });
             DropIndex("dbo.HistoriaMedicas", new[] { "Paciente_PersonaId" });
-            DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
-            DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
-            DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.Personas", new[] { "EspecialidadMedica_EspecialidadMedicaId" });
             DropIndex("dbo.Personas", new[] { "CentroMedico_CentroMedicoId" });
-            DropIndex("dbo.Personas", new[] { "ApplicationUser_Id" });
             DropIndex("dbo.Calendarios", new[] { "Medico_PersonaId" });
-            DropIndex("dbo.Citas", new[] { "CentroMedico_CentroMedicoId" });
             DropIndex("dbo.Citas", new[] { "Paciente_PersonaId" });
+            DropIndex("dbo.Citas", new[] { "CentroMedico_CentroMedicoId" });
             DropIndex("dbo.Citas", new[] { "CitaId" });
             DropIndex("dbo.Almacens", new[] { "RecursoHospitalario_RecursoHospitalarioId" });
             DropIndex("dbo.Almacens", new[] { "CentroMedico_CentroMedicoId" });
             DropTable("dbo.UsoRecursoes");
-            DropTable("dbo.AspNetRoles");
+            DropTable("dbo.Notificacions");
             DropTable("dbo.Bitacoras");
             DropTable("dbo.RecursoHospitalarios");
             DropTable("dbo.Tratamientoes");
-            DropTable("dbo.EspecialidadMedicas");
-            DropTable("dbo.AspNetUserRoles");
+            DropTable("dbo.ResultadoExamenMedicoes");
+            DropTable("dbo.ObservacionMedicas");
+            DropTable("dbo.ObservacionDeAtencionClinicas");
             DropTable("dbo.HistoriaMedicas");
-            DropTable("dbo.AspNetUserLogins");
-            DropTable("dbo.AspNetUserClaims");
-            DropTable("dbo.AspNetUsers");
+            DropTable("dbo.EspecialidadMedicas");
             DropTable("dbo.Personas");
             DropTable("dbo.Calendarios");
             DropTable("dbo.Citas");

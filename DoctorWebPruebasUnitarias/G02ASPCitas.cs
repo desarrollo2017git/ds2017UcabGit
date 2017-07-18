@@ -1,4 +1,5 @@
 ﻿using DoctorWebASP.Controllers;
+using DoctorWebASP.Controllers.Services;
 using DoctorWebASP.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -28,7 +29,7 @@ namespace DoctorWebPruebasUnitarias
             Calendario calendario = new Calendario();
 
             var controller = new CitasController();
-            var mock = new Mock<ICitasConsultas>();
+            var mock = new Mock<IServicioCitas>();
             mock.Setup(db => db.ObtenerCentroMedico(centroMedicoId)).Returns(new CentroMedico());
             mock.Setup(db => db.ObtenerPaciente(userId)).Returns(new Paciente());
             mock.Setup(db => db.ObtenerCalendario(calendarioId)).Returns(new Calendario());
@@ -61,7 +62,7 @@ namespace DoctorWebPruebasUnitarias
             Calendario calendario = new Calendario();
 
             var controller = new CitasController();
-            var mock = new Mock<ICitasConsultas>();
+            var mock = new Mock<IServicioCitas>();
 
             mock.Setup(db => db.ObtenerCita(id)).Returns(new Cita());
             mock.Setup(db => db.ObtenerCalendario(calendarioId)).Returns(new Calendario());

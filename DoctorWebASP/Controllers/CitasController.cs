@@ -12,17 +12,18 @@ using PagedList;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.SqlClient;
+using DoctorWebASP.Controllers.Services;
 
 namespace DoctorWebASP.Controllers
 {
     public class CitasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        public ICitasConsultas consulta { get; set; }
-        public CitasController(): this(new CitasConsultas()) {
+        public IServicioCitas consulta { get; set; }
+        public CitasController(): this(new ServicioCitas()) {
             }
 
-        public CitasController(ICitasConsultas db)
+        public CitasController(IServicioCitas db)
         {
             this.consulta = db;
         }
