@@ -1,44 +1,64 @@
-﻿using DoctorWebServiciosWCF.Models.ORM;
+﻿using DoctorWebServiciosWCF.Models.Command;
+using DoctorWebServiciosWCF.Models.ORM;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using System.Linq.Expressions;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    public class Dao : IDao
+    public class DAO<T> : IDAO<T>
+        where T : class
     {
         public ContextoBD db { get; set; }
+        protected DbSet<T> coleccion { get; set; }
 
-        public Dao()
+        public DAO(): this(coleccion: null)
+        {
+        }
+
+        public DAO(DbSet<T> coleccion)
         {
             db = new ContextoBD();
+            this.coleccion = coleccion;
         }
 
-        public void Borrar<T>(DbSet<T> coleccion, T datos)
-            where T : class // <== add this constraint
+        public IQueryable<T> ObtenerTodos()
         {
-            coleccion.Remove(datos);
-            db.SaveChanges();
-
+            return coleccion;
         }
 
-        public void Crear<T>(DbSet<T> coleccion, T datos)
-            where T : class // <== add this constraint
+        public IQueryable<T> ObtenerTodosLosQue(Expression<Func<T, bool>> condicion)
         {
-            coleccion.Add(datos);
-            db.SaveChanges();
-
+            return coleccion.Where(condicion);
         }
 
-        public void Actualizar<T>(DbSet<T> coleccion, object datos, params object[] keys)
-            where T : class // <== add this constraint
+        public T ObtenerPrimero(params object[] keys)
         {
-            var registrada = db.Notificaciones.Find(keys);
-            db.Entry(registrada).CurrentValues.SetValues(datos);
-            db.SaveChanges();
+            return coleccion.Find(keys);
+        }
 
+        public int Contar()
+        {
+            return coleccion.Count();
+        }
+
+        public void Borrar(T datos)
+        {
+            IComandoDAO crear = new ComandoDAOBorrar();
+            crear.Ejecutar<T>(db, coleccion, datos);
+        }
+
+        public void Crear(T datos)
+        {
+            IComandoDAO crear = new ComandoDAOCrear();
+            crear.Ejecutar<T>(db, coleccion, datos);
+        }
+
+        public void Actualizar(object datos, params object[] keys)
+        {
+            IComandoDAO actualizar = new ComandoDAOActualizar();
+            actualizar.Ejecutar<T>(db, coleccion, datos, keys);
         }
     }
 }

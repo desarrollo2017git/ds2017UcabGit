@@ -94,9 +94,9 @@ namespace DoctorWebServiciosWCF.Models
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch //(Exception ex)
                     {
-                        File.AppendAllLines("notificaciones.log", new[] { ex.Message, ex.StackTrace });
+                        //File.AppendAllLines("notificaciones.log", new[] { ex.Message, ex.StackTrace });
                     }
                 }));
         }

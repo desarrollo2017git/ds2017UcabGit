@@ -1,13 +1,10 @@
 ﻿using DoctorWebASP.Controllers;
-using DoctorWebASP.Controllers.Services;
 using DoctorWebASP.Models;
+using DoctorWebASP.Models.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using static DoctorWebPruebasUnitarias.Extensiones;
 
@@ -235,8 +232,7 @@ namespace DoctorWebPruebasUnitarias
         public void ASPNotificacionCtrlDetailCaso4()
         {
             //Inicializar
-            int codigo = 1;
-            Notificacion respuestaServicio = null;
+            int codigo = 1;            
             servicio_mocked
                 .Setup(servicio => servicio.Obtener(codigo))
                 .Returns(() => { throw new Exception("Falla del servicio"); });

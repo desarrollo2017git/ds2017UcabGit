@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Models.ORM;
+﻿using DoctorWebServiciosWCF.Helpers;
+using DoctorWebServiciosWCF.Models.ORM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,51 +7,57 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    public class CitasConsultasDAO : Dao, ICitasConsultasDAO
+    public class CitasDAO : DAO<Cita>, ICitasConsultasDAO
     {
+        public CitasDAO() : base()
+        {
+            coleccion = db.Citas;
+        }
 
 
         public void EliminarCita(Cita cita, Calendario calendario)
         {
-            var cNotificaciones = new DoctorWebServiciosWCF.Controllers.NotificacionController();
-            var resp1 = cNotificaciones.Obtener("cancelarCita");
-            var resp2 = cNotificaciones.Obtener("cancelarCita");
-
-            if (resp1.SinProblemas)
+            var notificacionDAO = Fabrica.CrearNotificacionDAO();
+            try
             {
-                resp1.Contenido.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });
-            }
-            if (resp2.SinProblemas)
-            {
-                resp2.Contenido.Enviar(cita.Paciente.Email, new { nombre = cita.Paciente.ConcatUserName });
-            }
+                var notificacion = notificacionDAO.Obtener("cancelarCita");
 
-            this.Borrar<Cita>(db.Citas, cita);
+                if (notificacion != null)
+                {
+                    notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });
+                    notificacion.Enviar(cita.Paciente.Email, new { nombre = cita.Paciente.ConcatUserName });
+                }
+            }
+            catch {}
+
+            Borrar(cita);
+
+            var calendariosDao = Fabrica.CrearCalendariosDAO();
             calendario.Disponible = 1;
-            this.Actualizar<Calendario>(db.Calendarios, calendario, calendario.CalendarioId);
-            //db.Citas.Remove(cita);
-            //db.SaveChanges();
+            calendariosDao.Actualizar(calendario, calendario.CalendarioId);
         }
 
         public void GuardarCita(Cita cita, Calendario calendario)
         {
             // Finalmente colocamos la Fecha Reservada como NO disponible
+            var calendariosDao = Fabrica.CrearCalendariosDAO();
             calendario.Disponible = 0;
-            this.Actualizar<Calendario>(db.Calendarios, calendario, calendario.CalendarioId);
-            this.Crear<Cita>(db.Citas, cita);
+            calendariosDao.Actualizar(calendario, calendario.CalendarioId);
 
-            var cNotificaciones = new DoctorWebServiciosWCF.Controllers.NotificacionController();
-            var resp1 = cNotificaciones.Obtener("generarCita");
-            var resp2 = cNotificaciones.Obtener("generarCita");
+            Crear(cita);
 
-            if (resp1.SinProblemas)
+            var notificacionDAO = Fabrica.CrearNotificacionDAO();
+            try
             {
-                resp1.Contenido.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });
+                var notificacion = notificacionDAO.Obtener("generarCita");
+
+                if (notificacion != null)
+                {
+                    notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });
+                    notificacion.Enviar(cita.Paciente.Email, new { nombre = cita.Paciente.ConcatUserName });
+                }
             }
-            if (resp2.SinProblemas)
-            {
-                resp2.Contenido.Enviar(cita.Paciente.Email, new { nombre = cita.Paciente.ConcatUserName });
-            }
+            catch { }
         }
 
         public Calendario ObtenerCalendario(int calendarioId)

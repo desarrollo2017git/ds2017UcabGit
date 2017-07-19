@@ -2,21 +2,20 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    public interface IDao
+    public interface IDAO<T>
     {
-        void Borrar<T>(DbSet<T> coleccion, T datos)
-            where T : class; // <== add this constraint;
-
-        void Crear<T>(DbSet<T> coleccion, T datos)
-            where T : class;
-
-        void Actualizar<T>(DbSet<T> coleccion, object datos, params object[] keys)
-            where T : class;
-
+        IQueryable<T> ObtenerTodos();
+        IQueryable<T> ObtenerTodosLosQue(Expression<Func<T, bool>> condicion);
+        T ObtenerPrimero(params object[] keys);
+        int Contar();
+        void Borrar(T datos);
+        void Crear(T datos);
+        void Actualizar(object datos, params object[] keys);
     }
 }

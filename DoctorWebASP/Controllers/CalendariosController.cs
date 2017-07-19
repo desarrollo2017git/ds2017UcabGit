@@ -185,7 +185,7 @@ namespace DoctorWebASP.Controllers
                         {
                             Calendario cal2 = new Calendario();
                             var cal = db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.CalendarioId == calendario.CalendarioId).ToList();
-                            int a = 1;
+                            
                             if (cal.Count() > 0)
                             {
                                 cal2 = cal.First();

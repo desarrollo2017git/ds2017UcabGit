@@ -79,7 +79,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeviw @Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.Notificaciones) || ViewData.esPaginaActual(MenuPaginas.NotificacionGuardar), "active")">
+                    <li class="treeviw @Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.Notificaciones) || ViewData.EsPaginaActual(EnumDoctorWebPagina.NotificacionGuardar), "active")">
                         <a href="@Url.Action(actionName: "Index", controllerName: "Notificaciones")">
                             <i class="fa fa-bell"></i> <span>Notificaciones</span>
                             <span class="pull-right-container">
@@ -87,10 +87,10 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="@Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.Notificaciones), "active")">
+                            <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.Notificaciones), "active")">
                                 <a href="@Url.Action(actionName: "Index", controllerName: "Notificaciones")"><i class="fa fa-list"></i> Mostrar</a>
                             </li>
-                            <li class="@Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.NotificacionGuardar), "active")">
+                            <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.NotificacionGuardar), "active")">
                                 <a href="@Url.Action(actionName: "Detail", controllerName: "Notificaciones", routeValues: new { codigo = 0 })"><i class="fa fa-fw fa-save"></i> Guardar</a>
                             </li>
                         </ul>
@@ -98,7 +98,7 @@
 
                         <!-- =============================================== -->
                         <!-- Aqui van las siguientes opciones del menu -->
-                    <li class="treeview @Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.Reportes) || ViewData.esPaginaActual(MenuPaginas.Configurados), "active")">
+                    <li class="treeview @Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.Reportes) || ViewData.EsPaginaActual(EnumDoctorWebPagina.Configurados), "active")">
                         <a href="#">
                             <i class="fa fa-list-alt"></i> <span>Reportes</span>
                             <span class="pull-right-container">
@@ -106,12 +106,12 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="@Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.Reportes), "active")">
+                            <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.Reportes), "active")">
                                 <a href="@Url.Action("Index", "Reportes")">
                                     <i class="fa fa-table"></i> <span>Preestablecidos</span>
                                 </a>
                             </li>
-                            <li class="@Html.AgregarClaseSi(ViewData.esPaginaActual(MenuPaginas.Configurados), "active")">
+                            <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.Configurados), "active")">
                                 <a href="@Url.Action("Configurados", "Reportes")">
                                     <i class="fa fa-cog"></i> <span>Configurados</span>
                                 </a>

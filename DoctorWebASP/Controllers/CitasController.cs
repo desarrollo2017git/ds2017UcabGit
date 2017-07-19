@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
 using DoctorWebASP.ViewModels;
 using PagedList;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System.Data.SqlClient;
-using DoctorWebASP.Controllers.Services;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {

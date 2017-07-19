@@ -6,7 +6,7 @@ using System.ServiceModel;
 using System.Text;
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
-using DoctorWebServiciosWCF.Models.Service;
+using DoctorWebServiciosWCF.Models.Results;
 
 namespace DoctorWebServiciosWCF.Services
 {
@@ -14,7 +14,7 @@ namespace DoctorWebServiciosWCF.Services
     // NOTE: In order to launch WCF Test Client for testing this service, please select ServicioCitas.svc or ServicioCitas.svc.cs at the Solution Explorer and start debugging.
     public class ServicioCitas : IServicioCitas
     {
-        public ICitasConsultasDAO Dao = new CitasConsultasDAO();
+        public ICitasConsultasDAO Dao = new CitasDAO();
         public void DoWork()
         {
         }

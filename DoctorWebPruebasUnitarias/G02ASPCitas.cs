@@ -1,14 +1,8 @@
 ﻿using DoctorWebASP.Controllers;
-using DoctorWebASP.Controllers.Services;
 using DoctorWebASP.Models;
+using DoctorWebASP.Models.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace DoctorWebPruebasUnitarias

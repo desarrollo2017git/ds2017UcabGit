@@ -1,5 +1,5 @@
 ﻿using DoctorWebServiciosWCF.Models;
-using DoctorWebServiciosWCF.Models.Service;
+using DoctorWebServiciosWCF.Models.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;

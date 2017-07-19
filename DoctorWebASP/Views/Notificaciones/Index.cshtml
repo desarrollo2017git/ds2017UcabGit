@@ -1,7 +1,8 @@
 ﻿@using DoctorWebASP.Controllers.Helpers
+
 @model IEnumerable<DoctorWebASP.Models.Notificacion>
 @{
-    ViewData.indicarPaginaActual(MenuPaginas.Notificaciones);
+    ViewData.IndicarPaginaActual(EnumDoctorWebPagina.Notificaciones);
 }
 
 @* Opcional *@
@@ -43,6 +44,14 @@
             </div>
         </div>
         <div class="box-body">
+            if (@ViewData.HayError())
+            {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Error!</strong> @ViewData.Error()
+            </div>
+            }
+
             @if (Model.Count() > 0)
             {
                 <p>
@@ -50,12 +59,12 @@
                 {
                         <div class="col-sm-4">
                             @Html.Label("nombre", "Filtro")
-                            @Html.TextBox("nombre", ViewData["nombre"], new { @class = "form-control" })
+                            @Html.TextBox("nombre", ViewData.NotificacionNombre(), new { @class = "form-control" })
                         </div>
 
                         <div class="col-sm-4">
                             @Html.Label("filas", "Numero de Filas")
-                            @Html.DropDownList("filas", new List<SelectListItem>(new SelectListItem[] { new SelectListItem { Value = "5", Text = "5", Selected = ViewData["filas"].ToString() == "5" }, new SelectListItem { Value = "10", Text = "10", Selected = ViewData["filas"].ToString() == "10" }, new SelectListItem { Value = "15", Text = "15", Selected = ViewData["filas"].ToString() == "15" }, new SelectListItem { Value = "20", Text = "20", Selected = ViewData["filas"].ToString() == "20" } }), "Numero de Filas", new { @class = "form-control" })
+                            @Html.DropDownList("filas", ViewData.DropDowmListFilas(), "Numero de Filas", new { @class = "form-control" })
                         </div>
 
                         <div class="col-sm-4" style="margin-top: 25px; margin-bottom: 18px;">
@@ -63,11 +72,11 @@
                                 <i class="fa fa-fw fa-search"></i>
                             </button>
 
-                            <a class="btn btn-default @Html.AgregarClaseSi((ViewData["permitirAnterior"] != null && ViewData["permitirAnterior"] is bool && (bool)ViewData["permitirAnterior"]), "", "disabled")" href="@Url.Action("Index", new { nombre = ViewData["nombre"], indice = ViewData["anteriorIndice"], filas = ViewData["filas"] })">
+                            <a class="btn btn-default @Html.AgregarClaseSi(ViewData.PermitirAnterior(), "", "disabled")" href="@Url.Action("Index", new { nombre = ViewData.NotificacionNombre(), indice = ViewData.AnteriorIndice(), filas = ViewData.Filas() })">
                                 <i class="fa fa-fw fa-chevron-left"></i>
                             </a>
 
-                            <a class="btn btn-default @Html.AgregarClaseSi((ViewData["permitirSiguiente"] != null && ViewData["permitirSiguiente"] is bool && (bool)ViewData["permitirSiguiente"]), "", "disabled")" href="@Url.Action("Index", new { nombre = ViewData["nombre"], indice = ViewData["siguienteIndice"], filas = ViewData["filas"] })">
+                            <a class="btn btn-default @Html.AgregarClaseSi(ViewData.PermitirSiguiente(), "", "disabled")" href="@Url.Action("Index", new { nombre = ViewData.NotificacionNombre(), indice = ViewData.SiguienteIndice(), filas = ViewData.Filas() })">
                                 <i class="fa fa-fw fa-chevron-right"></i>
                             </a>
                             <a class="btn btn-primary btn-small" href="@Url.Action("Detail", new { codigo=0 })"><i class="fa fa-fw fa-plus"></i>Notificacion</a>
@@ -132,7 +141,7 @@
         <div class="box-footer">
             @if (Model.Count() > 0)
             {
-                <p>Pagina: @ViewData["siguienteIndice"] / @ViewData["totalPaginas"] </p>
+                <p>Pagina: @ViewData.SiguienteIndice() / @ViewData.TotalPaginas() </p>
             }
         </div>
         <!-- /.box-footer-->

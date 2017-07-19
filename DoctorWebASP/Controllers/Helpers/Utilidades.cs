@@ -8,10 +8,19 @@ using System.Web.Mvc;
 
 namespace DoctorWebASP.Controllers.Helpers
 {
+    /// <summary>
+    /// Funciones de Utilidad
+    /// </summary>
     public class Utilidades
     {
-        #region Grupo09       
-        internal static Uri GetUrlBase(string servicio)
+        #region Grupo09
+        
+        /// <summary>
+        /// Permite obtener la Url del servicio que se indique por parametro.
+        /// </summary>
+        /// <param name="servicio">Servicio que se quiere invocar.</param>
+        /// <returns>Retorna la Uri del servicio indicado.</returns>
+        internal static Uri ObtenerUrlServicioWeb(string servicio)
         {
             var host = ObtenerClave("WebServiceUrl");
             var builder = new UriBuilder(host);
@@ -19,13 +28,27 @@ namespace DoctorWebASP.Controllers.Helpers
             return builder.Uri;
         }
 
-        internal static string ObtenerClave(string key)
+        /// <summary>
+        /// Permite obtener el valor asociado a una clave en el archivo de configuracion.
+        /// </summary>
+        /// <param name="clave">Clave asociada a un valor.</param>
+        /// <returns>Retorna el valor asociado a la clave que se indica.</returns>
+        internal static string ObtenerClave(string clave)
         {
-            var path = ConfigurationManager.AppSettings[key];
+            var path = ConfigurationManager.AppSettings[clave];
             if (String.IsNullOrEmpty(path))
-                throw new KeyNotFoundException($"No se encontro un valor para '{key}', en el archivo de configuracion.");
+                throw new KeyNotFoundException($"No se encontro un valor para '{clave}', en el archivo de configuracion.");
             return path;
-        }        
+        }
+
+        /// <summary>
+        /// Returna el actual contexto de la solicitud realizada.
+        /// </summary>
+        /// <returns>Returna el actual contexto de la solicitud realizada.</returns>
+        internal static HttpContext ObtenerContextoHttp()
+        {
+            return HttpContext.Current;
+        }
         #endregion
     }
 

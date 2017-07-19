@@ -1,7 +1,8 @@
 ﻿using DoctorWebASP.Controllers.Helpers;
 using DoctorWebASP.Models;
-using DoctorWebASP.Models.Service;
+using DoctorWebASP.Models.Results;
 using DoctorWebASP.ViewModels;
+using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -122,7 +123,7 @@ namespace DoctorWebASP.Controllers
                              select p;
 
                 if (result == null)
-                    throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 resultadoProceso.Inicializar(result.Count().ToString());
 
@@ -154,7 +155,7 @@ namespace DoctorWebASP.Controllers
                          select p.FechaNacimiento;
 
             if (result == null)
-                throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
             double total = 0;
 
@@ -192,7 +193,7 @@ namespace DoctorWebASP.Controllers
                                        where p is Medico
                                        select p).Count();
             if (cantidadMedicos == null || cantidadCitas == null)
-                throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
             if (cantidadMedicos == 0)
                 throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -237,7 +238,7 @@ namespace DoctorWebASP.Controllers
                                             select rh).Count();
 
                 if (result == null || almacen == null || cantidadRecursos == null)
-                    throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 if (cantidadRecursos == 0)
                     throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -295,7 +296,7 @@ namespace DoctorWebASP.Controllers
                                 select u).Count();
 
             if (bitacora == null || usuarios == null)
-                throw new DoctorWebException("Hay un problema con la consulta en la base de datos.");
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
             if (usuarios == 0)
                 throw new DivideByZeroException("Hay un error de división entre cero.");

@@ -244,9 +244,9 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
-    <Compile Include="Controllers\Services\IServicioCitas.cs" />
-    <Compile Include="Controllers\Services\IServicioNotificaciones.cs" />
-    <Compile Include="Controllers\Services\ServicioCitas.cs" />
+    <Compile Include="Models\Services\IServicioCitas.cs" />
+    <Compile Include="Models\Services\IServicioNotificaciones.cs" />
+    <Compile Include="Models\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -272,13 +272,13 @@
     <Compile Include="Models\Persona.cs" />
     <Compile Include="Models\RecursoHospitalario.cs" />
     <Compile Include="Models\ResultadoExamenMedico.cs" />
-    <Compile Include="Models\Service\ResultadoProceso.cs" />
-    <Compile Include="Models\Service\ResultadoServicio.cs" />
-    <Compile Include="Models\Service\ResultadoServicioPaginado.cs" />
+    <Compile Include="Models\Results\ResultadoProceso.cs" />
+    <Compile Include="Models\Results\ResultadoServicio.cs" />
+    <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\Services\ServicioNotificaciones.cs" />
+    <Compile Include="Models\Services\ServicioNotificaciones.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CentrosMedicosViewModel.cs" />
     <Compile Include="ViewModels\CalendarioViewModel.cs" />

@@ -36,7 +36,10 @@ namespace DoctorWebASP.Controllers.Helpers
     }
     #endregion
 
-    public enum IndiceViewBag
+    /// <summary>
+    /// Etiquetas usadas en las variables de sesion.
+    /// </summary>
+    public enum EnumDoctorWebSession
     {
         #region Grupo 01
         #endregion
@@ -56,10 +59,50 @@ namespace DoctorWebASP.Controllers.Helpers
         #endregion
         #region Grupo 09
         #endregion
-        PaginaActual
+        #region Comun
+        Error
+        #endregion
     }
 
-    public enum MenuPaginas
+    /// <summary>
+    /// Etiquetas usadas en el ViewBag.
+    /// </summary>
+    public enum EnumDoctorWebViewBag
+    {
+        #region Grupo 01
+        #endregion
+        #region Grupo 02
+        #endregion
+        #region Grupo 03
+        #endregion
+        #region Grupo 04
+        #endregion
+        #region Grupo 05
+        #endregion
+        #region Grupo 06
+        #endregion
+        #region Grupo 07
+        #endregion
+        #region Grupo 08
+        #endregion
+        #region Grupo 09
+        NotificacionNombre,
+        Filas,
+        PermitirSiguiente,
+        PermitirAnterior,
+        SiguienteIndice,
+        AnteriorIndice,
+        TotalPaginas,
+        #endregion
+        #region Comun
+        PaginaActual
+        #endregion
+    }
+
+    /// <summary>
+    /// Etiquetas usadas para determinar una pagina.
+    /// </summary>
+    public enum EnumDoctorWebPagina
     {
         #region Grupo 01
         #endregion
@@ -82,7 +125,9 @@ namespace DoctorWebASP.Controllers.Helpers
         Notificaciones,
         NotificacionGuardar,
         #endregion
+        #region Comun
         PorAsignar,
         Inicio
+        #endregion
     }
 }

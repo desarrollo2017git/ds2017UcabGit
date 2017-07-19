@@ -2,7 +2,7 @@
 @model DoctorWebASP.Models.Notificacion
 
 @{
-    ViewData.indicarPaginaActual(MenuPaginas.NotificacionGuardar);
+    ViewData.IndicarPaginaActual(EnumDoctorWebPagina.NotificacionGuardar);
 }
 
 @* Opcional *@
@@ -43,6 +43,13 @@
             <h3 class="box-title">Notificacion</h3>
         </div>
         <!-- /.box-header -->
+        if (@ViewData.HayError())
+        {
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong> @ViewData.Error()
+        </div>
+        }
         <!-- form start -->
         @using (Html.BeginForm(actionName: Model.NotificacionId == 0 ? "Create" : "Edit", controllerName: "Notificaciones", method: FormMethod.Post, htmlAttributes: new { @id = "FormNotificacion", @class = "form-horizontal" }))
         {
@@ -97,7 +104,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.Estado, new { @class = "col-sm-2 control-label" })
                     <div class="col-sm-10">
-                        @Html.DropDownListFor(model => model.Estado, (SelectList)ViewData["NotificacionEstado"], new { @class = "form-control" })
+                        @Html.DropDownListFor(model => model.Estado, ViewData.ComboNotificacionEstado(Model), new { @class = "form-control" })
                         @if (ViewData.ModelState["Estado"] != null && ViewData.ModelState["Estado"].Errors.Count > 0)
                         {
                             @Html.ValidationMessageFor(model => model.Estado)

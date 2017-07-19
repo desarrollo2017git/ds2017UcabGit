@@ -1,5 +1,5 @@
 ﻿using DoctorWebASP.Models;
-using DoctorWebASP.Models.Service;
+using DoctorWebASP.Models.Results;
 using System;
 using System.Collections.Generic;
 using System.Linq;
