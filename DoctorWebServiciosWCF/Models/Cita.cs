@@ -3,14 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
+    [DataContract(IsReference = true)]
     public class Cita
     {
+        [DataMember]
         public int CitaId { get; set; }
-
         public virtual Paciente Paciente { get; set; }
         public virtual Calendario Calendario { get; set; }
         public virtual CentroMedico CentroMedico { get; set; }

@@ -12,7 +12,8 @@ namespace DoctorWebServiciosWCF.Models.ORM
         public ContextoBD() :
             base("DoctorWebBD")
         {
-
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public DbSet<Notificacion> Notificaciones { get; set; }

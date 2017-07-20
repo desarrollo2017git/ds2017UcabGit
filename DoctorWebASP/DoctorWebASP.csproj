@@ -244,6 +244,10 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
+    <Compile Include="Migrations\201707201612452_Init.cs" />
+    <Compile Include="Migrations\201707201612452_Init.Designer.cs">
+      <DependentUpon>201707201612452_Init.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
@@ -1390,6 +1394,11 @@
       <Project>{3d0059c1-13fc-4b21-9316-182dc3743056}</Project>
       <Name>DoctorWebServiciosWCF</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707201612452_Init.resx">
+      <DependentUpon>201707201612452_Init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

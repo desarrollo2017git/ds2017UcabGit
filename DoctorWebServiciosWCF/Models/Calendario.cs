@@ -2,17 +2,23 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
+    [DataContract(IsReference = true)]
     public class Calendario
     {
+        [DataMember]
         public int CalendarioId { get; set; }
+        [DataMember]
         [Required]
         public DateTime HoraInicio { get; set; }
+        [DataMember]
         [Required]
         public DateTime HoraFin { get; set; }
+        [DataMember]
         public bool Cancelada { get; set; }
         public virtual Medico Medico { get; set; }   
         public virtual Cita Cita { get; set; }

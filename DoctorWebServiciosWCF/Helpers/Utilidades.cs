@@ -20,7 +20,11 @@ namespace DoctorWebServiciosWCF.Controllers.Helpers
 
         internal static T Procesar<T>(T dato)
         {
-            var jSon = JsonConvert.SerializeObject(dato);
+            var jSon = JsonConvert.SerializeObject(dato, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                });
             return JsonConvert.DeserializeObject<T>(jSon);
         }
     }

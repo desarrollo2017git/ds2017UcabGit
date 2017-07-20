@@ -2,6 +2,7 @@
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
@@ -99,7 +100,14 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public List<Cita> ObtenerCitasDoctor(string userId)
         {
-            return db.Citas.Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+            //db.Entry<Cita>.Collection(c => c.CentroMedico).Query().Where(c => c.Calendario.Medico.ApplicationUserId == userId).Load();
+            //db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Tratamientos).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+
+
+            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+
+            var citas = db.Citas.Include(c => c.CentroMedico).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+            return citas;
         }
 
         public List<CentroMedico> ObtenerSelectListCentrosMedicos()
