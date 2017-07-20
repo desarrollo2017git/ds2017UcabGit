@@ -78,7 +78,16 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoServicio<Cita> ObtenerCita(int id)
         {
-            throw new NotImplementedException();
+            var resultado = new ResultadoServicio<Cita>();
+            try
+            {
+                resultado.Contenido = Dao.ObtenerCita(id);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
 
         public ResultadoServicio<List<Cita>> ObtenerCitasDoctor(string userId)
@@ -86,9 +95,23 @@ namespace DoctorWebServiciosWCF.Services
             throw new NotImplementedException();
         }
 
-        public ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedica(int espMedica)
+        public ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico)
         {
             throw new NotImplementedException();
+        }
+
+        public ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedica(int espMedica)
+        {
+            var resultado = new ResultadoServicio<EspecialidadMedica>();
+            try
+            {
+                resultado.Contenido = Dao.ObtenerEspecialidadMedica(espMedica);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
 
         public ResultadoServicio<List<Cita>> ObtenerListaCitas(string userId)
@@ -98,22 +121,40 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoServicio<Medico> ObtenerMedico(string userId)
         {
-            throw new NotImplementedException();
+            var resultado = new ResultadoServicio<Medico>();
+            try
+            {
+                resultado.Contenido = Dao.ObtenerMedico(userId);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
 
         public ResultadoServicio<Paciente> ObtenerPaciente(string userId)
         {
-            throw new NotImplementedException();
+            var resultado = new ResultadoServicio<Paciente>();
+            try
+            {
+                resultado.Contenido = Dao.ObtenerPaciente(userId);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
 
-        public ResultadoServicio<CentroMedico> ObtenerSingleCentroMedicoInt(int centroMedicoId)
+
+        public ResultadoServicio<List<CentroMedico>> ObtenerSelectListCentrosMedicos()
         {
             throw new NotImplementedException();
         }
 
-        public ResultadoServicio<CentroMedico> ObtenerSingleCentroMedico(string centroMedico)
+        public ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {
-
             throw new NotImplementedException();
         }
     }

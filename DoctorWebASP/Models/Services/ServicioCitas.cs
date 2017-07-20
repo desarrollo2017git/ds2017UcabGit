@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using DoctorWebASP.Controllers;
 using DoctorWebServiciosWCF.Helpers;
@@ -124,18 +125,81 @@ namespace DoctorWebASP.Models.Services
                 throw Fabrica.CrearExcepcion(interna: e);
             }
         }
-
-
-        public Cita ObtenerCita(int id)
+                 
+        public Cita ObtenerCita(int citaId)
         {
+
             // db.Citas.Find(id);
-            throw new NotImplementedException();
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+                var action = "ObtenerCita";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("citaId", citaId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Cita>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<Cita> ObtenerCitasDoctor(string userId)
         {
             //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
-            throw new NotImplementedException();
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+
+                var action = "ObtenerCalendario";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("userId", userId);
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Cita>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido.ToList();
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public SelectList ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico)
@@ -144,64 +208,276 @@ namespace DoctorWebASP.Models.Services
             throw new NotImplementedException();
         }
 
-        public EspecialidadMedica ObtenerEspecialidadMedica(int espMedica)
+        public EspecialidadMedica ObtenerEspecialidadMedica(int espMedicaId)
         {
-            throw new NotImplementedException();
             //return db.EspecialidadesMedicas.Single(e => e.EspecialidadMedicaId == espMedica);
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+                var action = "ObtenerEspecialidadMedica";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("espMedicaId", espMedicaId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<EspecialidadMedica>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public List<Cita> ObtenerListaCitas(string userId)
         {
-            throw new NotImplementedException();
             //return db.Citas.Where(c => c.Paciente.ApplicationUser.Id == userId).ToList();
+            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+
+                var action = "ObtenerCalendario";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("userId", userId);
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Cita>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido.ToList();
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Medico ObtenerMedico(string userId)
         {
-            throw new NotImplementedException();
             //return db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userId);
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+                var action = "ObtenerMedico";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("userId", userId);
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Medico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public Paciente ObtenerPaciente(string userId)
         {
-            throw new NotImplementedException();
+
             //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+                var action = "ObtenerPaciente";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("userId", userId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Paciente>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public SelectList ObtenerSelectListCentrosMedicos()
         {
-            throw new NotImplementedException();
             //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+
+                var action = "ObtenerListaCentrosMedicos";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                //request.AddQueryParameter("userId", userId);
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<CentroMedico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        SelectList selectList = new SelectList(resultado.Contenido, "Rif", "Nombre");
+                        return selectList;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public SelectList ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {
-            throw new NotImplementedException();
             //return new SelectList(db.Personas.OfType<Medico>().Where(p => p.CentroMedico.CentroMedicoId == centroMedicoId && p.EspecialidadMedica.EspecialidadMedicaId == espMedica).ToList(), "PersonaId", "ConcatUserName");
-        }
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
 
-        public CentroMedico ObtenerSingleCentroMedico(string centroMedico)
-        {
-            throw new NotImplementedException();
-            //return db.CentrosMedicos.Single(m => m.Rif == centroMedico);
-        }
 
-        public CentroMedico ObtenerSingleCentroMedico(int centroMedicoId)
-        {
-            throw new NotImplementedException();
-            //return db.CentrosMedicos.Single(c => c.CentroMedicoId == centroMedicoId);
+                var action = "ObtenerListaCentrosMedicos";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("centroMedicoIdId", centroMedicoId.ToString());
+                request.AddQueryParameter("espMedica", espMedica.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Medico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        SelectList selectList = new SelectList(resultado.Contenido, "PersonaId", "ConcatUserName");
+                        return selectList;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public string ObtenerUsuarioLoggedIn(CitasController citasController)
         {
-            throw new NotImplementedException();
-            //return citasController.User.Identity.GetUserId();
+            return citasController.User.Identity.GetUserId();
         }
 
         public CentroMedico ObtenerCentroMedico(int centroMedicoId)
         {
-            throw new NotImplementedException();
             //return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+
+                var action = "ObtenerCentroMedico";
+                var request = new RestRequest(resource: action, method: Method.POST);
+                request.AddQueryParameter("centroMedicoId", centroMedicoId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<CentroMedico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
     }

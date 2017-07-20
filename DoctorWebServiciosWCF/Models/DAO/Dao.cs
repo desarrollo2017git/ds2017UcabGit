@@ -60,5 +60,12 @@ namespace DoctorWebServiciosWCF.Models.DAO
             IComandoDAO actualizar = new ComandoDAOActualizar();
             actualizar.Ejecutar<T>(db, coleccion, datos, keys);
         }
+
+        public List<T> Listar<T>(DbSet<T> coleccion)
+            where T : class // <== add this constraint
+        {
+            return coleccion.ToList();
+        }
+
     }
 }

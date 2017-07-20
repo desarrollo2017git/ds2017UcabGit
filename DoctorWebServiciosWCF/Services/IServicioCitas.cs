@@ -22,31 +22,42 @@ namespace DoctorWebServiciosWCF.Services
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerCentroMedico?centroMedicoId={centroMedicoId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<CentroMedico> ObtenerCentroMedico(int centroMedicoId);
+
         [OperationContract]
         ResultadoServicio<Paciente> ObtenerPaciente(string userId);
+
         [OperationContract]
         ResultadoServicio<Calendario> ObtenerCalendario(int calendarioId);
+
         [OperationContract]
         [WebInvoke(UriTemplate = "/GuardarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso GuardarCita(Cita cita, Calendario calendario);
+
         [OperationContract]
-        //string ObtenerUsuarioLoggedIn(CitasController citasController);
         ResultadoServicio<Medico> ObtenerMedico(string userId);
+
         [OperationContract]
         ResultadoServicio<List<Cita>> ObtenerListaCitas(string userId);
+
         [OperationContract]
         ResultadoServicio<List<Cita>> ObtenerCitasDoctor(string userId);
+
         [OperationContract]
-        //SelectList ObtenerSelectListCentrosMedicos();
-        ResultadoServicio<CentroMedico> ObtenerSingleCentroMedico(string centroMedico);
+        ResultadoServicio<List<CentroMedico>> ObtenerSelectListCentrosMedicos();
+
         [OperationContract]
-        ResultadoServicio<CentroMedico> ObtenerSingleCentroMedicoInt(int centroMedicoId);
+        ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
+
         [OperationContract]
-        //SelectList ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
         ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedica(int espMedica);
+
         [OperationContract]
-        //SelectList ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
+        [WebGet(UriTemplate = "/ObtenerSelectListMedicosQueTrabajanEnCentroMedico?centroMedicoId={centroMedicoId}&espMedica={espMedica}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
+
+        [OperationContract]
         ResultadoServicio<Cita> ObtenerCita(int id);
+
         [OperationContract]
         [WebInvoke(UriTemplate = "/EliminarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso EliminarCita(Cita cita, Calendario calendario);

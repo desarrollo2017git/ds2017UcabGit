@@ -9,11 +9,16 @@ namespace DoctorWebServiciosWCF.Models.DAO
     public interface ICitasConsultasDAO
     {
         CentroMedico ObtenerCentroMedico(int centroMedicoId);
+        Paciente ObtenerPaciente(string userId);
         Calendario ObtenerCalendario(int calendarioId);
         void GuardarCita(Cita cita, Calendario calendario);
-        CentroMedico ObtenerSingleCentroMedico(string centroMedico);
-        CentroMedico ObtenerSingleCentroMedico(int centroMedicoId);
+        Medico ObtenerMedico(string userId);
+        List<Cita> ObtenerListaCitas(string userId);
+        List<Cita> ObtenerCitasDoctor(string userId);
+        List<CentroMedico> ObtenerSelectListCentrosMedicos();
+        List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
         EspecialidadMedica ObtenerEspecialidadMedica(int espMedica);
+        List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
         Cita ObtenerCita(int id);
         void EliminarCita(Cita cita, Calendario calendario);
     }

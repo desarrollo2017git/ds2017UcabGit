@@ -132,7 +132,8 @@ namespace DoctorWebASP.Controllers
             CentroMedico cMedico = new CentroMedico();
             try
             {
-                cMedico = consulta.ObtenerSingleCentroMedico(centroMedico);
+                int centroMedicoId = Int32.Parse(centroMedico);
+                cMedico = consulta.ObtenerCentroMedico(centroMedicoId);
             }
             catch (Exception e)
             {
@@ -213,7 +214,7 @@ namespace DoctorWebASP.Controllers
             var medicos = new SelectList("");
             try
             {
-                CentroMedico centroMedico = consulta.ObtenerSingleCentroMedico(centroMedicoId);
+                CentroMedico centroMedico = consulta.ObtenerCentroMedico(centroMedicoId);
                 EspecialidadMedica especialidadMedica = consulta.ObtenerEspecialidadMedica(espMedica);
                 medicos = consulta.ObtenerSelectListMedicosQueTrabajanEnCentroMedico(centroMedicoId,espMedica);
             }
