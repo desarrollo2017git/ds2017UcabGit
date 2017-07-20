@@ -112,6 +112,6 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
-        
+
     }
 }

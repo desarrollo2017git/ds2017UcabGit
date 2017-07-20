@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Web;
+using DoctorWebServiciosWCF.Models;
+using Newtonsoft.Json;
 
 namespace DoctorWebServiciosWCF.Controllers.Helpers
 {
@@ -14,6 +16,12 @@ namespace DoctorWebServiciosWCF.Controllers.Helpers
             if (String.IsNullOrEmpty(path))
                 throw new KeyNotFoundException(String.Format("No se encuentro la clave ({0}) en el archivo de configuracion.", key));
             return path;
+        }
+
+        internal static T Procesar<T>(T dato)
+        {
+            var jSon = JsonConvert.SerializeObject(dato);
+            return JsonConvert.DeserializeObject<T>(jSon);
         }
     }
 

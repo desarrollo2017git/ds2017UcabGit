@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web.Mvc;
 using DoctorWebASP.Controllers;
 using DoctorWebServiciosWCF.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace DoctorWebASP.Models.Services
 {
@@ -132,7 +133,7 @@ namespace DoctorWebASP.Models.Services
             // db.Citas.Find(id);
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
                 var action = "ObtenerCita";
                 var request = new RestRequest(resource: action, method: Method.POST);
@@ -169,7 +170,7 @@ namespace DoctorWebASP.Models.Services
             //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
 
                 var action = "ObtenerCalendario";
@@ -182,7 +183,7 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Cita>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<Cita>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         return resultado.Contenido.ToList();
@@ -213,7 +214,7 @@ namespace DoctorWebASP.Models.Services
             //return db.EspecialidadesMedicas.Single(e => e.EspecialidadMedicaId == espMedica);
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
                 var action = "ObtenerEspecialidadMedica";
                 var request = new RestRequest(resource: action, method: Method.POST);
@@ -251,7 +252,7 @@ namespace DoctorWebASP.Models.Services
             //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
 
                 var action = "ObtenerCalendario";
@@ -264,7 +265,7 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Cita>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<Cita>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         return resultado.Contenido.ToList();
@@ -289,7 +290,7 @@ namespace DoctorWebASP.Models.Services
             //return db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
                 var action = "ObtenerMedico";
                 var request = new RestRequest(resource: action, method: Method.POST);
@@ -327,7 +328,7 @@ namespace DoctorWebASP.Models.Services
             //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
                 var action = "ObtenerPaciente";
                 var request = new RestRequest(resource: action, method: Method.POST);
@@ -364,7 +365,7 @@ namespace DoctorWebASP.Models.Services
             //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
 
                 var action = "ObtenerListaCentrosMedicos";
@@ -377,7 +378,7 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<CentroMedico>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<CentroMedico>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         SelectList selectList = new SelectList(resultado.Contenido, "Rif", "Nombre");
@@ -403,7 +404,7 @@ namespace DoctorWebASP.Models.Services
             //return new SelectList(db.Personas.OfType<Medico>().Where(p => p.CentroMedico.CentroMedicoId == centroMedicoId && p.EspecialidadMedica.EspecialidadMedicaId == espMedica).ToList(), "PersonaId", "ConcatUserName");
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
 
                 var action = "ObtenerListaCentrosMedicos";
@@ -417,7 +418,7 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicioPaginado<Medico>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<Medico>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         SelectList selectList = new SelectList(resultado.Contenido, "PersonaId", "ConcatUserName");
@@ -448,7 +449,7 @@ namespace DoctorWebASP.Models.Services
             //return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
             try
             {
-                var client = new RestClient(baseUrl: Utilidades.GetUrlBase("CitaService"));
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("CitaService"));
 
                 var action = "ObtenerCentroMedico";
                 var request = new RestRequest(resource: action, method: Method.POST);

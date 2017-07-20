@@ -78,9 +78,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public CentroMedico ObtenerCentroMedico(int centroMedicoId)
         {
-            CentroMedico cMedico = db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
-            db.Dispose();
-            return cMedico;
+            return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
+
         }
 
         public Paciente ObtenerPaciente(string userId)

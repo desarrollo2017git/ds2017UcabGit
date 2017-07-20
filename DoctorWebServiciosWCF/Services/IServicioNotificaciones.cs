@@ -33,5 +33,6 @@ namespace DoctorWebServiciosWCF.Services
         [OperationContract]
         [WebGet(UriTemplate = "/Enviar?notificacion={nombre}&a={correo}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso Enviar(string nombre, string correo);
+
     }
 }

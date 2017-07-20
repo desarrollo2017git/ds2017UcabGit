@@ -1,6 +1,7 @@
 ﻿using DoctorWebServiciosWCF.Models.Command;
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;

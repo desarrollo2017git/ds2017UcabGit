@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using DoctorWebServiciosWCF.Models;
-using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
+using DoctorWebServiciosWCF.Models.DAO;
+using System.ServiceModel.Web;
+using System.Net;
+using System.Collections.Generic;
+using Newtonsoft;
+using Newtonsoft.Json;
+using DoctorWebServiciosWCF.Controllers.Helpers;
 
 namespace DoctorWebServiciosWCF.Services
 {
@@ -21,7 +22,7 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoProceso EliminarCita(Cita cita, Calendario calendario)
         {
- 
+
             var resultado = new ResultadoProceso();
             try
             {
@@ -53,7 +54,7 @@ namespace DoctorWebServiciosWCF.Services
             var resultado = new ResultadoServicio<Calendario>();
             try
             {
-               resultado.Contenido = Dao.ObtenerCalendario(calendarioId);
+                resultado.Contenido = Dao.ObtenerCalendario(calendarioId);
             }
             catch (Exception ex)
             {
@@ -67,7 +68,8 @@ namespace DoctorWebServiciosWCF.Services
             var resultado = new ResultadoServicio<CentroMedico>();
             try
             {
-                resultado.Contenido = Dao.ObtenerCentroMedico(centroMedicoId);
+                var dato = Dao.ObtenerCentroMedico(centroMedicoId);
+                resultado.Inicializar(Utilidades.Procesar(dato));
             }
             catch (Exception ex)
             {
@@ -150,7 +152,18 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoServicio<List<CentroMedico>> ObtenerSelectListCentrosMedicos()
         {
-            throw new NotImplementedException();
+            //db.CentrosMedicos.ToList()
+            var resultado = new ResultadoServicio<List<CentroMedico>>();
+            try
+            {
+                var dato = Dao.ObtenerSelectListCentrosMedicos();
+                resultado.Inicializar(Utilidades.Procesar(dato));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
 
         public ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)

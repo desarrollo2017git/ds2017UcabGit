@@ -23,43 +23,45 @@ namespace DoctorWebServiciosWCF.Services
         [WebGet(UriTemplate = "/ObtenerCentroMedico?centroMedicoId={centroMedicoId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<CentroMedico> ObtenerCentroMedico(int centroMedicoId);
 
-        [OperationContract]
-        ResultadoServicio<Paciente> ObtenerPaciente(string userId);
+        //[OperationContract]
+        //ResultadoServicio<Paciente> ObtenerPaciente(string userId);
+
+        //[OperationContract]
+        //ResultadoServicio<Calendario> ObtenerCalendario(int calendarioId);
+
+        //[OperationContract]
+        //[WebInvoke(UriTemplate = "/GuardarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //ResultadoProceso GuardarCita(Cita cita, Calendario calendario);
+
+        //[OperationContract]
+        //ResultadoServicio<Medico> ObtenerMedico(string userId);
+
+        //[OperationContract]
+        //ResultadoServicio<List<Cita>> ObtenerListaCitas(string userId);
+
+        //[OperationContract]
+        //ResultadoServicio<List<Cita>> ObtenerCitasDoctor(string userId);
 
         [OperationContract]
-        ResultadoServicio<Calendario> ObtenerCalendario(int calendarioId);
+        [WebGet(UriTemplate = "/ObtenerSelectListCentrosMedicos", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
 
-        [OperationContract]
-        [WebInvoke(UriTemplate = "/GuardarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso GuardarCita(Cita cita, Calendario calendario);
-
-        [OperationContract]
-        ResultadoServicio<Medico> ObtenerMedico(string userId);
-
-        [OperationContract]
-        ResultadoServicio<List<Cita>> ObtenerListaCitas(string userId);
-
-        [OperationContract]
-        ResultadoServicio<List<Cita>> ObtenerCitasDoctor(string userId);
-
-        [OperationContract]
         ResultadoServicio<List<CentroMedico>> ObtenerSelectListCentrosMedicos();
 
-        [OperationContract]
-        ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
+        //[OperationContract]
+        //ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
 
-        [OperationContract]
-        ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedica(int espMedica);
+        //[OperationContract]
+        //ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedica(int espMedica);
 
-        [OperationContract]
-        [WebGet(UriTemplate = "/ObtenerSelectListMedicosQueTrabajanEnCentroMedico?centroMedicoId={centroMedicoId}&espMedica={espMedica}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
+        //[OperationContract]
+        //[WebGet(UriTemplate = "/ObtenerSelectListMedicosQueTrabajanEnCentroMedico?centroMedicoId={centroMedicoId}&espMedica={espMedica}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
 
-        [OperationContract]
-        ResultadoServicio<Cita> ObtenerCita(int id);
+        //[OperationContract]
+        //ResultadoServicio<Cita> ObtenerCita(int id);
 
-        [OperationContract]
-        [WebInvoke(UriTemplate = "/EliminarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso EliminarCita(Cita cita, Calendario calendario);
+        //[OperationContract]
+        //[WebInvoke(UriTemplate = "/EliminarCita", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //ResultadoProceso EliminarCita(Cita cita, Calendario calendario);
     }
 }
