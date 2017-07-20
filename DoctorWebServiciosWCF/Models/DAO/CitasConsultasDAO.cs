@@ -69,17 +69,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
             return db.EspecialidadesMedicas.Single(e => e.EspecialidadMedicaId == espMedica);
         }
 
-
-        public CentroMedico ObtenerSingleCentroMedico(string centroMedico)
-        {
-            return db.CentrosMedicos.Single(m => m.Rif == centroMedico);
-        }
-
-        public CentroMedico ObtenerSingleCentroMedico(int centroMedicoId)
-        {
-            return db.CentrosMedicos.Single(c => c.CentroMedicoId == centroMedicoId);
-        }
-
         public CentroMedico ObtenerCentroMedico(int centroMedicoId)
         {
             CentroMedico cMedico = db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
@@ -87,5 +76,39 @@ namespace DoctorWebServiciosWCF.Models.DAO
             return cMedico;
         }
 
+        public Paciente ObtenerPaciente(string userId)
+        {
+            return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUserId == userId);
+        }
+
+        public Medico ObtenerMedico(string userId)
+        {
+            return db.Personas.OfType<Medico>().Single(p => p.ApplicationUserId == userId);
+        }
+
+        public List<Cita> ObtenerListaCitas(string userId)
+        {
+            return db.Citas.Where(c => c.Paciente.ApplicationUserId == userId).ToList();
+        }
+
+        public List<Cita> ObtenerCitasDoctor(string userId)
+        {
+            return db.Citas.Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+        }
+
+        public List<CentroMedico> ObtenerSelectListCentrosMedicos()
+        {
+            return db.CentrosMedicos.ToList();
+        }
+
+        public List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico)
+        {
+            return db.Personas.OfType<Medico>().Where(m => m.CentroMedico.CentroMedicoId == cMedico.CentroMedicoId).Select(c => c.EspecialidadMedica).Distinct().ToList();
+        }
+
+        public List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
+        {
+            return db.Personas.OfType<Medico>().Where(p => p.CentroMedico.CentroMedicoId == centroMedicoId && p.EspecialidadMedica.EspecialidadMedicaId == espMedica).ToList();
+        }
     }
 }

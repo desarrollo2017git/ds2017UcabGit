@@ -40,5 +40,12 @@ namespace DoctorWebServiciosWCF.Models.DAO
             db.SaveChanges();
 
         }
+
+        public List<T> Listar<T>(DbSet<T> coleccion)
+            where T : class // <== add this constraint
+        {
+            return coleccion.ToList();
+        }
+
     }
 }
