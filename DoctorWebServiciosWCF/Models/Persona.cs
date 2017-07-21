@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace DoctorWebServiciosWCF.Models
 {
-    [DataContract(IsReference = true)]
+    [DataContract]
     public class Persona
     {
         [DataMember]

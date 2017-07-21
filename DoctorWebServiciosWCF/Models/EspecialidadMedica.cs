@@ -6,13 +6,14 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
-    [DataContract(IsReference = true)]
+    [DataContract]
     public class EspecialidadMedica
     {
         [DataMember]
         public int EspecialidadMedicaId { get; set; }
         [DataMember]
         public string Nombre { get; set; }
+
         public virtual ICollection<Medico> Medicos { get; set; }
     }
 }

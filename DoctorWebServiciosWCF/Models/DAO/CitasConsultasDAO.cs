@@ -63,7 +63,9 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public Calendario ObtenerCalendario(int calendarioId)
         {
-            return db.Calendarios.Single(c => c.CalendarioId == calendarioId);
+            var blogs1 = db.Calendarios.Include(b => b.Medico.EspecialidadMedica).Single(c => c.CalendarioId == calendarioId);
+
+            return blogs1;
         }
 
         public Cita ObtenerCita(int id)

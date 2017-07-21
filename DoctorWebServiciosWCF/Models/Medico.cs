@@ -7,15 +7,18 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
-    [DataContract(IsReference = true)]
+    [DataContract]
     public class Medico : Persona
     {
         [DataMember]
         [DataType(DataType.Currency)]
         public decimal Sueldo { get; set; }
 
+        [DataMember]
         public virtual EspecialidadMedica EspecialidadMedica { get; set; }
-        public virtual ICollection<Calendario> Eventos { get; set; }
+        
+        public virtual ICollection<Calendario> Eventos {get; set; }
+        [DataMember]
         public virtual CentroMedico CentroMedico { get; set; }
     }
 }
