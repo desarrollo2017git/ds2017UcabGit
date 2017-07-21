@@ -20,10 +20,11 @@ namespace DoctorWebASP.Models.Services
         List<Cita> ObtenerListaCitas(string userId);
         List<Cita> ObtenerCitasDoctor(string userId);
         SelectList ObtenerSelectListCentrosMedicos();
-        SelectList ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
+        SelectList ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId);
         EspecialidadMedica ObtenerEspecialidadMedica(int espMedica);
         SelectList ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
         Cita ObtenerCita(int id);
         void EliminarCita(Cita cita, Calendario calendario);
+        CentroMedico ObtenerCentroMedicoRif(string centroMedico);
     }
 }

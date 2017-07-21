@@ -21,6 +21,7 @@ namespace DoctorWebServiciosWCF.Models
         public string Telefono { get; set; }
 
         public virtual ICollection<Cita> Citas { get; set; }
+        [DataMember]
         public virtual ICollection<Medico> Medicos { get; set; }
     }
 }

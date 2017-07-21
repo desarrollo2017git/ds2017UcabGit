@@ -78,6 +78,22 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        public ResultadoServicio<CentroMedico> ObtenerCentroMedicoRif(string centroMedicoRif)
+        {
+            var resultado = new ResultadoServicio<CentroMedico>();
+            try
+            {
+                //var dato = Dao.ObtenerCentroMedico(centroMedicoId);
+                //resultado.Inicializar(Utilidades.Procesar(dato));
+                resultado.Inicializar(Dao.ObtenerCentroMedicoRif(centroMedicoRif));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
         public ResultadoServicio<Cita> ObtenerCita(int id)
         {
             var resultado = new ResultadoServicio<Cita>();
@@ -108,12 +124,12 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
-        public ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico)
+        public ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId)
         {
             var resultado = new ResultadoServicio<List<EspecialidadMedica>>();
             try
             {
-                resultado.Inicializar(Dao.ObtenerEsMedicasPorMedicosEnCentroMedico(cMedico));
+                resultado.Inicializar(Dao.ObtenerEsMedicasPorMedicosEnCentroMedico(cMedicoId));
             }
             catch (Exception ex)
             {
