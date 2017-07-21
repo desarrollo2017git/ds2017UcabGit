@@ -16,10 +16,11 @@ namespace DoctorWebServiciosWCF.Models.DAO
         List<Cita> ObtenerListaCitas(string userId);
         List<Cita> ObtenerCitasDoctor(string userId);
         List<CentroMedico> ObtenerSelectListCentrosMedicos();
-        List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
+        List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId);
         EspecialidadMedica ObtenerEspecialidadMedica(int espMedica);
         List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica);
         Cita ObtenerCita(int id);
         void EliminarCita(Cita cita, Calendario calendario);
+        CentroMedico ObtenerCentroMedicoRif(string centroMedicoRif);
     }
 }

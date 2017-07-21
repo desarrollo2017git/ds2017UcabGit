@@ -107,9 +107,14 @@
     <Compile Include="Models\CitasConsultas.cs" />
     <Compile Include="Models\Command\ComandoDAOActualizar.cs" />
     <Compile Include="Models\Command\ComandoDAOBorrar.cs" />
+    <Compile Include="Models\Command\ComandoDAOContar.cs" />
     <Compile Include="Models\Command\ComandoDAOCrear.cs" />
-    <Compile Include="Models\Command\IComandoConResultado.cs" />
+    <Compile Include="Models\Command\ComandoDAOObtenerPrimero.cs" />
+    <Compile Include="Models\Command\ComandoDAOObtenerPrimeroQue.cs" />
+    <Compile Include="Models\Command\ComandoDAOObtenerTodos.cs" />
+    <Compile Include="Models\Command\ComandoDAOObtenerTodosLosQue.cs" />
     <Compile Include="Models\Command\IComandoDAO.cs" />
+    <Compile Include="Models\Command\IComandoDAOConResultado.cs" />
     <Compile Include="Models\DAO\CalendariosDAO.cs" />
     <Compile Include="Models\DAO\CitasConsultasDAO.cs" />
     <Compile Include="Models\DAO\DAO.cs" />
@@ -123,7 +128,6 @@
     <Compile Include="Models\EspecialidadMedica.cs" />
     <Compile Include="Models\HistoriaMedica.cs" />
     <Compile Include="Models\ICitasConsultas.cs" />
-    <Compile Include="Models\Command\IComando.cs" />
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Notificacion.cs" />
     <Compile Include="Models\DAO\NotificacionDAO.cs" />

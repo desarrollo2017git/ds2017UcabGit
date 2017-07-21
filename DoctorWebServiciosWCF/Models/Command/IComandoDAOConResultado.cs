@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
-    interface IComandoConResultado
+    interface IComandoDAOConResultado
     {
-        T Ejecutar<T>(params object[] args);
+        T Ejecutar<T>(params object[] args)
+            where T : class;
     }
 }

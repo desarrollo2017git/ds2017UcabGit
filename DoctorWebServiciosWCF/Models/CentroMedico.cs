@@ -8,8 +8,8 @@ using System.Web;
 namespace DoctorWebServiciosWCF.Models
 {
     [DataContract]
-    public class CentroMedico
-    {
+    public class CentroMedico {
+
         [DataMember]
         public int CentroMedicoId { get; set; }
         [DataMember]
@@ -22,6 +22,7 @@ namespace DoctorWebServiciosWCF.Models
         public string Telefono { get; set; }
 
         public virtual ICollection<Cita> Citas { get; set; }
+        [DataMember]
         public virtual ICollection<Medico> Medicos { get; set; }
     }
 }

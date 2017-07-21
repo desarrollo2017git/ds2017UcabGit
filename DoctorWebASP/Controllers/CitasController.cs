@@ -132,8 +132,8 @@ namespace DoctorWebASP.Controllers
             CentroMedico cMedico = new CentroMedico();
             try
             {
-                int centroMedicoId = Int32.Parse(centroMedico);
-                cMedico = consulta.ObtenerCentroMedico(centroMedicoId);
+                //int centroMedicoId = Int32.Parse(centroMedico);
+                cMedico = consulta.ObtenerCentroMedicoRif(centroMedico);
             }
             catch (Exception e)
             {
@@ -159,7 +159,7 @@ namespace DoctorWebASP.Controllers
             var especialidadesMedicas = new SelectList("");
             try
             {
-                especialidadesMedicas = consulta.ObtenerEsMedicasPorMedicosEnCentroMedico(cMedico);
+                especialidadesMedicas = consulta.ObtenerEsMedicasPorMedicosEnCentroMedico(cMedico.CentroMedicoId);
 
             }
             catch (Exception e)
@@ -436,13 +436,13 @@ namespace DoctorWebASP.Controllers
             return View("SadFace", viewModel);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

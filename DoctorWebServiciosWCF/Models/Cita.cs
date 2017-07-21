@@ -19,6 +19,7 @@ namespace DoctorWebServiciosWCF.Models
         public virtual Calendario Calendario { get; set; }
         [DataMember]
         public virtual CentroMedico CentroMedico { get; set; }
+        [DataMember]
         public virtual ICollection<Tratamiento> Tratamientos { get; set; }
 
         private ContextoBD db = new ContextoBD();

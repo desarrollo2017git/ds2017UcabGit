@@ -14,10 +14,12 @@ namespace DoctorWebServiciosWCF.Models
         [DataType(DataType.Currency)]
         public decimal Sueldo { get; set; }
 
+
         [DataMember]
         public virtual EspecialidadMedica EspecialidadMedica { get; set; }
         
         public virtual ICollection<Calendario> Eventos {get; set; }
+
         [DataMember]
         public virtual CentroMedico CentroMedico { get; set; }
     }

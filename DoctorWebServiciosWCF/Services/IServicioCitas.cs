@@ -24,6 +24,10 @@ namespace DoctorWebServiciosWCF.Services
         ResultadoServicio<CentroMedico> ObtenerCentroMedico(int centroMedicoId);
 
         [OperationContract]
+        [WebGet(UriTemplate = "/ObtenerCentroMedicoRif?centroMedicoRif={centroMedicoRif}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<CentroMedico> ObtenerCentroMedicoRif(string centroMedicoRif);
+
+        [OperationContract]
         [WebGet(UriTemplate = "/ObtenerPaciente?userId={userId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
 
         ResultadoServicio<Paciente> ObtenerPaciente(string userId);
@@ -52,9 +56,9 @@ namespace DoctorWebServiciosWCF.Services
         [WebGet(UriTemplate = "/ObtenerSelectListCentrosMedicos", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<List<CentroMedico>> ObtenerSelectListCentrosMedicos();
 
-        //[OperationContract]
-        //[WebGet(UriTemplate = "/ObtenerEsMedicasPorMedicosEnCentroMedico?dMedico={cMedico}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        //ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico);
+        [OperationContract]
+        [WebGet(UriTemplate = "/ObtenerEsMedicasPorMedicosEnCentroMedico?cMedicoId={cMedicoId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<List<EspecialidadMedica>> ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId);
 
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerEspecialidadMedica?espMedica={espMedica}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]

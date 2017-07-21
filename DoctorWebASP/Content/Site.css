@@ -3,6 +3,16 @@
     padding-bottom: 20px;
 }
 
+
+.required:after {
+    content: "*";
+    font-weight: bold;
+    color: red;
+}
+
+* {
+    background: black;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
