@@ -112,7 +112,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
         // ARREGLAR DE URTIMO
         public List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId)
         {
-            return db.Personas.OfType<Medico>().Include(e => e.EspecialidadMedica).Include(e => e.CentroMedico).Where(m => m.CentroMedico.CentroMedicoId == cMedicoId).Select(c => c.EspecialidadMedica).Distinct().ToList();
+            //.Include(e => e.EspecialidadMedica).Include(e => e.CentroMedico)
+            return db.Personas.OfType<Medico>().Where(m => m.CentroMedico.CentroMedicoId == cMedicoId).Select(c => c.EspecialidadMedica).Distinct().ToList();
         }
         // Obtener listado de medicos disponibles en un centro medico por especialidad
         public List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)

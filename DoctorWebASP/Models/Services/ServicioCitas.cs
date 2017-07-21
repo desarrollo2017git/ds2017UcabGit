@@ -221,10 +221,10 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<CentroMedico>>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<EspecialidadMedica>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-                        SelectList selectList = new SelectList(resultado.Contenido, "CentroMedicoId", "Nombre");
+                        SelectList selectList = new SelectList(resultado.Contenido, "EspecialidadMedicaId", "Nombre");
                         return selectList;
                     }
                     else
@@ -242,7 +242,7 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-        public EspecialidadMedica ObtenerEspecialidadMedica(int espMedicaId)
+        public EspecialidadMedica ObtenerEspecialidadMedica(int espMedica)
         {
             //return db.EspecialidadesMedicas.Single(e => e.EspecialidadMedicaId == espMedica);
             try
@@ -251,7 +251,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerEspecialidadMedica";
                 var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("espMedicaId", espMedicaId.ToString());
+                request.AddQueryParameter("espMedica", espMedica.ToString());
                 //var json = JsonConvert.SerializeObject(body);
 
                 var response = client.Execute(request);
@@ -442,7 +442,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerSelectListMedicosQueTrabajanEnCentroMedico";
                 var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("centroMedicoIdId", centroMedicoId.ToString());
+                request.AddQueryParameter("centroMedicoId", centroMedicoId.ToString());
                 request.AddQueryParameter("espMedica", espMedica.ToString());
                 //var json = JsonConvert.SerializeObject(body);
 
