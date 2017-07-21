@@ -386,13 +386,13 @@ var wysihtml5 = {
 
                 requiredModule = modules[moduleName];
                 if (!requiredModule || !(requiredModule instanceof Module)) {
-                    throw new Notificacion("required module '" + moduleName + "' not found");
+                    throw new Error("required module '" + moduleName + "' not found");
                 }
 
                 requiredModule.init();
 
                 if (!requiredModule.supported) {
-                    throw new Notificacion("required module '" + moduleName + "' not supported");
+                    throw new Error("required module '" + moduleName + "' not supported");
                 }
             }
             
@@ -403,7 +403,7 @@ var wysihtml5 = {
         fail: function(reason) {
             this.initialized = true;
             this.supported = false;
-            throw new Notificacion("Module '" + this.name + "' failed to load: " + reason);
+            throw new Error("Module '" + this.name + "' failed to load: " + reason);
         },
 
         warn: function(msg) {
@@ -776,7 +776,7 @@ var wysihtml5 = {
             } else {
                 root = getCommonAncestor(nodeA, nodeB);
                 if (!root) {
-                    throw new Notificacion("comparePoints error: nodes have no common ancestor");
+                    throw new Error("comparePoints error: nodes have no common ancestor");
                 }
 
                 // Case 4: containers are siblings or descendants of siblings
@@ -1368,7 +1368,7 @@ var wysihtml5 = {
 
         function assertRangeValid(range) {
             if (!isRangeValid(range)) {
-                throw new Notificacion("Range error: Range is no longer valid after DOM mutation (" + range.inspect() + ")");
+                throw new Error("Range error: Range is no longer valid after DOM mutation (" + range.inspect() + ")");
             }
         }
 
@@ -6908,7 +6908,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     },
 
     _readyNotificacion: function() {
-      throw new Notificacion("wysihtml5.Sandbox: Sandbox iframe isn't loaded yet");
+      throw new Error("wysihtml5.Sandbox: Sandbox iframe isn't loaded yet");
     },
 
     /**
@@ -6994,7 +6994,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       // addEventListener("error") doesn't work properly in some browsers
       // TODO: apparently this doesn't work in IE9!
       iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-        throw new Notificacion("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+        throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
       };
 
       if (!wysihtml5.browser.supportsSandboxedIframes()) {
@@ -7129,7 +7129,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         // TODO: apparently this doesn't work in IE9!
         // TODO: figure out and bind the errors logic for contenteditble mode
         /*iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-          throw new Notificacion("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+          throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
         }
         */
         this.loaded = true;
@@ -8722,7 +8722,7 @@ wysihtml5.quirks.ensureProperClearing = (function() {
           ret++;
           descendant = descendant.parentNode;
           if (!descendant)
-              throw new Notificacion("not a descendant of ancestor!");
+              throw new Error("not a descendant of ancestor!");
       }
       return ret;
   }

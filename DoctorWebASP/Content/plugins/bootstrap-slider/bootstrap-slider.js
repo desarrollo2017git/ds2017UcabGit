@@ -1428,13 +1428,13 @@
 					this._validateArray(val);
 					return val;
 				} else {
-					throw new Notificacion( NotificacionMsgs.formatInvalidInputNotificacionMsg(val) );
+					throw new Error( NotificacionMsgs.formatInvalidInputNotificacionMsg(val) );
 				}
 			},
 			_validateArray: function(val) {
 				for(var i = 0; i < val.length; i++) {
 					var input =  val[i];
-					if (typeof input !== 'number') { throw new Notificacion( NotificacionMsgs.formatInvalidInputNotificacionMsg(input) ); }
+					if (typeof input !== 'number') { throw new Error( NotificacionMsgs.formatInvalidInputNotificacionMsg(input) ); }
 				}
 			},
 			_setDataVal: function(val) {
