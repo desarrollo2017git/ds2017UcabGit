@@ -304,7 +304,7 @@ namespace DoctorWebASP.Controllers
                 cita.Paciente = consulta.ObtenerPaciente(userId);
                 var calendario = consulta.ObtenerCalendario(calendarioId);
                 cita.Calendario = calendario;
-                cita.CitaId = 0;
+                //cita.CitaId = 0;
 
                 if (ModelState.IsValid)
                 {

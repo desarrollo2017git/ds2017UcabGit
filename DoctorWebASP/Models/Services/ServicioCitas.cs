@@ -60,7 +60,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "GuardarCita";
                 var request = new RestRequest(resource: action, method: Method.POST);
-                var body = new { cita = cita, calendario = calendario };
+                var body = new { cita = cita , calendario = calendario };
                 //var json = JsonConvert.SerializeObject(body);
 
                 request.AddHeader("Content-Type", "application/json");
@@ -73,7 +73,7 @@ namespace DoctorWebASP.Models.Services
                     var resultado = datos[$"{action}Result"].ToObject<ResultadoProceso>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-
+                        
                     }
                     else
                         throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
