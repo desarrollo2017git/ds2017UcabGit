@@ -267,7 +267,7 @@ namespace DoctorWebASP.Controllers
 
             var viewModel = new CalendarioViewModel
             {
-                ListaFechas = db.Calendarios.Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio).ToPagedList(pageNumber, pagesize),
+                ListaFechas = consulta.ObtenerListaDisponibilidad(medicoId).ToPagedList(pageNumber, pagesize),
                 MedicoId = medicoId,
                 CentroMedicoId = centroMedicoId,
             };

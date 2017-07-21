@@ -22,5 +22,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
         Cita ObtenerCita(int id);
         void EliminarCita(Cita cita, Calendario calendario);
         CentroMedico ObtenerCentroMedicoRif(string centroMedicoRif);
+        List<Calendario> ObtenerListaDisponibilidad(int medicoId);
     }
 }

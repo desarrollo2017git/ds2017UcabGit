@@ -514,6 +514,45 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        public List<Calendario> ObtenerListaDisponibilidad(string medicoId)
+        {
+            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
+
+
+                var action = "ObtenerListaDisponibilidad";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                request.AddQueryParameter("medicoId", medicoId);
+                //request.AddQueryParameter("espMedica", espMedica.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<Calendario>>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public CentroMedico ObtenerCentroMedicoRif(string centroMedicoRif)
         {
             //return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);

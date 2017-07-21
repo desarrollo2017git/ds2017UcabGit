@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Newtonsoft;
 using Newtonsoft.Json;
 using DoctorWebServiciosWCF.Controllers.Helpers;
+using System.Linq;
 
 namespace DoctorWebServiciosWCF.Services
 {
@@ -207,6 +208,21 @@ namespace DoctorWebServiciosWCF.Services
             }
             return resultado;
         }
+
+        public ResultadoServicio<List<Calendario>> ObtenerListaDisponibilidad(int medicoId)
+        {
+            var resultado = new ResultadoServicio<List<Calendario>>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerListaDisponibilidad(medicoId));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+    
 
         public ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {

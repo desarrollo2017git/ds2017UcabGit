@@ -63,7 +63,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public Calendario ObtenerCalendario(int calendarioId)
         {
-            var calendario = db.Calendarios.Include(b => b.Medico.EspecialidadMedica).Include(b => b.Medico.CentroMedico).Single(c => c.CalendarioId == calendarioId);
+            var calendario = db.Calendarios.Single(c => c.CalendarioId == calendarioId);
             return calendario;
 
         }
@@ -124,6 +124,12 @@ namespace DoctorWebServiciosWCF.Models.DAO
         public CentroMedico ObtenerCentroMedicoRif(string centroMedicoRif)
         {
             return db.CentrosMedicos.Single(m => m.Rif == centroMedicoRif);
+        }
+
+        public List<Calendario> ObtenerListaDisponibilidad(int medicoId)
+        {
+            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
+            return db.Calendarios.Where(m => m.Medico.PersonaId == medicoId && m.Disponible == 1).OrderBy(m => m.HoraInicio).ToList();
         }
     }
 }

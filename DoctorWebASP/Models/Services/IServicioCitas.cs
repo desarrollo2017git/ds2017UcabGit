@@ -26,5 +26,6 @@ namespace DoctorWebASP.Models.Services
         Cita ObtenerCita(int id);
         void EliminarCita(Cita cita, Calendario calendario);
         CentroMedico ObtenerCentroMedicoRif(string centroMedico);
+        List<Calendario> ObtenerListaDisponibilidad(string medicoId);
     }
 }
