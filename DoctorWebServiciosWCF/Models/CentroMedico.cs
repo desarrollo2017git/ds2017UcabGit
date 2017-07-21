@@ -7,9 +7,8 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
-    [DataContract(IsReference = true)]
-    public class CentroMedico
-    {
+    [DataContract]
+    public class CentroMedico {
         [DataMember]
         public int CentroMedicoId { get; set; }
         [DataMember]

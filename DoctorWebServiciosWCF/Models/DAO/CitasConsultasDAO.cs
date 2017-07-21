@@ -63,63 +63,57 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public Calendario ObtenerCalendario(int calendarioId)
         {
-            return db.Calendarios.Single(c => c.CalendarioId == calendarioId);
+            var calendario = db.Calendarios.Include(b => b.Medico.EspecialidadMedica).Include(b => b.Medico.CentroMedico).Single(c => c.CalendarioId == calendarioId);
+            return calendario;
         }
-
+        // Obtener cita por id
         public Cita ObtenerCita(int id)
         {
-            return db.Citas.Find(id);
+            return db.Citas.Include(c => c.Calendario).Include(c => c.CentroMedico).Include(c => c.Paciente).Where(c => c.CitaId == id).Single();
         }
 
-
+        // Obtener especialidad medica por id
         public EspecialidadMedica ObtenerEspecialidadMedica(int espMedica)
         {
             return db.EspecialidadesMedicas.Single(e => e.EspecialidadMedicaId == espMedica);
         }
-
+        // Obtener centro medico por id
         public CentroMedico ObtenerCentroMedico(int centroMedicoId)
         {
             return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
 
         }
-
+        // Obtener paciente por id
         public Paciente ObtenerPaciente(string userId)
         {
             return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUserId == userId);
         }
-
+        // Obtener un medico por id
         public Medico ObtenerMedico(string userId)
         {
-            return db.Personas.OfType<Medico>().Single(p => p.ApplicationUserId == userId);
+            return db.Personas.OfType<Medico>().Include(m => m.CentroMedico).Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
         }
-
+         // Lista de citas paciente
         public List<Cita> ObtenerListaCitas(string userId)
         {
-            return db.Citas.Where(c => c.Paciente.ApplicationUserId == userId).ToList();
+            return db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Paciente.ApplicationUserId == userId).ToList();
         }
-
+        // Lista de citas del doctor
         public List<Cita> ObtenerCitasDoctor(string userId)
         {
-            //db.Entry<Cita>.Collection(c => c.CentroMedico).Query().Where(c => c.Calendario.Medico.ApplicationUserId == userId).Load();
-            //db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Tratamientos).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
-
-
-            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
-
-            var citas = db.Citas.Include(c => c.CentroMedico).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
-            return citas;
+            return db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
         }
-
+        // Obtener listado de centros medicos
         public List<CentroMedico> ObtenerSelectListCentrosMedicos()
         {
             return db.CentrosMedicos.ToList();
         }
-
+        // ARREGLAR DE URTIMO
         public List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(CentroMedico cMedico)
         {
             return db.Personas.OfType<Medico>().Where(m => m.CentroMedico.CentroMedicoId == cMedico.CentroMedicoId).Select(c => c.EspecialidadMedica).Distinct().ToList();
         }
-
+        // Obtener listado de medicos disponibles en un centro medico por especialidad
         public List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {
             return db.Personas.OfType<Medico>().Where(p => p.CentroMedico.CentroMedicoId == centroMedicoId && p.EspecialidadMedica.EspecialidadMedicaId == espMedica).ToList();

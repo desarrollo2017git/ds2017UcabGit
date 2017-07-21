@@ -8,14 +8,18 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
-    [DataContract(IsReference = true)]
+    [DataContract]
     public class Cita
     {
         [DataMember]
         public int CitaId { get; set; }
+        [DataMember]
         public virtual Paciente Paciente { get; set; }
+        [DataMember]
         public virtual Calendario Calendario { get; set; }
+        [DataMember]
         public virtual CentroMedico CentroMedico { get; set; }
+        [DataMember]
         public virtual ICollection<Tratamiento> Tratamientos { get; set; }
 
         private ContextoBD db = new ContextoBD();
