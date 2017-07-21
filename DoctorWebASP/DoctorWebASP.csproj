@@ -232,6 +232,7 @@
     <Compile Include="Controllers\EspecialidadMedicaController.cs" />
     <Compile Include="Controllers\Helpers\Dominios.cs" />
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
+    <Compile Include="Controllers\Helpers\Fabrica.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\HistoriaMedicasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -244,10 +245,6 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
-    <Compile Include="Migrations\201707201612452_Init.cs" />
-    <Compile Include="Migrations\201707201612452_Init.Designer.cs">
-      <DependentUpon>201707201612452_Init.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
@@ -1388,17 +1385,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
-      <Project>{3d0059c1-13fc-4b21-9316-182dc3743056}</Project>
-      <Name>DoctorWebServiciosWCF</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707201612452_Init.resx">
-      <DependentUpon>201707201612452_Init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
