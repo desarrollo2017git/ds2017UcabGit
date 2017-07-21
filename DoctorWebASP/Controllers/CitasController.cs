@@ -44,6 +44,10 @@ namespace DoctorWebASP.Controllers
             catch (Exception e) { Console.WriteLine(e); }
 
             var citas = consulta.ObtenerListaCitas(userId);
+            foreach (Cita cita in citas)
+            {
+                cita.Calendario.Medico = consulta.ObtenerMedicoAsignadoACita(cita.CitaId);
+            }
             if (citas.Count == 0)
             {
                 string mensaje = "Usted no ha registrado ninguna cita";
@@ -348,7 +352,11 @@ namespace DoctorWebASP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            int citaId = id ?? default(int);
+            Cita cita = consulta.ObtenerCita(citaId);
+            cita.Calendario.Medico = consulta.ObtenerMedicoAsignadoACita(cita.CitaId);
+            cita.Calendario.Medico.EspecialidadMedica = consulta.ObtenerEspecialidadMedicaDelDoctor(cita.Calendario.Medico.PersonaId);
+            //Cita cita = db.Citas.Find(id);
             if (cita == null)
             {
                 return HttpNotFound();
@@ -385,7 +393,10 @@ namespace DoctorWebASP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            int citaId = id ?? default(int);
+            Cita cita = consulta.ObtenerCita(citaId);
+            cita.Calendario.Medico = consulta.ObtenerMedicoAsignadoACita(cita.CitaId);
+            cita.Calendario.Medico.EspecialidadMedica = consulta.ObtenerEspecialidadMedicaDelDoctor(cita.Calendario.Medico.PersonaId);
             if (cita == null)
             {
                 return HttpNotFound();

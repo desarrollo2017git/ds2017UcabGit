@@ -61,7 +61,7 @@ namespace DoctorWebASP.Models.Services
                 var action = "GuardarCita";
                 var request = new RestRequest(resource: action, method: Method.POST);
                 var body = new { cita = cita, calendario = calendario };
-                //var json = JsonConvert.SerializeObject(body);
+                var json = JsonConvert.SerializeObject(body);
 
                 request.AddHeader("Content-Type", "application/json");
                 request.AddJsonBody(body);
@@ -73,7 +73,7 @@ namespace DoctorWebASP.Models.Services
                     var resultado = datos[$"{action}Result"].ToObject<ResultadoProceso>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-
+                        return;
                     }
                     else
                         throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
@@ -126,7 +126,7 @@ namespace DoctorWebASP.Models.Services
             }
         }
                  
-        public Cita ObtenerCita(int citaId)
+        public Cita ObtenerCita(int id)
         {
 
             // db.Citas.Find(id);
@@ -136,7 +136,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerCita";
                 var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("citaId", citaId.ToString());
+                request.AddQueryParameter("id", id.ToString());
                 //var json = JsonConvert.SerializeObject(body);
 
                 var response = client.Execute(request);
@@ -145,6 +145,42 @@ namespace DoctorWebASP.Models.Services
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
                     var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Cita>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public EspecialidadMedica ObtenerEspecialidadMedicaDelDoctor(int medicoId)
+        {
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
+
+                var action = "ObtenerEspecialidadMedicaDelDoctor";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                request.AddQueryParameter("medicoId", medicoId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<EspecialidadMedica>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         return resultado.Contenido;
@@ -279,6 +315,42 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        public Medico ObtenerMedicoAsignadoACita(int citaId)
+        {
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
+
+                var action = "ObtenerMedicoAsignadoACita";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                request.AddQueryParameter("citaId", citaId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Medico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public List<Cita> ObtenerListaCitas(string userId)
         {
             //return db.Citas.Where(c => c.Paciente.ApplicationUser.Id == userId).ToList();
@@ -288,7 +360,7 @@ namespace DoctorWebASP.Models.Services
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
 
 
-                var action = "ObtenerCalendario";
+                var action = "ObtenerListaCitas";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("userId", userId);
                 //var json = JsonConvert.SerializeObject(body);

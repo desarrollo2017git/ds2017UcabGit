@@ -223,6 +223,33 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
     
+        public ResultadoServicio<Medico> ObtenerMedicoAsignadoACita(int citaId)
+        {
+            var resultado = new ResultadoServicio<Medico>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerMedicoAsignadoACita(citaId));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+        public ResultadoServicio<EspecialidadMedica> ObtenerEspecialidadMedicaDelDoctor(int medicoId)
+        {
+            var resultado = new ResultadoServicio<EspecialidadMedica>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerEspecialidadMedicaDelDoctor(medicoId));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
 
         public ResultadoServicio<List<Medico>> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {

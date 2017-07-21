@@ -84,6 +84,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
             return db.CentrosMedicos.Single(m => m.CentroMedicoId == centroMedicoId);
 
         }
+
+        public EspecialidadMedica ObtenerEspecialidadMedicaDelDoctor(int medicoId)
+        {
+            return db.Personas.OfType<Medico>().Where(m => m.PersonaId == medicoId).Select(p => p.EspecialidadMedica).Single();
+        }
+
+        public Medico ObtenerMedicoAsignadoACita(int citaId)
+        {
+            return db.Calendarios.Where(m => m.Cita.CitaId == citaId).Select(p => p.Medico).Single();
+        }
+
         // Obtener paciente por id
         public Paciente ObtenerPaciente(string userId)
         {

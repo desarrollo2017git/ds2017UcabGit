@@ -27,5 +27,7 @@ namespace DoctorWebASP.Models.Services
         void EliminarCita(Cita cita, Calendario calendario);
         CentroMedico ObtenerCentroMedicoRif(string centroMedico);
         List<Calendario> ObtenerListaDisponibilidad(string medicoId);
+        Medico ObtenerMedicoAsignadoACita(int citaId);
+        EspecialidadMedica ObtenerEspecialidadMedicaDelDoctor(int medicoId);
     }
 }
