@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.SessionState;
 
 namespace DoctorWebASP.Controllers.Helpers
 {
@@ -29,7 +28,10 @@ namespace DoctorWebASP.Controllers.Helpers
 
         private static T ObtenerValor<T>(this HttpSessionStateBase session, EnumDoctorWebSession tag)
         {
-            return (T)session[tag.ToString()];
+            object valor = session[tag.ToString()];
+            if (valor != null && valor is T)
+                return (T)valor;
+            return default(T);
         }
 
         private static HttpSessionStateBase Base(this HttpSessionStateWrapper session)
@@ -39,7 +41,7 @@ namespace DoctorWebASP.Controllers.Helpers
 
         public static bool HayError(this HttpSessionStateBase session)
         {
-            return String.IsNullOrEmpty(session.ObtenerValor<string>(EnumDoctorWebSession.Error));
+            return !String.IsNullOrEmpty(session.ObtenerValor<string>(EnumDoctorWebSession.Error));
         }
 
         public static string Error(this HttpSessionStateBase session)
@@ -67,9 +69,12 @@ namespace DoctorWebASP.Controllers.Helpers
             bag[tag.ToString()] = value;
         }
 
-        private static T ObtenerValor<T>(this ViewDataDictionary bag, EnumDoctorWebViewBag tag)
+        public static T ObtenerValor<T>(this ViewDataDictionary bag, EnumDoctorWebViewBag tag)            
         {
-            return (T)bag[tag.ToString()];
+            object valor = bag[tag.ToString()];
+            if (valor != null && valor is T)
+                return (T)valor;
+            return default(T);
         }
 
         public static bool HayError(this ViewDataDictionary bag)
@@ -77,7 +82,7 @@ namespace DoctorWebASP.Controllers.Helpers
             var valor = Utilidades.ObtenerContextoHttp().Session[EnumDoctorWebSession.Error.ToString()];
             if (valor == null || !(valor is string))
                 return false;
-            return String.IsNullOrEmpty((string)valor);
+            return !String.IsNullOrEmpty((string)valor);
         }
 
         public static string Error(this ViewDataDictionary bag)
@@ -85,12 +90,13 @@ namespace DoctorWebASP.Controllers.Helpers
             var valor = Utilidades.ObtenerContextoHttp().Session[EnumDoctorWebSession.Error.ToString()];
             if (valor == null || !(valor is string))
                 return null;
+            Utilidades.ObtenerContextoHttp().Session[EnumDoctorWebSession.Error.ToString()] = null;
             return (string)valor;
         }
 
         public static void IndicarPaginaActual(this ViewDataDictionary bag, EnumDoctorWebPagina menu)
         {
-            bag.IndicarValor<EnumDoctorWebPagina>(EnumDoctorWebViewBag.PaginaActual, menu);
+            bag.IndicarValor(EnumDoctorWebViewBag.PaginaActual, menu);
         }
 
         public static bool EsPaginaActual(this ViewDataDictionary bag, EnumDoctorWebPagina menu)
@@ -199,22 +205,33 @@ namespace DoctorWebASP.Controllers.Helpers
 
         internal static void Actualizar(this Notificacion model, FormCollection collection)
         {
+            if (!collection.AllKeys.Contains("NotificacionId") || string.IsNullOrEmpty(collection["NotificacionId"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Id de Notificacion.");
+            model.NotificacionId = int.Parse(collection["NotificacionId"]);
 
-            if (collection.AllKeys.Contains("NotificacionId"))
-                model.NotificacionId = int.Parse(collection["NotificacionId"]);
+            if (!collection.AllKeys.Contains("Estado") || string.IsNullOrEmpty(collection["Estado"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Estado de Notificacion.");
             model.Estado = (NotificacionEstado)Enum.Parse(typeof(NotificacionEstado), collection["Estado"]);
+
+            if (!collection.AllKeys.Contains("Nombre") || string.IsNullOrEmpty(collection["Nombre"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Nombre de Notificacion.");
             model.Nombre = collection["Nombre"];
+
+            if (!collection.AllKeys.Contains("Descripcion") || string.IsNullOrEmpty(collection["Descripcion"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Descripcion de Notificacion.");
             model.Descripcion = collection["Descripcion"];
+
+            if (!collection.AllKeys.Contains("Contenido") || string.IsNullOrEmpty(collection["Contenido"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Contenido de Notificacion.");
             model.Contenido = collection["Contenido"];
+
+            if (!collection.AllKeys.Contains("Asunto") || string.IsNullOrEmpty(collection["Asunto"]))
+                throw Fabrica.CrearExcepcion(mensaje: "Es necesario indicar Asunto de Notificacion.");
             model.Asunto = collection["Asunto"];
         }
 
         public static string AgregarClaseSi(this HtmlHelper bag, bool expresion, string si, string sino = "")
         {
-            /*var paginaActual = bag[$"{EnumViewBagItems.PaginaActual}"];
-            if (paginaActual != null && paginaActual is EnumMenuItems && ((EnumMenuItems)paginaActual) == menu)
-                return true;
-            return false;*/
             if (expresion)
                 return si;
             return sino;

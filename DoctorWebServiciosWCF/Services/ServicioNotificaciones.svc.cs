@@ -21,11 +21,11 @@ namespace DoctorWebServiciosWCF.Services
             {
                 int id = 0;
                 if (!int.TryParse(codigo, out id))
-                    throw new FormatException("el codigo debe ser un numero.");
+                    throw new FormatException("el odigo debe ser un numero.");
 
                 string mensaje = string.Empty;
-                resultado.SinProblemas = dao.Borrar(out mensaje, id);
-                resultado.Mensaje = mensaje;
+                dao.Borrar(out mensaje, id);
+                resultado.Inicializar(mensaje);
             }
             catch (Exception ex)
             {
@@ -49,7 +49,7 @@ namespace DoctorWebServiciosWCF.Services
                 foreach (var key in request.Headers.AllKeys)
                 {
                     parametros.Add(key, request.Headers[key]);
-                }                
+                }
 
                 notificacion.Enviar(correo, parametros);
                 resultado.SinProblemas = true;
@@ -60,15 +60,15 @@ namespace DoctorWebServiciosWCF.Services
             }
             return resultado;
         }
-        
+
         public ResultadoProceso Guardar(Notificacion notificacion)
         {
             var resultado = new ResultadoProceso();
             try
             {
                 string mensaje = string.Empty;
-                resultado.SinProblemas = dao.Guardar(notificacion);
-                resultado.Mensaje = mensaje;
+                dao.Guardar(notificacion);
+                resultado.Inicializar(mensaje);
             }
             catch (Exception ex)
             {
@@ -86,8 +86,8 @@ namespace DoctorWebServiciosWCF.Services
                 if (!int.TryParse(codigo, out id))
                     throw new FormatException("el codigo debe ser un numero.");
 
-                resultado.Contenido = dao.Obtener(id);
-                resultado.SinProblemas = true;
+                var datos = dao.Obtener(id);
+                resultado.Inicializar(datos);
             }
             catch (Exception ex)
             {
@@ -102,8 +102,8 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 int cantidadPaginas;
-                resultado.Contenido = dao.ObtenerTodos(out cantidadPaginas, nombre, pagina, numeroFilas);
-                resultado.SinProblemas = true;
+                var datos = dao.ObtenerTodos(out cantidadPaginas, nombre, pagina, numeroFilas);
+                resultado.Inicializar(pagina, numeroFilas, cantidadPaginas, datos);
             }
             catch (Exception ex)
             {
@@ -112,6 +112,6 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
-        
+
     }
 }

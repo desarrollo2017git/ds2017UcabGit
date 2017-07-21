@@ -25,17 +25,20 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public IQueryable<T> ObtenerTodos()
         {
-            return coleccion;
+            IComandoDAOConResultado comando = new ComandoDAOObtenerTodos();
+            return comando.Ejecutar<IQueryable<T>>(coleccion);
         }
 
         public IQueryable<T> ObtenerTodosLosQue(Expression<Func<T, bool>> condicion)
         {
-            return coleccion.Where(condicion);
+            IComandoDAOConResultado comando = new ComandoDAOObtenerTodosLosQue<T>();
+            return comando.Ejecutar<IQueryable<T>>(coleccion, condicion);
         }
 
         public T ObtenerPrimero(params object[] keys)
         {
-            return coleccion.Find(keys);
+            IComandoDAOConResultado comando = new ComandoDAOObtenerPrimero();
+            return comando.Ejecutar<T>(coleccion, keys);
         }
 
         public int Contar()

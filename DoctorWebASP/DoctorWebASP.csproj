@@ -232,6 +232,7 @@
     <Compile Include="Controllers\EspecialidadMedicaController.cs" />
     <Compile Include="Controllers\Helpers\Dominios.cs" />
     <Compile Include="Controllers\Helpers\Extensiones.cs" />
+    <Compile Include="Controllers\Helpers\Fabrica.cs" />
     <Compile Include="Controllers\Helpers\Utilidades.cs" />
     <Compile Include="Controllers\HistoriaMedicasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1384,12 +1385,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
-      <Project>{3d0059c1-13fc-4b21-9316-182dc3743056}</Project>
-      <Name>DoctorWebServiciosWCF</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
