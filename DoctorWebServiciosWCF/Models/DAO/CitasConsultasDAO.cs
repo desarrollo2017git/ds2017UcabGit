@@ -103,7 +103,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         // Obtener un medico por id
         public Medico ObtenerMedico(string userId)
         {
-            return db.Personas.OfType<Medico>().Include(m => m.CentroMedico).Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
+            return db.Personas.OfType<Medico>().Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
         }
          // Lista de citas paciente
         public List<Cita> ObtenerListaCitas(string userId)
