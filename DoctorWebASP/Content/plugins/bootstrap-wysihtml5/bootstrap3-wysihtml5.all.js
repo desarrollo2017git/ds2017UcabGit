@@ -276,7 +276,7 @@ var wysihtml5 = {
 
     var initListeners = [];
 
-    function getErrorDesc(ex) {
+    function getNotificacionDesc(ex) {
         return ex.message || ex.description || String(ex);
     }
 
@@ -334,7 +334,7 @@ var wysihtml5 = {
             try {
                 initListeners[i](api);
             } catch (ex) {
-                errorMessage = "Rangy init listener threw an exception. Continuing. Detail: " + getErrorDesc(ex);
+                errorMessage = "Rangy init listener threw an exception. Continuing. Detail: " + getNotificacionDesc(ex);
                 consoleLog(errorMessage);
             }
         }
@@ -386,13 +386,13 @@ var wysihtml5 = {
 
                 requiredModule = modules[moduleName];
                 if (!requiredModule || !(requiredModule instanceof Module)) {
-                    throw new Error("required module '" + moduleName + "' not found");
+                    throw new Notificacion("required module '" + moduleName + "' not found");
                 }
 
                 requiredModule.init();
 
                 if (!requiredModule.supported) {
-                    throw new Error("required module '" + moduleName + "' not supported");
+                    throw new Notificacion("required module '" + moduleName + "' not supported");
                 }
             }
             
@@ -403,7 +403,7 @@ var wysihtml5 = {
         fail: function(reason) {
             this.initialized = true;
             this.supported = false;
-            throw new Error("Module '" + this.name + "' failed to load: " + reason);
+            throw new Notificacion("Module '" + this.name + "' failed to load: " + reason);
         },
 
         warn: function(msg) {
@@ -415,8 +415,8 @@ var wysihtml5 = {
                 replacement + " instead");
         },
 
-        createError: function(msg) {
-            return new Error("Error in Rangy " + this.name + " module: " + msg);
+        createNotificacion: function(msg) {
+            return new Notificacion("Notificacion in Rangy " + this.name + " module: " + msg);
         }
     };
     
@@ -428,7 +428,7 @@ var wysihtml5 = {
                     initFunc(api, module);
                     module.supported = true;
                 } catch (ex) {
-                    var errorMessage = "Module '" + name + "' failed to load: " + getErrorDesc(ex);
+                    var errorMessage = "Module '" + name + "' failed to load: " + getNotificacionDesc(ex);
                     consoleLog(errorMessage);
                 }
             }
@@ -688,7 +688,7 @@ var wysihtml5 = {
             } else if (node.parentNode) {
                 return getDocument(node.parentNode);
             } else {
-                throw module.createError("getDocument: no document found for node");
+                throw module.createNotificacion("getDocument: no document found for node");
             }
         }
 
@@ -699,7 +699,7 @@ var wysihtml5 = {
             } else if (typeof doc.parentWindow != UNDEF) {
                 return doc.parentWindow;
             } else {
-                throw module.createError("Cannot get a window object for node");
+                throw module.createNotificacion("Cannot get a window object for node");
             }
         }
 
@@ -709,7 +709,7 @@ var wysihtml5 = {
             } else if (typeof iframeEl.contentWindow != UNDEF) {
                 return iframeEl.contentWindow.document;
             } else {
-                throw module.createError("getIframeDocument: No Document object found for iframe element");
+                throw module.createNotificacion("getIframeDocument: No Document object found for iframe element");
             }
         }
 
@@ -719,7 +719,7 @@ var wysihtml5 = {
             } else if (typeof iframeEl.contentDocument != UNDEF) {
                 return iframeEl.contentDocument.defaultView;
             } else {
-                throw module.createError("getIframeWindow: No Window object found for iframe element");
+                throw module.createNotificacion("getIframeWindow: No Window object found for iframe element");
             }
         }
 
@@ -747,7 +747,7 @@ var wysihtml5 = {
             }
 
             if (!doc) {
-                throw module.createError(methodName + "(): Parameter must be a Window object or DOM node");
+                throw module.createNotificacion(methodName + "(): Parameter must be a Window object or DOM node");
             }
 
             return doc;
@@ -776,7 +776,7 @@ var wysihtml5 = {
             } else {
                 root = getCommonAncestor(nodeA, nodeB);
                 if (!root) {
-                    throw new Error("comparePoints error: nodes have no common ancestor");
+                    throw new Notificacion("comparePoints error: nodes have no common ancestor");
                 }
 
                 // Case 4: containers are siblings or descendants of siblings
@@ -785,7 +785,7 @@ var wysihtml5 = {
 
                 if (childA === childB) {
                     // This shouldn't be possible
-                    throw module.createError("comparePoints got to case 4 and childA and childB are the same!");
+                    throw module.createNotificacion("comparePoints got to case 4 and childA and childB are the same!");
                 } else {
                     n = root.firstChild;
                     while (n) {
@@ -1368,7 +1368,7 @@ var wysihtml5 = {
 
         function assertRangeValid(range) {
             if (!isRangeValid(range)) {
-                throw new Error("Range error: Range is no longer valid after DOM mutation (" + range.inspect() + ")");
+                throw new Notificacion("Range error: Range is no longer valid after DOM mutation (" + range.inspect() + ")");
             }
         }
 
@@ -2225,7 +2225,7 @@ var wysihtml5 = {
 
                 WrappedRange = function(range) {
                     if (!range) {
-                        throw module.createError("WrappedRange: Range must be specified");
+                        throw module.createNotificacion("WrappedRange: Range must be specified");
                     }
                     this.nativeRange = range;
                     updateRangeProperties(this);
@@ -3063,7 +3063,7 @@ var wysihtml5 = {
         function getSingleElementFromRange(range) {
             var nodes = range.getNodes();
             if (!rangeContainsSingleElement(nodes)) {
-                throw module.createError("getSingleElementFromRange: range " + range.inspect() + " did not consist of a single element");
+                throw module.createNotificacion("getSingleElementFromRange: range " + range.inspect() + " did not consist of a single element");
             }
             return nodes[0];
         }
@@ -3123,7 +3123,7 @@ var wysihtml5 = {
             try {
                 newControlRange.add(rangeElement);
             } catch (ex) {
-                throw module.createError("addRange(): Element within the specified Range could not be added to control selection (does it have layout?)");
+                throw module.createNotificacion("addRange(): Element within the specified Range could not be added to control selection (does it have layout?)");
             }
             newControlRange.select();
 
@@ -3240,7 +3240,7 @@ var wysihtml5 = {
                 try {
                     controlRange.add(el);
                 } catch (ex) {
-                    throw module.createError("setRanges(): Element within one of the specified Ranges could not be added to control selection (does it have layout?)");
+                    throw module.createNotificacion("setRanges(): Element within one of the specified Ranges could not be added to control selection (does it have layout?)");
                 }
             }
             controlRange.select();
@@ -3730,12 +3730,12 @@ var wysihtml5 = {
                     if (isTextRange(range)) {
                         return range;
                     } else {
-                        throw module.createError("getNativeTextRange: selection is a control selection"); 
+                        throw module.createNotificacion("getNativeTextRange: selection is a control selection"); 
                     }
                 } else if (this.rangeCount > 0) {
                     return api.WrappedTextRange.rangeToTextRange( this.getRangeAt(0) );
                 } else {
-                    throw module.createError("getNativeTextRange: selection contains no range");
+                    throw module.createNotificacion("getNativeTextRange: selection contains no range");
                 }
             };
         }
@@ -5865,7 +5865,7 @@ wysihtml5.dom.parse = function(elementOrHtml_current, config_current) {
 
   /**
    * It's not possible to use a XMLParser/DOMParser as HTML5 is not always well-formed XML
-   * new DOMParser().parseFromString('<img src="foo.gif">') will cause a parseError since the
+   * new DOMParser().parseFromString('<img src="foo.gif">') will cause a parseNotificacion since the
    * node isn't closed
    *
    * Therefore we've to use the browser's ordinary HTML parser invoked by setting innerHTML.
@@ -6895,11 +6895,11 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     },
 
     getWindow: function() {
-      this._readyError();
+      this._readyNotificacion();
     },
 
     getDocument: function() {
-      this._readyError();
+      this._readyNotificacion();
     },
 
     destroy: function() {
@@ -6907,8 +6907,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       iframe.parentNode.removeChild(iframe);
     },
 
-    _readyError: function() {
-      throw new Error("wysihtml5.Sandbox: Sandbox iframe isn't loaded yet");
+    _readyNotificacion: function() {
+      throw new Notificacion("wysihtml5.Sandbox: Sandbox iframe isn't loaded yet");
     },
 
     /**
@@ -6994,7 +6994,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       // addEventListener("error") doesn't work properly in some browsers
       // TODO: apparently this doesn't work in IE9!
       iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-        throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+        throw new Notificacion("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
       };
 
       if (!wysihtml5.browser.supportsSandboxedIframes()) {
@@ -7129,7 +7129,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         // TODO: apparently this doesn't work in IE9!
         // TODO: figure out and bind the errors logic for contenteditble mode
         /*iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-          throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+          throw new Notificacion("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
         }
         */
         this.loaded = true;
@@ -8722,7 +8722,7 @@ wysihtml5.quirks.ensureProperClearing = (function() {
           ret++;
           descendant = descendant.parentNode;
           if (!descendant)
-              throw new Error("not a descendant of ancestor!");
+              throw new Notificacion("not a descendant of ancestor!");
       }
       return ret;
   }
@@ -14164,7 +14164,7 @@ THE SOFTWARE.
 
 @license
 */
-var Handlebars=function(){var a=function(){"use strict";function a(a){this.string=a}var b;return a.prototype.toString=function(){return""+this.string},b=a}(),b=function(a){"use strict";function b(a){return h[a]||"&amp;"}function c(a,b){for(var c in b)Object.prototype.hasOwnProperty.call(b,c)&&(a[c]=b[c])}function d(a){return a instanceof g?a.toString():a||0===a?(a=""+a,j.test(a)?a.replace(i,b):a):""}function e(a){return a||0===a?m(a)&&0===a.length?!0:!1:!0}var f={},g=a,h={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","`":"&#x60;"},i=/[&<>"'`]/g,j=/[&<>"'`]/;f.extend=c;var k=Object.prototype.toString;f.toString=k;var l=function(a){return"function"==typeof a};l(/x/)&&(l=function(a){return"function"==typeof a&&"[object Function]"===k.call(a)});var l;f.isFunction=l;var m=Array.isArray||function(a){return a&&"object"==typeof a?"[object Array]"===k.call(a):!1};return f.isArray=m,f.escapeExpression=d,f.isEmpty=e,f}(a),c=function(){"use strict";function a(a,b){var d;b&&b.firstLine&&(d=b.firstLine,a+=" - "+d+":"+b.firstColumn);for(var e=Error.prototype.constructor.call(this,a),f=0;f<c.length;f++)this[c[f]]=e[c[f]];d&&(this.lineNumber=d,this.column=b.firstColumn)}var b,c=["description","fileName","lineNumber","message","name","number","stack"];return a.prototype=new Error,b=a}(),d=function(a,b){"use strict";function c(a,b){this.helpers=a||{},this.partials=b||{},d(this)}function d(a){a.registerHelper("helperMissing",function(a){if(2===arguments.length)return void 0;throw new h("Missing helper: '"+a+"'")}),a.registerHelper("blockHelperMissing",function(b,c){var d=c.inverse||function(){},e=c.fn;return m(b)&&(b=b.call(this)),b===!0?e(this):b===!1||null==b?d(this):l(b)?b.length>0?a.helpers.each(b,c):d(this):e(b)}),a.registerHelper("each",function(a,b){var c,d=b.fn,e=b.inverse,f=0,g="";if(m(a)&&(a=a.call(this)),b.data&&(c=q(b.data)),a&&"object"==typeof a)if(l(a))for(var h=a.length;h>f;f++)c&&(c.index=f,c.first=0===f,c.last=f===a.length-1),g+=d(a[f],{data:c});else for(var i in a)a.hasOwnProperty(i)&&(c&&(c.key=i,c.index=f,c.first=0===f),g+=d(a[i],{data:c}),f++);return 0===f&&(g=e(this)),g}),a.registerHelper("if",function(a,b){return m(a)&&(a=a.call(this)),!b.hash.includeZero&&!a||g.isEmpty(a)?b.inverse(this):b.fn(this)}),a.registerHelper("unless",function(b,c){return a.helpers["if"].call(this,b,{fn:c.inverse,inverse:c.fn,hash:c.hash})}),a.registerHelper("with",function(a,b){return m(a)&&(a=a.call(this)),g.isEmpty(a)?void 0:b.fn(a)}),a.registerHelper("log",function(b,c){var d=c.data&&null!=c.data.level?parseInt(c.data.level,10):1;a.log(d,b)})}function e(a,b){p.log(a,b)}var f={},g=a,h=b,i="1.3.0";f.VERSION=i;var j=4;f.COMPILER_REVISION=j;var k={1:"<= 1.0.rc.2",2:"== 1.0.0-rc.3",3:"== 1.0.0-rc.4",4:">= 1.0.0"};f.REVISION_CHANGES=k;var l=g.isArray,m=g.isFunction,n=g.toString,o="[object Object]";f.HandlebarsEnvironment=c,c.prototype={constructor:c,logger:p,log:e,registerHelper:function(a,b,c){if(n.call(a)===o){if(c||b)throw new h("Arg not supported with multiple helpers");g.extend(this.helpers,a)}else c&&(b.not=c),this.helpers[a]=b},registerPartial:function(a,b){n.call(a)===o?g.extend(this.partials,a):this.partials[a]=b}};var p={methodMap:{0:"debug",1:"info",2:"warn",3:"error"},DEBUG:0,INFO:1,WARN:2,ERROR:3,level:3,log:function(a,b){if(p.level<=a){var c=p.methodMap[a];"undefined"!=typeof console&&console[c]&&console[c].call(console,b)}}};f.logger=p,f.log=e;var q=function(a){var b={};return g.extend(b,a),b};return f.createFrame=q,f}(b,c),e=function(a,b,c){"use strict";function d(a){var b=a&&a[0]||1,c=m;if(b!==c){if(c>b){var d=n[c],e=n[b];throw new l("Template was precompiled with an older version of Handlebars than the current runtime. Please update your precompiler to a newer version ("+d+") or downgrade your runtime to an older version ("+e+").")}throw new l("Template was precompiled with a newer version of Handlebars than the current runtime. Please update your runtime to a newer version ("+a[1]+").")}}function e(a,b){if(!b)throw new l("No environment passed to template");var c=function(a,c,d,e,f,g){var h=b.VM.invokePartial.apply(this,arguments);if(null!=h)return h;if(b.compile){var i={helpers:e,partials:f,data:g};return f[c]=b.compile(a,{data:void 0!==g},b),f[c](d,i)}throw new l("The partial "+c+" could not be compiled when running in runtime-only mode")},d={escapeExpression:k.escapeExpression,invokePartial:c,programs:[],program:function(a,b,c){var d=this.programs[a];return c?d=g(a,b,c):d||(d=this.programs[a]=g(a,b)),d},merge:function(a,b){var c=a||b;return a&&b&&a!==b&&(c={},k.extend(c,b),k.extend(c,a)),c},programWithDepth:b.VM.programWithDepth,noop:b.VM.noop,compilerInfo:null};return function(c,e){e=e||{};var f,g,h=e.partial?e:b;e.partial||(f=e.helpers,g=e.partials);var i=a.call(d,h,c,f,g,e.data);return e.partial||b.VM.checkRevision(d.compilerInfo),i}}function f(a,b,c){var d=Array.prototype.slice.call(arguments,3),e=function(a,e){return e=e||{},b.apply(this,[a,e.data||c].concat(d))};return e.program=a,e.depth=d.length,e}function g(a,b,c){var d=function(a,d){return d=d||{},b(a,d.data||c)};return d.program=a,d.depth=0,d}function h(a,b,c,d,e,f){var g={partial:!0,helpers:d,partials:e,data:f};if(void 0===a)throw new l("The partial "+b+" could not be found");return a instanceof Function?a(c,g):void 0}function i(){return""}var j={},k=a,l=b,m=c.COMPILER_REVISION,n=c.REVISION_CHANGES;return j.checkRevision=d,j.template=e,j.programWithDepth=f,j.program=g,j.invokePartial=h,j.noop=i,j}(b,c,d),f=function(a,b,c,d,e){"use strict";var f,g=a,h=b,i=c,j=d,k=e,l=function(){var a=new g.HandlebarsEnvironment;return j.extend(a,g),a.SafeString=h,a.Exception=i,a.Utils=j,a.VM=k,a.template=function(b){return k.template(b,a)},a},m=l();return m.create=l,f=m}(d,a,c,b,e);return f}();this["wysihtml5"] = this["wysihtml5"] || {};
+var Handlebars=function(){var a=function(){"use strict";function a(a){this.string=a}var b;return a.prototype.toString=function(){return""+this.string},b=a}(),b=function(a){"use strict";function b(a){return h[a]||"&amp;"}function c(a,b){for(var c in b)Object.prototype.hasOwnProperty.call(b,c)&&(a[c]=b[c])}function d(a){return a instanceof g?a.toString():a||0===a?(a=""+a,j.test(a)?a.replace(i,b):a):""}function e(a){return a||0===a?m(a)&&0===a.length?!0:!1:!0}var f={},g=a,h={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","`":"&#x60;"},i=/[&<>"'`]/g,j=/[&<>"'`]/;f.extend=c;var k=Object.prototype.toString;f.toString=k;var l=function(a){return"function"==typeof a};l(/x/)&&(l=function(a){return"function"==typeof a&&"[object Function]"===k.call(a)});var l;f.isFunction=l;var m=Array.isArray||function(a){return a&&"object"==typeof a?"[object Array]"===k.call(a):!1};return f.isArray=m,f.escapeExpression=d,f.isEmpty=e,f}(a),c=function(){"use strict";function a(a,b){var d;b&&b.firstLine&&(d=b.firstLine,a+=" - "+d+":"+b.firstColumn);for(var e=Notificacion.prototype.constructor.call(this,a),f=0;f<c.length;f++)this[c[f]]=e[c[f]];d&&(this.lineNumber=d,this.column=b.firstColumn)}var b,c=["description","fileName","lineNumber","message","name","number","stack"];return a.prototype=new Notificacion,b=a}(),d=function(a,b){"use strict";function c(a,b){this.helpers=a||{},this.partials=b||{},d(this)}function d(a){a.registerHelper("helperMissing",function(a){if(2===arguments.length)return void 0;throw new h("Missing helper: '"+a+"'")}),a.registerHelper("blockHelperMissing",function(b,c){var d=c.inverse||function(){},e=c.fn;return m(b)&&(b=b.call(this)),b===!0?e(this):b===!1||null==b?d(this):l(b)?b.length>0?a.helpers.each(b,c):d(this):e(b)}),a.registerHelper("each",function(a,b){var c,d=b.fn,e=b.inverse,f=0,g="";if(m(a)&&(a=a.call(this)),b.data&&(c=q(b.data)),a&&"object"==typeof a)if(l(a))for(var h=a.length;h>f;f++)c&&(c.index=f,c.first=0===f,c.last=f===a.length-1),g+=d(a[f],{data:c});else for(var i in a)a.hasOwnProperty(i)&&(c&&(c.key=i,c.index=f,c.first=0===f),g+=d(a[i],{data:c}),f++);return 0===f&&(g=e(this)),g}),a.registerHelper("if",function(a,b){return m(a)&&(a=a.call(this)),!b.hash.includeZero&&!a||g.isEmpty(a)?b.inverse(this):b.fn(this)}),a.registerHelper("unless",function(b,c){return a.helpers["if"].call(this,b,{fn:c.inverse,inverse:c.fn,hash:c.hash})}),a.registerHelper("with",function(a,b){return m(a)&&(a=a.call(this)),g.isEmpty(a)?void 0:b.fn(a)}),a.registerHelper("log",function(b,c){var d=c.data&&null!=c.data.level?parseInt(c.data.level,10):1;a.log(d,b)})}function e(a,b){p.log(a,b)}var f={},g=a,h=b,i="1.3.0";f.VERSION=i;var j=4;f.COMPILER_REVISION=j;var k={1:"<= 1.0.rc.2",2:"== 1.0.0-rc.3",3:"== 1.0.0-rc.4",4:">= 1.0.0"};f.REVISION_CHANGES=k;var l=g.isArray,m=g.isFunction,n=g.toString,o="[object Object]";f.HandlebarsEnvironment=c,c.prototype={constructor:c,logger:p,log:e,registerHelper:function(a,b,c){if(n.call(a)===o){if(c||b)throw new h("Arg not supported with multiple helpers");g.extend(this.helpers,a)}else c&&(b.not=c),this.helpers[a]=b},registerPartial:function(a,b){n.call(a)===o?g.extend(this.partials,a):this.partials[a]=b}};var p={methodMap:{0:"debug",1:"info",2:"warn",3:"error"},DEBUG:0,INFO:1,WARN:2,ERROR:3,level:3,log:function(a,b){if(p.level<=a){var c=p.methodMap[a];"undefined"!=typeof console&&console[c]&&console[c].call(console,b)}}};f.logger=p,f.log=e;var q=function(a){var b={};return g.extend(b,a),b};return f.createFrame=q,f}(b,c),e=function(a,b,c){"use strict";function d(a){var b=a&&a[0]||1,c=m;if(b!==c){if(c>b){var d=n[c],e=n[b];throw new l("Template was precompiled with an older version of Handlebars than the current runtime. Please update your precompiler to a newer version ("+d+") or downgrade your runtime to an older version ("+e+").")}throw new l("Template was precompiled with a newer version of Handlebars than the current runtime. Please update your runtime to a newer version ("+a[1]+").")}}function e(a,b){if(!b)throw new l("No environment passed to template");var c=function(a,c,d,e,f,g){var h=b.VM.invokePartial.apply(this,arguments);if(null!=h)return h;if(b.compile){var i={helpers:e,partials:f,data:g};return f[c]=b.compile(a,{data:void 0!==g},b),f[c](d,i)}throw new l("The partial "+c+" could not be compiled when running in runtime-only mode")},d={escapeExpression:k.escapeExpression,invokePartial:c,programs:[],program:function(a,b,c){var d=this.programs[a];return c?d=g(a,b,c):d||(d=this.programs[a]=g(a,b)),d},merge:function(a,b){var c=a||b;return a&&b&&a!==b&&(c={},k.extend(c,b),k.extend(c,a)),c},programWithDepth:b.VM.programWithDepth,noop:b.VM.noop,compilerInfo:null};return function(c,e){e=e||{};var f,g,h=e.partial?e:b;e.partial||(f=e.helpers,g=e.partials);var i=a.call(d,h,c,f,g,e.data);return e.partial||b.VM.checkRevision(d.compilerInfo),i}}function f(a,b,c){var d=Array.prototype.slice.call(arguments,3),e=function(a,e){return e=e||{},b.apply(this,[a,e.data||c].concat(d))};return e.program=a,e.depth=d.length,e}function g(a,b,c){var d=function(a,d){return d=d||{},b(a,d.data||c)};return d.program=a,d.depth=0,d}function h(a,b,c,d,e,f){var g={partial:!0,helpers:d,partials:e,data:f};if(void 0===a)throw new l("The partial "+b+" could not be found");return a instanceof Function?a(c,g):void 0}function i(){return""}var j={},k=a,l=b,m=c.COMPILER_REVISION,n=c.REVISION_CHANGES;return j.checkRevision=d,j.template=e,j.programWithDepth=f,j.program=g,j.invokePartial=h,j.noop=i,j}(b,c,d),f=function(a,b,c,d,e){"use strict";var f,g=a,h=b,i=c,j=d,k=e,l=function(){var a=new g.HandlebarsEnvironment;return j.extend(a,g),a.SafeString=h,a.Exception=i,a.Utils=j,a.VM=k,a.template=function(b){return k.template(b,a)},a},m=l();return m.create=l,f=m}(d,a,c,b,e);return f}();this["wysihtml5"] = this["wysihtml5"] || {};
 this["wysihtml5"]["tpl"] = this["wysihtml5"]["tpl"] || {};
 
 this["wysihtml5"]["tpl"]["blockquote"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

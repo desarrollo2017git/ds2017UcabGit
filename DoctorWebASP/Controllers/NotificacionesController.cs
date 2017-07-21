@@ -22,7 +22,7 @@ namespace DoctorWebASP.Controllers
         /// <summary>
         /// Constructor por defecto.
         /// </summary>
-        public NotificacionesController() : this(new ServicioNotificaciones())
+        public NotificacionesController() : this(Fabrica.CrearServicioNotificaciones())
         {
         }
 
@@ -53,8 +53,8 @@ namespace DoctorWebASP.Controllers
             }
             catch (Exception ex)
             {
-                Session.IndicarError(ex.Message);
-                notificaciones = new List<Notificacion>();
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                notificaciones = Fabrica.CrearListaNotificaciones();
             }
 
             ViewData.IndicarNotificacionNombre(nombre);
@@ -83,12 +83,12 @@ namespace DoctorWebASP.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Session.IndicarError(ex.Message);
+                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 }
             }
             else
             {
-                model = new Notificacion();
+                model = Fabrica.CrearNotificaciones();
             }
             if (model != null)
             {
@@ -106,18 +106,22 @@ namespace DoctorWebASP.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Create(FormCollection collection)
         {
-            var model = new Notificacion();
+            var model = Fabrica.CrearNotificaciones();
             try
             {
                 model.NotificacionId = 0;
                 model.Actualizar(collection);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Guardar(out mensaje, model);
+                if (sinProblemas)
+                {
+                    Session.IndicarNotificacion("Se ha creado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
+                }
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                Session.IndicarError(ex.Message);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 return View("Detail", model);
             }
         }
@@ -130,12 +134,16 @@ namespace DoctorWebASP.Controllers
         [HttpPost, ValidateInput(false)]
         public ActionResult Edit(FormCollection collection)
         {
-            var model = new Notificacion();
+            var model = Fabrica.CrearNotificaciones();
             try
             {
                 model.Actualizar(collection);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Guardar(out mensaje, model);
+                if (sinProblemas)
+                {
+                    Session.IndicarNotificacion("Se ha actualizado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
+                }
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -143,7 +151,7 @@ namespace DoctorWebASP.Controllers
                 if (model == null)
                     return RedirectToAction("Index");
 
-                Session.IndicarError(ex.Message);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 return View("Detail", model);
             }
         }
@@ -162,7 +170,7 @@ namespace DoctorWebASP.Controllers
             }
             catch (Exception ex)
             {
-                Session.IndicarError(ex.Message);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
             }
             return RedirectToAction("Index");
         }
@@ -180,10 +188,14 @@ namespace DoctorWebASP.Controllers
                 var codigo = int.Parse(collection["NotificacionId"]);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Borrar(out mensaje, codigo);
+                if (sinProblemas)
+                {
+                    Session.IndicarNotificacion("Se ha borrado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
+                }
             }
             catch (Exception ex)
             {
-                Session.IndicarError(ex.Message);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
             }
             return RedirectToAction("Index");
         }

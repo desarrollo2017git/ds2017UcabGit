@@ -99,7 +99,7 @@
 
 			// helper function for logging errors
 			// $.error breaks jQuery chaining
-			var logError = typeof console === 'undefined' ? noop :
+			var logNotificacion = typeof console === 'undefined' ? noop :
 			  function( message ) {
 			    console.error( message );
 			  };
@@ -121,12 +121,12 @@
 			        var elem = this[i];
 			        var instance = $.data( elem, namespace );
 			        if ( !instance ) {
-			          logError( "cannot call methods on " + namespace + " prior to initialization; " +
+			          logNotificacion( "cannot call methods on " + namespace + " prior to initialization; " +
 			            "attempted to call '" + options + "'" );
 			          continue;
 			        }
 			        if ( !$.isFunction( instance[options] ) || options.charAt(0) === '_' ) {
-			          logError( "no such method '" + options + "' for " + namespace + " instance" );
+			          logNotificacion( "no such method '" + options + "' for " + namespace + " instance" );
 			          continue;
 			        }
 
@@ -196,8 +196,8 @@
 
 	(function($) {
 
-		var ErrorMsgs = {
-			formatInvalidInputErrorMsg : function(input) {
+		var NotificacionMsgs = {
+			formatInvalidInputNotificacionMsg : function(input) {
 				return "Invalid input value '" + input + "' passed in";
 			},
 			callingContextNotSliderInstance : "Calling context element does not have instance of Slider bound to it. Check your code to make sure the JQuery object returned from the call to the slider() initializer is calling the method"
@@ -1428,13 +1428,13 @@
 					this._validateArray(val);
 					return val;
 				} else {
-					throw new Error( ErrorMsgs.formatInvalidInputErrorMsg(val) );
+					throw new Notificacion( NotificacionMsgs.formatInvalidInputNotificacionMsg(val) );
 				}
 			},
 			_validateArray: function(val) {
 				for(var i = 0; i < val.length; i++) {
 					var input =  val[i];
-					if (typeof input !== 'number') { throw new Error( ErrorMsgs.formatInvalidInputErrorMsg(input) ); }
+					if (typeof input !== 'number') { throw new Notificacion( NotificacionMsgs.formatInvalidInputNotificacionMsg(input) ); }
 				}
 			},
 			_setDataVal: function(val) {

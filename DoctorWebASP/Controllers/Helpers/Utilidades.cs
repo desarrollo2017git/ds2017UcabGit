@@ -23,7 +23,7 @@ namespace DoctorWebASP.Controllers.Helpers
         internal static Uri ObtenerUrlServicioWeb(string servicio)
         {
             var host = ObtenerClave("WebServiceUrl");
-            var builder = new UriBuilder(host);
+            var builder = Fabrica.CrearStringBuilder(host);
             builder.Path = $"Services/{servicio}.svc/";
             return builder.Uri;
         }
@@ -37,7 +37,7 @@ namespace DoctorWebASP.Controllers.Helpers
         {
             var path = ConfigurationManager.AppSettings[clave];
             if (String.IsNullOrEmpty(path))
-                throw new KeyNotFoundException($"No se encontro un valor para '{clave}', en el archivo de configuracion.");
+                throw Fabrica.CrearExcepcion(mensaje: $"No se encontro un valor para '{clave}', en el archivo de configuracion.");
             return path;
         }
 

@@ -1,4 +1,5 @@
 ﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using System;
@@ -21,10 +22,10 @@ namespace DoctorWebServiciosWCF.Controllers
                     throw new FormatException("El código debe ser un número.");
 
                 if (!tipo.Equals(ReporteTipo.preestablecido.ToString()) && !tipo.Equals(ReporteTipo.configurado.ToString()))
-                    throw new CustomException("No se puede realizar ninguna operación para el tipo " + tipo);
+                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
 
                 if (tipo.Equals(ReporteTipo.preestablecido.ToString()) && !(id >= 1 && id <= 6))
-                    throw new CustomException("No se puede realizar ninguna operación para el código " + codigo);
+                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
             }
             catch (Exception ex)
             {

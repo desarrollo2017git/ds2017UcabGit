@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using DoctorWebASP.Controllers;
-using DoctorWebServiciosWCF.Helpers;
 using Microsoft.AspNet.Identity;
 
 namespace DoctorWebASP.Models.Services

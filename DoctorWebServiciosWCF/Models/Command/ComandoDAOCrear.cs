@@ -8,8 +8,16 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
+    /// <summary>
+    /// Comando para crear registro en base de datos.
+    /// </summary>
     public class ComandoDAOCrear : IComandoDAO
     {
+        /// <summary>
+        /// Accion de crear registro en base de datos.
+        /// </summary>
+        /// <typeparam name="T">Tipo de coleccion</typeparam>
+        /// <param name="args">Parametros necesarios.</param>
         public void Ejecutar<T>(params object[] args)
             where T : class
         {

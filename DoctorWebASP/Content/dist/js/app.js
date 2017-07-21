@@ -13,7 +13,7 @@
 
 //Make sure jQuery has been loaded before app.js
 if (typeof jQuery === "undefined") {
-  throw new Error("AdminLTE requires jQuery");
+  throw new Notificacion("AdminLTE requires jQuery");
 }
 
 /* AdminLTE
@@ -292,7 +292,7 @@ function _init() {
         }
         return;
       } else if (typeof $.fn.slimScroll == 'undefined' && window.console) {
-        window.console.error("Error: the fixed layout requires the slimscroll plugin!");
+        window.console.error("Notificacion: the fixed layout requires the slimscroll plugin!");
       }
       //Enable slimscroll for fixed layout
       if ($.AdminLTE.options.sidebarSlimScroll) {
