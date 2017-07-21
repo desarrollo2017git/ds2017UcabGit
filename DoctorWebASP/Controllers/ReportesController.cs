@@ -2,7 +2,6 @@
 using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
 using DoctorWebASP.ViewModels;
-using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data;
