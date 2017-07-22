@@ -10,9 +10,9 @@ namespace DoctorWebServiciosWCF.Services
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ServicioCitas" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select ServicioCitas.svc or ServicioCitas.svc.cs at the Solution Explorer and start debugging.
-    public class ServicioCitas : IServicioCitas
+    public class ServicioCalendarios : IServicioCalendarios
     {
-        public ICitasConsultasDAO Dao = new CitasDAO();
+        public ICalendariosDAO Dao = new CalendariosDAO();
         public void DoWork()
         {
         }
