@@ -406,6 +406,45 @@ namespace DoctorWebASP.Controllers
             return View(cita);
         }
 
+        // GET: Citas/Delete/5
+        [Authorize]
+        public ActionResult DeleteFromDoctor(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            int citaId = id ?? default(int);
+            Cita cita = consulta.ObtenerCita(citaId);
+            cita.Calendario.Medico = consulta.ObtenerMedicoAsignadoACita(cita.CitaId);
+            cita.Calendario.Medico.EspecialidadMedica = consulta.ObtenerEspecialidadMedicaDelDoctor(cita.Calendario.Medico.PersonaId);
+            if (cita == null)
+            {
+                return HttpNotFound();
+            }
+            return View(cita);
+        }
+
+        [HttpPost, ActionName("DeleteFromDoctor")]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmedFromDoctor(int id)
+        {
+            try
+            {
+                Cita cita = consulta.ObtenerCita(id);
+                var calendario = consulta.ObtenerCalendario(cita.Calendario.CalendarioId);
+                consulta.EliminarCita(cita, calendario);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                string mensaje = "Ha ocurrido un error con la base de datos de la aplicacion";
+                return RedirectToAction("SadFace", "Citas", new { mensaje });
+            }
+            return RedirectToAction("Index");
+        }
+
         // POST: Citas/Delete/5
         /// <summary>
         /// Metodo que elimina una cita previamente agendada
