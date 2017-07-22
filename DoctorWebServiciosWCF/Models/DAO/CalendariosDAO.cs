@@ -12,9 +12,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
             coleccion = db.Calendarios;
         }
 
-        public void Actualizar(Calendario calendario, int calendarioId)
-        {
-            throw new NotImplementedException();
-        }
+
     }
 }
