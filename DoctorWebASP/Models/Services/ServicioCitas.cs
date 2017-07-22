@@ -23,10 +23,12 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "EliminarCita";
                 var request = new RestRequest(resource: action, method: Method.DELETE);
+                request.RequestFormat = DataFormat.Json;
+                var settings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat };
                 var body = new { cita = cita, calendario = calendario };
+                var json = JsonConvert.SerializeObject(body, settings);
+                request.AddParameter("application/json", json, null, ParameterType.RequestBody);
 
-                request.AddHeader("Content-Type", "application/json");
-                request.AddJsonBody(body);
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -35,7 +37,7 @@ namespace DoctorWebASP.Models.Services
                     var resultado = datos[$"{action}Result"].ToObject<ResultadoProceso>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-
+                        return;
                     }
                     else
                         throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
@@ -60,11 +62,17 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "GuardarCita";
                 var request = new RestRequest(resource: action, method: Method.POST);
+                request.RequestFormat = DataFormat.Json;
+                var settings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat };
                 var body = new { cita = cita, calendario = calendario };
-                var json = JsonConvert.SerializeObject(body);
+                var json = JsonConvert.SerializeObject(body, settings);
+                request.AddParameter("application/json", json, null, ParameterType.RequestBody);
 
-                request.AddHeader("Content-Type", "application/json");
-                request.AddJsonBody(body);
+
+
+
+                //request.AddHeader("Content-Type", "application/json");
+                //request.AddJsonBody(body);
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)

@@ -27,6 +27,7 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 Dao.EliminarCita(cita, calendario);
+                resultado.Inicializar("Todo bien");
             }
             catch (Exception ex)
             {
@@ -41,6 +42,7 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 Dao.GuardarCita(cita, calendario);
+                resultado.Inicializar("Todo bien");
             }
             catch (Exception ex)
             {

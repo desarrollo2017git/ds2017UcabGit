@@ -32,7 +32,8 @@ namespace DoctorWebServiciosWCF.Models.Command
                     datos = (T)args[2];
                 else
                     throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, tercer parametro no es valido. se espera un T.");
-
+                // Era necesario el attach
+                coleccion.Attach(datos);
                 coleccion.Add(datos);
                 db.SaveChanges();
             }

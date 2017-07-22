@@ -31,21 +31,36 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch {}
 
-            Borrar(cita);
-
-            var calendariosDao = Fabrica.CrearCalendariosDAO();
             calendario.Disponible = 1;
-            calendariosDao.Actualizar(calendario, calendario.CalendarioId);
+            var calendarioToMod = db.Calendarios.Single(c => c.CalendarioId == calendario.CalendarioId);
+            db.Entry(calendarioToMod).CurrentValues.SetValues(calendario);
+
+            var citaToMod = db.Citas.Single(c => c.CitaId == cita.CitaId);
+            db.Citas.Remove(citaToMod);
+            db.SaveChanges();
+
+            //var calendariosDao = Fabrica.CrearCalendariosDAO();
+            //calendario.Disponible = 1;
+            //calendariosDao.Actualizar(calendario, calendario.CalendarioId);
         }
 
         public void GuardarCita(Cita cita, Calendario calendario)
         {
-            // Finalmente colocamos la Fecha Reservada como NO disponible
-            var calendariosDao = Fabrica.CrearCalendariosDAO();
+            // Colocamos la Fecha Reservada como NO disponible
             calendario.Disponible = 0;
-            calendariosDao.Actualizar(calendario, calendario.CalendarioId);
+            cita.CitaId = calendario.CalendarioId;
 
+            // Creamos la cita utilizando COMANDO
             Crear(cita);
+
+            // Procedemos a actualizar la disponibilidad del calendario
+            // Para esto, debemos recuperar el objeto en la base de datos
+            // luego cambiamos su contenido por el del calendario que recibimos cuya disponibilidad es 0
+            var calendarioToMod = db.Calendarios.Single(c => c.CalendarioId == calendario.CalendarioId);
+            db.Entry(calendarioToMod).CurrentValues.SetValues(calendario);
+            
+            // Guardamos los cambios en la BD
+            db.SaveChanges();
 
             var notificacionDAO = Fabrica.CrearNotificacionDAO();
             try
