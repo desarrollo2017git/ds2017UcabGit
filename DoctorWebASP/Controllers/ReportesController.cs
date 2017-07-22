@@ -119,11 +119,37 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public ActionResult getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr)
         {
-            ResultadoProceso resultado = new ResultadoProceso();
+            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
             try
             {
                 resultado = Servicio.getCantidadUsuariosRegistrados(fechaInicioStr, fechaFinStr);
             } catch (Exception ex)
+            {
+
+                resultado.Mensaje = ex.Message;
+            }
+            return Json(new { resultado });
+        }
+        #endregion
+
+        #region REPORTE #4 - Promedio de recursos disponibles en un tiempo determinado.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de recursos disponibles en un periodo de tiempo seleccionado por el usuario.
+        /// Recibe los parámetros:
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
+        [HttpPost]
+        public ActionResult getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr)
+        {
+            var resultado = Fabrica.CrearResultadoProceso();
+
+            try
+            {
+                resultado = Servicio.getPromedioRecursosDisponibles(fechaInicioStr, fechaFinStr);
+            }
+            catch (Exception ex)
             {
 
                 resultado.Mensaje = ex.Message;

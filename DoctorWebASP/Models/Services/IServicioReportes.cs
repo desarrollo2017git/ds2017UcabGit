@@ -12,7 +12,7 @@ namespace DoctorWebASP.Models.Services
         ResultadoProceso getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr);
         double getPromedioEdadPaciente();
         double getPromedioCitasPorMedico();
-        double getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr);
+        ResultadoProceso getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr);
         double getPromedioUsoApp();
         double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
     }

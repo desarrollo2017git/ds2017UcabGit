@@ -47,8 +47,7 @@ namespace DoctorWebServiciosWCF.Services
                     switch (id)
                     {
                         case 1:
-                            if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
-                                throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+                            comprobarFecha(fechaInicio, fechaFin);
                             resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
                             break;
                         case 2:
@@ -56,6 +55,8 @@ namespace DoctorWebServiciosWCF.Services
                         case 3:
                             break;
                         case 4:
+                            comprobarFecha(fechaInicio, fechaFin);
+                            resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
                             break;
                         case 5:
                             break;
@@ -70,6 +71,12 @@ namespace DoctorWebServiciosWCF.Services
             }
 
             return resultado;
+        }
+
+        public void comprobarFecha(string fechaInicio, string fechaFin)
+        {
+            if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
+                throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
         }
     }
 }

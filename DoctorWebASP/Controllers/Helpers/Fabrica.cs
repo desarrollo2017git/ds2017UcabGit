@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DoctorWebASP.Models.Services;
+using DoctorWebASP.Models.Results;
 
 namespace DoctorWebASP.Controllers.Helpers
 {
@@ -21,6 +22,15 @@ namespace DoctorWebASP.Controllers.Helpers
         internal static Exception CrearExcepcion(string mensaje = "Excepcion no controlada.", Exception interna = null)
         {
             return new DoctorWebException(mensaje, interna);
+        }
+
+        /// <summary>
+        /// Permite crear una instancia resultado del servicio.
+        /// </summary>
+        /// <returns>returna una instancia resultado del servicio.</returns>
+        internal static ResultadoProceso CrearResultadoProceso()
+        {
+            return new ResultadoProceso();
         }
 
         /// <summary>
