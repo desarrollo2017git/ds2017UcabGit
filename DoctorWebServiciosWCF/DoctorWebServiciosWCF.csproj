@@ -110,7 +110,9 @@
     <Compile Include="Models\DAO\ICitasDAO.cs" />
     <Compile Include="Models\DAO\IDAO.cs" />
     <Compile Include="Models\DAO\INotificacionDAO.cs" />
+    <Compile Include="Models\DAO\IObservacionMedicaDAO.cs" />
     <Compile Include="Models\DAO\IReporteDAO.cs" />
+    <Compile Include="Models\DAO\ObservacionMedicaDAO.cs" />
     <Compile Include="Models\DAO\ReporteDAO.cs" />
     <Compile Include="Models\DoctorWebException.cs" />
     <Compile Include="Models\EquipoMedico.cs" />
