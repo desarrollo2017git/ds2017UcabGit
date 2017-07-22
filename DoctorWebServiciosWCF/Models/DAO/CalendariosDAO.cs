@@ -56,6 +56,13 @@ namespace DoctorWebServiciosWCF.Models.DAO
             return db.Calendarios.Where(c => c.Medico.PersonaId == medicoid && c.Disponible == 0 && c.Cancelada == false).ToList();
         }
 
+        public Paciente ObtenerPacienteCalendario(int calendarioId)
+        {
+            int pacienteId = db.Citas.Where(c => c.CitaId == calendarioId).Select(p => p.Paciente.PersonaId).Single();
+            return  db.Personas.OfType<Paciente>().Single(p => p.PersonaId == pacienteId);
+           
+ 
+        }
 
     }
 }

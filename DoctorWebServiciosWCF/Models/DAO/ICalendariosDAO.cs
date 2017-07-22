@@ -15,6 +15,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         // Metodo del DAO para obtener pacientes a partir de su identificador de usuario
         List<Calendario> ObtenerTiempoDoctor(int medicoid);
         List<Calendario> ObtenerCitasDoctor(int medicoid);
+        Paciente ObtenerPacienteCalendario(int calendarioid);
     }
 
 }

@@ -29,5 +29,8 @@ namespace DoctorWebServiciosWCF.Services
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerCitasDoctor?medicoId={medicoId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<List<Calendario>> ObtenerCitasDoctor(int medicoId);
+        [OperationContract]
+        [WebGet(UriTemplate = "/ObtenerPacienteCalendario?calendarioId={calendarioId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<Paciente> ObtenerPacienteCalendario(int calendarioId);
     }
 }
