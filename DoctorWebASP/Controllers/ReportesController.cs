@@ -510,12 +510,6 @@ namespace DoctorWebASP.Controllers
 
             return (Newtonsoft.Json.JsonConvert.SerializeObject(query));
         }
-
-        public int pruebaunitaria()
-        {
-            var result = 2 + 2;
-            return result;
-        }
         #endregion
     }
 }
