@@ -241,7 +241,7 @@ namespace DoctorWebASP.Models.Services
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
 
 
-                var action = "ObtenerCalendario";
+                var action = "ObtenerCitasDoctor";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("userId", userId);
                 //var json = JsonConvert.SerializeObject(body);

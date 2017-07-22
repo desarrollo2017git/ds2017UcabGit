@@ -69,6 +69,7 @@ namespace DoctorWebASP.Controllers
         /// <returns> Interfaz de consulta de citas de doctor </returns>
         public ActionResult IndexDoctor(string userId)
         {
+            //var medico = consulta.ObtenerMedico(userId);
             var citas = consulta.ObtenerCitasDoctor(userId);
             if (citas.Count == 0)
             {
@@ -377,7 +378,8 @@ namespace DoctorWebASP.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cita cita = db.Citas.Find(id);
+            int citaId = id ?? default(int);
+            Cita cita = consulta.ObtenerCita(citaId);
             if (cita == null)
             {
                 return HttpNotFound();

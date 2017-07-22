@@ -149,7 +149,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Medico</returns>
         public Medico ObtenerMedico(string userId)
         {
-            return db.Personas.OfType<Medico>().Include(m => m.CentroMedico).Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
+            return db.Personas.OfType<Medico>().Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
         }
         
         /// <summary>
