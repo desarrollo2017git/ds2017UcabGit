@@ -10,10 +10,10 @@ namespace DoctorWebASP.Models.Services
     public interface IServicioReportes
     {
         ResultadoProceso getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr);
-        double getPromedioEdadPaciente();
-        double getPromedioCitasPorMedico();
+        ResultadoProceso getPromedioEdadPaciente();
+        ResultadoProceso getPromedioCitasPorMedico();
         ResultadoProceso getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr);
-        double getPromedioUsoApp();
+        ResultadoProceso getPromedioUsoApp();
         ResultadoProceso getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
     }
 }

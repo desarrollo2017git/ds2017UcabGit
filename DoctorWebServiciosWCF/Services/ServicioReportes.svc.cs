@@ -51,14 +51,17 @@ namespace DoctorWebServiciosWCF.Services
                             resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
                             break;
                         case 2:
+                            resultado.Inicializar(dao.getPromedioEdadPaciente().ToString());
                             break;
                         case 3:
+                            resultado.Inicializar(dao.getPromedioCitasPorMedico().ToString());
                             break;
                         case 4:
                             comprobarFecha(fechaInicio, fechaFin);
                             resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
                             break;
                         case 5:
+                            resultado.Inicializar(dao.getPromedioUsoApp().ToString());
                             break;
                         case 6:
                             comprobarFecha(fechaInicio, fechaFin);

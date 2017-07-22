@@ -1,12 +1,8 @@
-﻿using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
@@ -96,12 +92,92 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public double getPromedioCitasPorMedico()
         {
-            throw new NotImplementedException();
+            try
+            {
+                double? cantidadCitas = (from c in db.Calendarios
+                                         where !c.Cancelada & c.Disponible == 0
+                                         select c).Count();
+                double? cantidadMedicos = (from p in db.Personas
+                                           where p is Medico
+                                           select p).Count();
+                if (cantidadMedicos == null || cantidadCitas == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadMedicos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)cantidadCitas / (double)cantidadMedicos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
         }
 
         public double getPromedioEdadPaciente()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = from p in db.Personas
+                             where (p is Paciente)
+                             select p.FechaNacimiento;
+
+                if (result == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                double total = 0;
+
+                double cantidadPacientes = result.Count();
+
+                if (cantidadPacientes == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                foreach (var r in result.ToList())
+                {
+                    Age age = new Age(r, DateTime.Today.AddDays(1).AddTicks(-1));
+                    total = total + age.Years;
+                }
+
+                double promedio = total / cantidadPacientes;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
         }
 
         public double getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr)
@@ -176,7 +252,44 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public double getPromedioUsoApp()
         {
-            throw new NotImplementedException();
+            try
+            {
+                double? bitacora = (from b in db.Bitacoras
+                                    select b).Count();
+
+                double? usuarios = (from u in db.Personas
+                                    select u).Count();
+
+                if (bitacora == null || usuarios == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (usuarios == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)bitacora / (double)usuarios;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
+
         }
     }
 }

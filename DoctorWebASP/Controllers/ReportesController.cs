@@ -55,55 +55,9 @@ namespace DoctorWebASP.Controllers
         public ActionResult Index()
         {
             var indexViewModel = new ReportesIndexViewModel();
-            var resultadoProcesoR2 = new ResultadoProceso();
-            var resultadoProcesoR3 = new ResultadoProceso();
-            var resultadoProcesoR5 = new ResultadoProceso();
-
-            try
-            {
-                // REPORTE #2 - Promedio de edad de los pacientes
-                //indexViewModel.promedioEdadPacientes = getPromedioEdadPaciente();
-                resultadoProcesoR2.SinProblemas = true;
-            }
-            catch (Exception ex)
-            {
-                if (ex is SqlException || ex is DataException || ex is EntityException)
-                    resultadoProcesoR2.Mensaje = "Hay un error de conexión con la base de datos.";
-                else
-                    resultadoProcesoR2.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
-            }
-
-            try
-            {
-                // REPORTE #3 - Promedio de citas por médico
-                //indexViewModel.promedioCitasPorMedico = getPromedioCitasPorMedico();
-                resultadoProcesoR3.SinProblemas = true;
-            }
-            catch (Exception ex)
-            {
-                if (ex is SqlException || ex is DataException || ex is EntityException)
-                    resultadoProcesoR3.Mensaje = "Hay un error de conexión con la base de datos.";
-                else
-                    resultadoProcesoR3.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
-            }
-
-            try
-            {
-                // REPORTE #5 - Promedio de uso de la aplicación
-                //indexViewModel.promedioUsoApp = getPromedioUsoApp();
-                resultadoProcesoR5.SinProblemas = true;
-            }
-            catch (Exception ex)
-            {
-                if (ex is SqlException || ex is DataException || ex is EntityException)
-                    resultadoProcesoR5.Mensaje = "Hay un error de conexión con la base de datos.";
-                else
-                    resultadoProcesoR5.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
-            }
-
-            indexViewModel.resultadoProcesoR2 = resultadoProcesoR2;
-            indexViewModel.resultadoProcesoR3 = resultadoProcesoR3;
-            indexViewModel.resultadoProcesoR5 = resultadoProcesoR5;
+            indexViewModel.resultadoProcesoR2 = getPromedioEdadPaciente();
+            indexViewModel.resultadoProcesoR3 = getPromedioCitasPorMedico();
+            indexViewModel.resultadoProcesoR5 = getPromedioUsoApp();
 
             return View(indexViewModel);
         }
@@ -132,6 +86,48 @@ namespace DoctorWebASP.Controllers
         }
         #endregion
 
+        #region REPORTE #2 - Promedio de edad de los pacientes.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de edad de los pacientes.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato double.</returns>
+        public ResultadoProceso getPromedioEdadPaciente()
+        {
+            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
+            try
+            {
+                resultado = Servicio.getPromedioEdadPaciente();
+            }
+            catch (Exception ex)
+            {
+
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+        #endregion
+
+        #region REPORTE #3 - Promedio de citas por médico.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas por médico.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato double.</returns>
+        public ResultadoProceso getPromedioCitasPorMedico()
+        {
+            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
+            try
+            {
+                resultado = Servicio.getPromedioCitasPorMedico();
+            }
+            catch (Exception ex)
+            {
+
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+        #endregion
+
         #region REPORTE #4 - Promedio de recursos disponibles en un tiempo determinado.
         /// <summary>
         /// Método utilizado para obtener el promedio de recursos disponibles en un periodo de tiempo seleccionado por el usuario.
@@ -155,6 +151,27 @@ namespace DoctorWebASP.Controllers
                 resultado.Mensaje = ex.Message;
             }
             return Json(new { resultado });
+        }
+        #endregion
+
+        #region REPORTE #5 - Promedio de uso de la aplicación
+        /// <summary>
+        /// Método utilizado para obtener el promedio de uso de la aplicación.
+        /// </summary>
+        /// <returns>Returna un tipo de dato double.</returns>
+        public ResultadoProceso getPromedioUsoApp()
+        {
+            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
+            try
+            {
+                resultado = Servicio.getPromedioUsoApp();
+            }
+            catch (Exception ex)
+            {
+
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
         }
         #endregion
 

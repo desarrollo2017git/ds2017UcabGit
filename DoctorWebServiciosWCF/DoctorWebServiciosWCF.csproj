@@ -81,7 +81,6 @@
     <Compile Include="Helpers\Fabrica.cs" />
     <Compile Include="Helpers\Extensiones.cs" />
     <Compile Include="Helpers\Utilidades.cs" />
-    <Compile Include="Controllers\ReporteController.cs" />
     <Compile Include="Migrations\201707190641571_init.cs" />
     <Compile Include="Migrations\201707190641571_init.Designer.cs">
       <DependentUpon>201707190641571_init.cs</DependentUpon>

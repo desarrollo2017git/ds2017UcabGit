@@ -32,7 +32,7 @@
                             <span class="info-box-text">Promedio de edad<br />de los pacientes.</span>
                             @if (Model.resultadoProcesoR2.SinProblemas)
                             {
-                                <span class="info-box-number"><small>El promedio es de:</small> @Model.promedioEdadPacientes <small>años.</small></span>
+                                <span class="info-box-number"><small>El promedio es de:</small> @Model.resultadoProcesoR2.Mensaje <small>años.</small></span>
                             }
                             else
                             {
@@ -51,7 +51,7 @@
                             <span class="info-box-text">Promedio de citas por médico.</span>
                             @if (Model.resultadoProcesoR3.SinProblemas)
                             {
-                                <span class="info-box-number"><small>El promedio es de:</small> @Model.promedioCitasPorMedico <small>citas.</small></span>
+                                <span class="info-box-number"><small>El promedio es de:</small> @Model.resultadoProcesoR3.Mensaje <small>citas.</small></span>
                             }
                             else
                             {
@@ -70,7 +70,7 @@
                             <span class="info-box-text">Promedio uso a la aplicación.</span>
                             @if (Model.resultadoProcesoR5.SinProblemas)
                             {
-                                <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
+                                <span class="info-box-number"><small>El promedio es de: </small>@Model.resultadoProcesoR5.Mensaje</span>
                             }
                             else
                             {
