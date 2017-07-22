@@ -8,19 +8,17 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    public class CitasDAO : DAO<Cita>, ICitasConsultasDAO
-    {
-        public CitasDAO() : base()
-        {
-            coleccion = db.Citas;
-        }
 
+    using Modelo = Cita;
+
+    public class CitasDAO : DAO<Modelo>, ICitasDAO
+    {
         /// <summary>
         /// Metodo del Data Access Object utilizado para eliminar Citas. 
         /// </summary>
         /// <param name="cita">Cita que se desea eliminar</param>
         /// <param name="calendario">Calendario para devolver la disponibilidad</param>
-        public void EliminarCita(Cita cita, Calendario calendario)
+        public void EliminarCita(Modelo cita, Calendario calendario)
         {
             var notificacionDAO = Fabrica.CrearNotificacionDAO();
             try
@@ -55,7 +53,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="cita">Cita que se desea guardar</param>
         /// <param name="calendario">Calendario para setear la disponibilidad</param>
-        public void GuardarCita(Cita cita, Calendario calendario)
+        public void GuardarCita(Modelo cita, Calendario calendario)
         {
             // Colocamos la Fecha Reservada como NO disponible
             calendario.Disponible = 0;
@@ -66,13 +64,20 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
             // Procedemos a actualizar la disponibilidad del calendario
             // Para esto, debemos recuperar el objeto en la base de datos
-            // luego cambiamos su contenido por el del calendario que recibimos cuya disponibilidad es 0
-            var calendarioToMod = db.Calendarios.Single(c => c.CalendarioId == calendario.CalendarioId);
-            db.Entry(calendarioToMod).CurrentValues.SetValues(calendario);
-            
-            // Guardamos los cambios en la BD
-            db.SaveChanges();
+            // luego cambiamos su contenido por el del calendario que recibimos cuya disponibilidad es 0            
 
+            //var calendarioToMod = db.Calendarios.Single(c => c.CalendarioId == calendario.CalendarioId);
+            //db.Entry(calendarioToMod).CurrentValues.SetValues(calendario);
+
+            // Guardamos los cambios en la BD
+            //db.SaveChanges();
+
+            // Probar.
+            // NOTA: Puedes agregar esta fabrica como una propiedad y usarla en mas de un metodo.
+            var daoCalentario = Fabrica.CrearDAO<Calendario>();
+            daoCalentario.Actualizar(calendario, registro => registro.CalendarioId == calendario.CalendarioId);
+
+            // NOTA: Igual aca
             var notificacionDAO = Fabrica.CrearNotificacionDAO();
             try
             {
@@ -103,7 +108,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="id">Identificar de la cita</param>
         /// <returns>Cita</returns>
-        public Cita ObtenerCita(int id)
+        public Modelo ObtenerCita(int id)
         {
             return ObtenerTodos().Include(c => c.Calendario).Include(c => c.CentroMedico).Include(c => c.Paciente).Where(c => c.CitaId == id).Single();
         }
@@ -174,7 +179,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="userId">Identificador de usuario del paciente</param>
         /// <returns>Lista de citas</returns>
-        public List<Cita> ObtenerListaCitas(string userId)
+        public List<Modelo> ObtenerListaCitas(string userId)
         {
             return ObtenerTodos().Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Paciente.ApplicationUserId == userId).ToList();
         }
@@ -184,7 +189,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="userId">Identificador de usuario del medico</param>
         /// <returns>Lista de citas</returns>
-        public List<Cita> ObtenerCitasDoctor(string userId)
+        public List<Modelo> ObtenerCitasDoctor(string userId)
         {
             return ObtenerTodos().Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
         }
@@ -195,7 +200,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Lista de centros medicos</returns>
         public List<CentroMedico> ObtenerSelectListCentrosMedicos()
         {
-            return db.CentrosMedicos.ToList();
+            var dao = Fabrica.CrearDAO<CentroMedico>();
+            return dao.ObtenerTodos().ToList();
         }
         
         /// <summary>

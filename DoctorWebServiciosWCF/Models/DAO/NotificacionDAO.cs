@@ -5,19 +5,13 @@ using System.Linq;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
+    using Modelo = Notificacion;
+
     /// <summary>
     /// Clase DAO de Notificaciones, una instancia permite interactuar con la Base de Datos.
     /// </summary>
-    public class NotificacionDAO : DAO<Notificacion>, INotificacionDAO
+    public class NotificacionDAO : DAO<Modelo>, INotificacionDAO
     {
-        /// <summary>
-        /// Inicializa la una instancia NotificacionDAO con la coleccion adecuada.
-        /// </summary>
-        public NotificacionDAO():base()
-        {
-            coleccion = db.Notificaciones;
-        }
-
         /// <summary>
         /// Este medoto permite obtener las notificaciones paginando segun se indique y filtrando por el nombre si es necesario.
         /// </summary>
@@ -26,14 +20,14 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <param name="pagina">Numero de pagina que se esta solicitando.</param>
         /// <param name="cantidadFilas">Cantidad de registros por pagina.</param>
         /// <returns>Lista de notificaciones, puede estar vacia en caso de no encontrar.</returns>
-        public List<Notificacion> ObtenerTodos(out int cantidadPaginas, string nombre = null, int pagina = 0, int numeroFilas = 30)
+        public List<Modelo> ObtenerTodos(out int cantidadPaginas, string nombre = null, int pagina = 0, int numeroFilas = 30)
         {
             try
             {
                 var cantidadRegistros = Contar();
                 cantidadPaginas = (int)Math.Ceiling(cantidadRegistros / (double)numeroFilas);
 
-                IQueryable<Notificacion> consulta = ObtenerTodos()
+                IQueryable<Modelo> consulta = ObtenerTodos()
                     .OrderBy(notificacion => notificacion.Nombre);
 
                 if (!String.IsNullOrEmpty(nombre))
@@ -64,7 +58,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         {
             try
             {
-                var notificacion = ObtenerPrimero(codigo);
+                var notificacion = ObtenerPrimeroQue(registro => registro.NotificacionId == codigo);
                 message = null;
                 if (notificacion != null)
                 {
@@ -89,12 +83,12 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="notificacion">Notificacion a guardar</param>
         /// <returns>Indica si finalizo correctamente o no.</returns>
-        public bool Guardar(Notificacion notificacion)
+        public bool Guardar(Modelo notificacion)
         {
             try
             {
                 if (notificacion.NotificacionId > 0)
-                    Actualizar(notificacion, notificacion.NotificacionId);
+                    Actualizar(notificacion, registro => registro.NotificacionId == notificacion.NotificacionId);
                 else
                     Crear(notificacion);
                 return true;                
@@ -114,7 +108,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="codigo">Nombre de la notificacion.</param>
         /// <returns>Retorna la notificacion en caso de encontrar registro, si no es nulo.</returns>
-        public Notificacion Obtener(string nombre)
+        public Modelo Obtener(string nombre)
         {
             try
             {
@@ -140,11 +134,11 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// </summary>
         /// <param name="codigo">Codigo de la notificacion.</param>
         /// <returns>Retorna la notificacion en caso de encontrar registro, si no es nulo.</returns>
-        public Notificacion Obtener(int codigo)
+        public Modelo Obtener(int codigo)
         {
             try
             {
-                Notificacion notificacion = ObtenerPrimero(codigo);
+                var notificacion = ObtenerPrimeroQue(registro => registro.NotificacionId == codigo);
 
                 if (notificacion == null)
                     throw Fabrica.CrearExcepcion(mensaje: "No se encontro el registro que busca");

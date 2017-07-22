@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
@@ -36,14 +37,14 @@ namespace DoctorWebServiciosWCF.Models.Command
                     throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOActualizar, segundo parametro no es valido. se espera un DbSet<T>.");
 
                 object datos = args[2];
-                
-                object[] keys = null;
-                if (args[3] is object[])
-                    keys = (object[])args[3];
-                else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOActualizar, cuarto parametro no es valido. se espera un arreglo de objetos.");
 
-                var registro = db.Notificaciones.Find(keys);
+                Expression<Func<T, bool>> exprecion;
+                if (args[3] is Expression<Func<T, bool>>)
+                    exprecion = (Expression<Func<T, bool>>)args[3];
+                else
+                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOActualizar, cuarto parametro no es valido, se espera un Expression<Func<T2, bool>>.");
+
+                var registro = coleccion.Single(exprecion);
                 if (registro != null)
                 {
                     db.Entry(registro).CurrentValues.SetValues(datos);
