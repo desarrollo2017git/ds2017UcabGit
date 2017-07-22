@@ -189,6 +189,50 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        /// <summary>
+        /// Metodo en el cliente utilizado para obtener una lista de todos
+        /// los centros medicos
+        /// </summary>
+        /// <returns>SelectList</returns>
+        public List<ObservacionMedica> ObtenerListaObservacionMedica()
+        {
+            //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
+
+
+                var action = "ObtenerListaObservacionMedica";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                //request.AddQueryParameter("userId", userId);
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<ObservacionMedica>>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        List<ObservacionMedica> selectList = new List<ObservacionMedica>(resultado.Contenido);
+                        return selectList;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
 
     }
 }

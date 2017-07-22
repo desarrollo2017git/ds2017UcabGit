@@ -23,5 +23,8 @@ namespace DoctorWebASP.Models.Services
         // Metodo del cliente que realiza el llamado para eliminar una observacion medica
         void EliminarObservacionMedica(ObservacionMedica observacionMedica);
 
+        // Metodo en el cliente utilizado para obtener una lista de todas las observaciones medicas
+        List<ObservacionMedica> ObtenerListaObservacionMedica();
+
     }
 }

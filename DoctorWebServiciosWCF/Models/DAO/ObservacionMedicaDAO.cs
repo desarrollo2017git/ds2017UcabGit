@@ -83,6 +83,16 @@ namespace DoctorWebServiciosWCF.Models.DAO
             db.SaveChanges();
         }
 
+        /// <summary>
+        /// Metodo del DAO para obtener una lista de las observaciones medicas
+        /// </summary>
+        /// <returns>Lista de observaciones medicas</returns>
+        public List<ObservacionMedica> ObtenerListaObservacionMedica()
+        {
+            var dao = Fabrica.CrearDAO<ObservacionMedica>();
+            return dao.ObtenerTodos().ToList();
+        }
+
 
     }
 }

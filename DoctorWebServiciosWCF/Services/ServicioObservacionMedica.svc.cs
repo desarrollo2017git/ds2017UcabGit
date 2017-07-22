@@ -98,5 +98,24 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web para obtener la lista de observacion medica
+        /// </summary>
+        /// <returns>Resultado servicio lista de observaciones</returns>
+        public ResultadoServicio<List<ObservacionMedica>> ObtenerListaObservacionMedica()
+        {
+            var resultado = new ResultadoServicio<List<ObservacionMedica>>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerListaObservacionMedica());
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
+
     }
 }

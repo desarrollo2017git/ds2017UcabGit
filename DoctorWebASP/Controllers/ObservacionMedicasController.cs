@@ -1,12 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
+using System.Collections.Generic;
 
 namespace DoctorWebASP.Controllers
 {
@@ -14,11 +16,24 @@ namespace DoctorWebASP.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public IServicioObservacionMedica consulta { get; set; }
+        public ObservacionMedicasController(): this(new ServicioObservacionMedica()) {
+        }
+
+        public ObservacionMedicasController(ServicioObservacionMedica db)
+        {
+            this.consulta = db;
+        }
+
         // GET: ObservacionMedicas
+        [Authorize]
         public ActionResult Index()
         {
-            return View(db.ObservacionMedicas.ToList());
+            return View(consulta.ObtenerListaObservacionMedica());
+           // return View(db.ObservacionMedicas.ToList());
         }
+
+  
 
         // GET: ObservacionMedicas/Details/5
         public ActionResult Details(int? id)
@@ -82,7 +97,7 @@ namespace DoctorWebASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(observacionMedica).State = EntityState.Modified;
+               // db.Entry(observacionMedica).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

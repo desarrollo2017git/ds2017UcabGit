@@ -245,6 +245,14 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
+    <Compile Include="Migrations\201707221407550_nuevamigracion.cs" />
+    <Compile Include="Migrations\201707221407550_nuevamigracion.Designer.cs">
+      <DependentUpon>201707221407550_nuevamigracion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707221609129_nuevamigracion2.cs" />
+    <Compile Include="Migrations\201707221609129_nuevamigracion2.Designer.cs">
+      <DependentUpon>201707221609129_nuevamigracion2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Services\IServicioObservacionMedica.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
@@ -1387,6 +1395,14 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707221407550_nuevamigracion.resx">
+      <DependentUpon>201707221407550_nuevamigracion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707221609129_nuevamigracion2.resx">
+      <DependentUpon>201707221609129_nuevamigracion2.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

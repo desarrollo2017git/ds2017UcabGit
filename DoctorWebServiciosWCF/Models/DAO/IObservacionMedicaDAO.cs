@@ -15,5 +15,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         void GuardarObservacionMedica(ObservacionMedica observacionMedica);
         // Metodo del DAO utilizado para eliminar Observaciones Medicas
         void EliminarObservacionMedica(ObservacionMedica observacionMedica);
+        // Metodo del DAO para obtener una lista de las observaciones medicas
+        List<ObservacionMedica> ObtenerListaObservacionMedica();
     }
 }
