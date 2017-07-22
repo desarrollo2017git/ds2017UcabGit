@@ -6,25 +6,22 @@ using System.Web;
 
 namespace DoctorWebASP.Models
 {
+    /// <summary>
+    /// Clase de las citas del centro medico del lado del cliente.
+    /// </summary>
     public class Cita
     {
+       //Identificador
         public int CitaId { get; set; }
-
+        //Atributo Paciente para el mapeo del Entity Framework (EF)
         public virtual Paciente Paciente { get; set; }
+        //Atributo Calendario para el mapeo del Entity Framework (EF)
         public virtual Calendario Calendario { get; set; }
+        //Atributo Centro medico para el mapeo del Entity Framework (EF)
         public virtual CentroMedico CentroMedico { get; set; }
+        //Atributo Coleccion de tratamientos para el mapeo del Entity Framework (EF)
         public virtual ICollection<Tratamiento> Tratamientos { get; set; }
 
-        private ApplicationDbContext db = new ApplicationDbContext();
-
-        public Boolean isDoctor(string id)
-        {
-            var user = db.Personas.OfType<Medico>().Where(p => p.ApplicationUser.Id == id);
-            if (user == null)
-            {
-                return false;
-            }
-            return true;
-        }
+       
     }
 }
