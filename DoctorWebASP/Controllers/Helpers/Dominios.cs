@@ -36,6 +36,18 @@ namespace DoctorWebASP.Controllers.Helpers
     }
     #endregion
 
+
+    /// <summary>
+    /// Etiquetas usadas en los tipos de notificaciones.
+    /// </summary>
+    public enum EnumDoctorWebTipoNotificacion
+    {
+        info,
+        danger,
+        success,
+        warning
+    }
+
     /// <summary>
     /// Etiquetas usadas en las variables de sesion.
     /// </summary>
@@ -60,7 +72,8 @@ namespace DoctorWebASP.Controllers.Helpers
         #region Grupo 09
         #endregion
         #region Comun
-        Error
+        Notificacion,
+        TipoNotificacion
         #endregion
     }
 

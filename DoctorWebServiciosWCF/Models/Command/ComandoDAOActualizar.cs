@@ -8,8 +8,16 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
+    /// <summary>
+    /// Este comando permite actualizar usando el ORM.
+    /// </summary>
     public class ComandoDAOActualizar : IComandoDAO
     {
+        /// <summary>
+        /// Accion de actualizar registro en base de datos.
+        /// </summary>
+        /// <typeparam name="T">Tipo de coleccion</typeparam>
+        /// <param name="args">Parametros necesarios.</param>
         public void Ejecutar<T>(params object[] args)
             where T : class
         {

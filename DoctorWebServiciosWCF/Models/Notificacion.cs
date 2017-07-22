@@ -12,29 +12,65 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
+    /// <summary>
+    /// Esta clase es una represencacion de una Notificacion segun la estructura de datos.
+    /// </summary>
     public class Notificacion
     {
+        /// <summary>
+        /// Identificador de notificacion.
+        /// </summary>
         public int NotificacionId { get; set; }
+
+        /// <summary>
+        /// Estado de la notificacion.
+        /// </summary>
         [Required]
         public NotificacionEstado Estado { get; set; }
+        
+        /// <summary>
+        /// Nombre de la notificacion.
+        /// </summary>
         [Required]
         [StringLength(60)]
         public string Nombre { get; set; }
+
+        /// <summary>
+        /// Descripcion de la notificacion.
+        /// </summary>
         [Required]
         [StringLength(255)]
         public string Descripcion { get; set; }
+
+        /// <summary>
+        /// Asunto de la notificacion.
+        /// </summary>
         [Required]
         [StringLength(128)]
         public string Asunto { get; set; }
+        
+        /// <summary>
+        /// Contenido de a notificacion.
+        /// </summary>
         [Required]
         public string Contenido { get; set; }
 
+        /// <summary>
+        /// Este metodo permite enviar la notificacion indicando el destinatario y de ser necesario los parametros al contenido.
+        /// </summary>
+        /// <param name="destinatario">A quien se envia la notificacion.</param>
+        /// <param name="parametros">Datos a reemplazar en el conenido</param>
         public void Enviar(string destinatario, object parametros = null)
         {
             var direccion = new MailAddress(destinatario);
             this.Enviar(new[] { direccion }, parametros);
         }
 
+        /// <summary>
+        /// Este metodo permite enviar la notificacion indicando varios destinatarios y de ser necesario los parametros al contenido.
+        /// </summary>
+        /// <param name="destinatario">A quienes se envia la notificacion.</param>
+        /// <param name="parametros">Datos a reemplazar en el conenido</param>
         public void Enviar(string[] destinatarios, object parametros = null)
         {
             List<MailAddress> direcciones = new List<MailAddress>();
@@ -47,6 +83,11 @@ namespace DoctorWebServiciosWCF.Models
             this.Enviar(direcciones.ToArray(), parametros);
         }
 
+        /// <summary>
+        /// Este metodo permite enviar la notificacion indicando varios destinatarios y de ser necesario los parametros al contenido.
+        /// </summary>
+        /// <param name="destinatario">A quienes se envia la notificacion.</param>
+        /// <param name="parametros">Datos a reemplazar en el conenido</param>
         private void Enviar(MailAddress[] destinatarios, object parametros = null)
         {
             if (Estado == NotificacionEstado.Disponible)
@@ -102,6 +143,9 @@ namespace DoctorWebServiciosWCF.Models
         }
     }
 
+    /// <summary>
+    /// Conjunto de valores posibles de Estado de una notificacion.
+    /// </summary>
     public enum NotificacionEstado : byte
     {
         Disponible, Borrada

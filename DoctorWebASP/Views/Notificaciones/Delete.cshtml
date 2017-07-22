@@ -1,4 +1,5 @@
 ﻿@using DoctorWebASP.Controllers.Helpers
+
 @model DoctorWebASP.Models.Notificacion
 @{
     ViewData.IndicarPaginaActual(EnumDoctorWebPagina.Notificaciones);
@@ -42,11 +43,11 @@
             </div>
         </div>
         <div class="box-body">
-            if (@ViewData.HayError())
+            @if (ViewData.HayNotificacion())
             {
-            <div class="alert alert-danger alert-dismissible" role="alert">
+            <div class="alert alert-@ViewData.TipoNotificacion() alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <strong>Error!</strong> @ViewData.Error()
+                <strong>Aviso!</strong> @ViewData.Notificacion()
             </div>
             }
 

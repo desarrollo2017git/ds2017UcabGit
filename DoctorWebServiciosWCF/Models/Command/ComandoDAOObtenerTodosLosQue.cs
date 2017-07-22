@@ -8,15 +8,24 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
+    /// <summary>
+    /// Comando para obtener todos los registros que cumplen con una condicion.
+    /// </summary>
+    /// <typeparam name="T2"></typeparam>
     public class ComandoDAOObtenerTodosLosQue<T2> : IComandoDAOConResultado
         where T2 : class
     {
+        /// <summary>
+        /// Accion de obtener todos los registro en base de datos segun una condicion.
+        /// </summary>
+        /// <typeparam name="T">Tipo de coleccion</typeparam>
+        /// <param name="args">Parametros necesarios.</param>
         public T Ejecutar<T>(params object[] args) where T : class
         {
             if (args.Length == 2)
             {
                 DbSet<T2> coleccion;
-                if (args[0] is DbSet)
+                if (args[0] is DbSet<T2>)
                     coleccion = (DbSet<T2>)args[0];
                 else
                     throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodosLosQue, primer parametro no es valido, se espera un DbSet.");
@@ -26,8 +35,7 @@ namespace DoctorWebServiciosWCF.Models.Command
                     exprecion = (Expression<Func<T2, bool>>)args[1];
                 else
                     throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodosLosQue, segundo parametro no es valido, se espera un Expression<Func<T2, bool>>.");
-
-
+                
                 return (T)coleccion.Where(exprecion);
             }
             else

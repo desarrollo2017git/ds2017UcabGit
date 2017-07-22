@@ -292,7 +292,7 @@ function _init() {
         }
         return;
       } else if (typeof $.fn.slimScroll == 'undefined' && window.console) {
-        window.console.error("Error: the fixed layout requires the slimscroll plugin!");
+        window.console.error("Notificacion: the fixed layout requires the slimscroll plugin!");
       }
       //Enable slimscroll for fixed layout
       if ($.AdminLTE.options.sidebarSlimScroll) {

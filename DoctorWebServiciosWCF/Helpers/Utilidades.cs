@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Web;
-using DoctorWebServiciosWCF.Models;
-using Newtonsoft.Json;
 
 namespace DoctorWebServiciosWCF.Controllers.Helpers
 {
@@ -16,34 +12,6 @@ namespace DoctorWebServiciosWCF.Controllers.Helpers
             if (String.IsNullOrEmpty(path))
                 throw new KeyNotFoundException(String.Format("No se encuentro la clave ({0}) en el archivo de configuracion.", key));
             return path;
-        }
-
-        internal static T Procesar<T>(T dato)
-        {
-            var jSon = JsonConvert.SerializeObject(dato, Formatting.Indented,
-                new JsonSerializerSettings
-                {
-                    PreserveReferencesHandling = PreserveReferencesHandling.Objects
-                });
-            return JsonConvert.DeserializeObject<T>(jSon);
-        }
-    }
-
-    public class CustomException : Exception
-    {
-        public CustomException() : base()
-        {
-
-        }
-
-        public CustomException(string message) : base(message)
-        {
-
-        }
-
-        public CustomException(String message, Exception innerException) : base(message, innerException)
-        {
-
         }
     }
 }

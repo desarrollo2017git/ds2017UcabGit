@@ -2,8 +2,6 @@
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
-using System.ServiceModel.Web;
-using System.Net;
 using System.Collections.Generic;
 using Newtonsoft;
 using Newtonsoft.Json;
