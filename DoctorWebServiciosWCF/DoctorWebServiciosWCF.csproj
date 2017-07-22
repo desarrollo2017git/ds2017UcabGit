@@ -101,7 +101,6 @@
     <Compile Include="Models\Command\ComandoDAOObtenerPrimeroQue.cs" />
     <Compile Include="Models\Command\ComandoDAOObtenerTodos.cs" />
     <Compile Include="Models\Command\ComandoDAOObtenerTodosLosQue.cs" />
-    <Compile Include="Models\Command\IComandoDAOConResultado.cs" />
     <Compile Include="Models\Command\IComandoDAO.cs" />
     <Compile Include="Models\Command\IComandoDAOConResultado.cs" />
     <Compile Include="Models\DAO\CalendariosDAO.cs" />

@@ -3,8 +3,6 @@ using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
 using System.Collections.Generic;
-using Newtonsoft;
-using Newtonsoft.Json;
 using DoctorWebServiciosWCF.Controllers.Helpers;
 using System.Linq;
 

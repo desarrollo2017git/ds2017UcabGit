@@ -35,15 +35,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch {}
 
+            // Hay que cambiarlo a comando
             calendario.Disponible = 1;
             var calendarioToMod = db.Calendarios.Single(c => c.CalendarioId == calendario.CalendarioId);
             db.Entry(calendarioToMod).CurrentValues.SetValues(calendario);
 
-            var citaToMod = db.Citas.Single(c => c.CitaId == cita.CitaId);
-            db.Citas.Remove(citaToMod);
+            //var citaToMod = ObtenerTodos().Single(c => c.CitaId == cita.CitaId);
+            var citaToMod = ObtenerPrimeroQue(c => c.CitaId == cita.CitaId);
+            Borrar(citaToMod);
             db.SaveChanges();
 
-            //var calendariosDao = Fabrica.CrearCalendariosDAO();
+            var calendariosDao = Fabrica.CrearCalendariosDAO();
             //calendario.Disponible = 1;
             //calendariosDao.Actualizar(calendario, calendario.CalendarioId);
         }
@@ -103,7 +105,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Cita</returns>
         public Cita ObtenerCita(int id)
         {
-            return db.Citas.Include(c => c.Calendario).Include(c => c.CentroMedico).Include(c => c.Paciente).Where(c => c.CitaId == id).Single();
+            return ObtenerTodos().Include(c => c.Calendario).Include(c => c.CentroMedico).Include(c => c.Paciente).Where(c => c.CitaId == id).Single();
         }
 
         /// <summary>
@@ -174,7 +176,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Lista de citas</returns>
         public List<Cita> ObtenerListaCitas(string userId)
         {
-            return db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Paciente.ApplicationUserId == userId).ToList();
+            return ObtenerTodos().Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Paciente.ApplicationUserId == userId).ToList();
         }
 
         /// <summary>
@@ -184,7 +186,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Lista de citas</returns>
         public List<Cita> ObtenerCitasDoctor(string userId)
         {
-            return db.Citas.Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
+            return ObtenerTodos().Include(c => c.CentroMedico).Include(c => c.Paciente).Include(c => c.Calendario).Where(c => c.Calendario.Medico.ApplicationUserId == userId).ToList();
         }
         
         /// <summary>
