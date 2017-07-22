@@ -26,14 +26,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <param name="condicion">Funcion utilizada como criterio para filtrar.</param>
         /// <returns>Retorna la coleccion una vez filtrada.</returns>
         IQueryable<T> ObtenerTodosLosQue(Expression<Func<T, bool>> condicion);
-
-        /// <summary>
-        /// Este metodo ejecuta un comando para obtener una instancia filtrando con las claves indicadas.
-        /// </summary>
-        /// <param name="claves">Utilizada para filtrar</param>
-        /// <returns>Retorna una instancia de la clase base.</returns>
-        T ObtenerPrimero(params object[] keys);
-
+                
         /// <summary>
         /// Este metodo ejecuta un comando para obtener una instancia filtrando con condicion indicada.
         /// </summary>
@@ -63,6 +56,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// Este metodo permite actualizar la instancia indicada en la base de datos.
         /// </summary>
         /// <param name="datos">Instancia a actualizar enla base de datos.</param>
-        void Actualizar(object datos, params object[] keys);
+        void Actualizar(object datos, Expression<Func<T, bool>> condicion);
     }
 }

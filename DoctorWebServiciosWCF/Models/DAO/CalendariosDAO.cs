@@ -7,10 +7,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
 {
     public class CalendariosDAO : DAO<Calendario>, ICalendariosDAO
     {
-        public CalendariosDAO() : base()
-        {
-            coleccion = db.Calendarios;
-        }
 
         public void Actualizar(Calendario calendario, int calendarioId)
         {

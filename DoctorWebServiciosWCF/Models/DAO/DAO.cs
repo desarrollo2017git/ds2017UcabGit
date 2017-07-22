@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Models.Command;
+﻿using DoctorWebServiciosWCF.Helpers;
+using DoctorWebServiciosWCF.Models.Command;
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
 using System.Collections.Generic;
@@ -23,23 +24,27 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <summary>
         /// Referencia a la que se aplican las primitivas definidas.
         /// </summary>
-        protected DbSet<T> coleccion { get; set; }
+        private DbSet<T> coleccion { get; set; }
 
         /// <summary>
         /// Constructor por defecto de la clase DAO.
         /// </summary>
-        public DAO(): this(coleccion: null)
-        {
-        }
-
-        /// <summary>
-        /// Constructor utilizado para inicializar la coleccion de la instancia.
-        /// </summary>
-        /// <param name="coleccion">Referenca a datos de Entity Framework.</param>
-        public DAO(DbSet<T> coleccion)
+        public DAO()
         {
             db = new ContextoBD();
-            this.coleccion = coleccion;
+
+            foreach (var property in db.GetType().GetProperties())
+            {
+                var genericTypes = property.PropertyType.GenericTypeArguments;
+                if (genericTypes != null && genericTypes.Contains(typeof(T)))
+                {
+                    this.coleccion = (DbSet<T>)property.GetValue(db);
+                    break;
+                }
+
+            }
+            if (this.coleccion == null)
+                throw Fabrica.CrearExcepcion($"No se detecto un DbSet asociado a {typeof(T).FullName}");
         }
 
         /// <summary>
@@ -62,18 +67,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             IComandoDAOConResultado comando = new ComandoDAOObtenerTodosLosQue<T>();
             return comando.Ejecutar<IQueryable<T>>(coleccion, condicion);
         }
-
-        /// <summary>
-        /// Este metodo ejecuta un comando para obtener una instancia filtrando con las claves indicadas.
-        /// </summary>
-        /// <param name="claves">Utilizada para filtrar</param>
-        /// <returns>Retorna una instancia de la clase base.</returns>
-        public T ObtenerPrimero(params object[] claves)
-        {
-            IComandoDAOConResultado comando = new ComandoDAOObtenerPrimero();
-            return comando.Ejecutar<T>(coleccion, claves);
-        }
-
+        
         /// <summary>
         /// Este metodo ejecuta un comando para obtener una instancia filtrando con condicion indicada.
         /// </summary>
@@ -120,10 +114,10 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// Este metodo permite actualizar la instancia indicada en la base de datos.
         /// </summary>
         /// <param name="datos">Instancia a actualizar enla base de datos.</param>
-        public void Actualizar(object datos, params object[] keys)
+        public void Actualizar(object datos, Expression<Func<T, bool>> condicion)
         {
             IComandoDAO actualizar = new ComandoDAOActualizar();
-            actualizar.Ejecutar<T>(db, coleccion, datos, keys);
+            actualizar.Ejecutar<T>(db, coleccion, datos, condicion);
         }
     }
 }
