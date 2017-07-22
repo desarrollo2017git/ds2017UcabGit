@@ -61,6 +61,8 @@ namespace DoctorWebServiciosWCF.Services
                         case 5:
                             break;
                         case 6:
+                            comprobarFecha(fechaInicio, fechaFin);
+                            resultado.Inicializar(dao.getPromedioCitasCanceladasPorMedico(fechaInicio, fechaFin).ToString());
                             break;
                     }
                 }

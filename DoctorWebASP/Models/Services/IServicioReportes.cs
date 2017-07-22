@@ -14,6 +14,6 @@ namespace DoctorWebASP.Models.Services
         double getPromedioCitasPorMedico();
         ResultadoProceso getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr);
         double getPromedioUsoApp();
-        double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
+        ResultadoProceso getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
     }
 }

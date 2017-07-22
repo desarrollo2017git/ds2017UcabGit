@@ -157,6 +157,31 @@ namespace DoctorWebASP.Controllers
             return Json(new { resultado });
         }
         #endregion
+
+        #region REPORTE #6 - Promedio de citas canceladas por médico en un tiempo determinado
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas canceladas por médico en un periodo de tiempo seleccionado por el usuario.
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
+        [HttpPost]
+        public ActionResult getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
+        {
+            var resultado = Fabrica.CrearResultadoProceso();
+
+            try
+            {
+                resultado = Servicio.getPromedioCitasCanceladasPorMedico(fechaInicioStr, fechaFinStr);
+            }
+            catch (Exception ex)
+            {
+
+                resultado.Mensaje = ex.Message;
+            }
+            return Json(new { resultado });
+        }
+        #endregion
         #endregion
     }
 }

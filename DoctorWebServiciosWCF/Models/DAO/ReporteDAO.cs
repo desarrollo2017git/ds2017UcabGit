@@ -47,7 +47,51 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DateTime dtFechaInicio = DateTime.Parse(fechaInicioStr, CultureInfo.InvariantCulture);
+                DateTime dtFechaFin = DateTime.Parse(fechaFinStr, CultureInfo.InvariantCulture);
+
+                double? cantidadCitasCanceladas = (from c in db.Calendarios
+                                                   where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
+                                                   select c).Count();
+                double? cantidadMedicos = (from p in db.Personas
+                                           where p is Medico
+                                           select p).Count();
+
+                if (cantidadCitasCanceladas == null || cantidadMedicos == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadMedicos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)cantidadCitasCanceladas / (double)cantidadMedicos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
         }
 
         public double getPromedioCitasPorMedico()

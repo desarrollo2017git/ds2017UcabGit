@@ -51,9 +51,43 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-        public double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
+        public ResultadoProceso getPromedioCitasCanceladasPorMedico(string fechaInicio, string fechaFin)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
+
+                var accion = "Reportes";
+                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/6";
+                var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
+                if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
+                    throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+                solicitud.AddQueryParameter("fechaInicio", fechaInicio);
+                solicitud.AddQueryParameter("fechaFin", fechaFin);
+
+                var respuesta = cliente.Execute(solicitud);
+
+                if (respuesta != null && respuesta.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(respuesta.Content);
+                    var resultado = datos[$"{accion}Result"].ToObject<ResultadoProceso>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado;
+                    }
+                    else
+                        throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
+                }
+                throw Fabrica.CrearExcepcion(mensaje: "No finalizo correctamente");
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
         }
 
         public double getPromedioCitasPorMedico()
@@ -68,7 +102,6 @@ namespace DoctorWebASP.Models.Services
 
         public ResultadoProceso getPromedioRecursosDisponibles(string fechaInicio, string fechaFin)
         {
-
             try
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
