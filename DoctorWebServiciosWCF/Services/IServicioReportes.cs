@@ -18,7 +18,7 @@ namespace DoctorWebServiciosWCF.Services
         string DoWork(string codigo);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/reportes/{tipo}/{codigo}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso Reportes(string tipo, string codigo);
+        [WebGet(UriTemplate = "/reportes/{tipo}/{codigo}?fechaInicio={fechaInicio}&fechaFin={fechaFin}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin);
     }
 }

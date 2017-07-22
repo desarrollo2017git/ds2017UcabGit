@@ -245,8 +245,10 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
+    <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
+    <Compile Include="Models\Services\IServicioReportes.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -276,6 +278,7 @@
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicio.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
+    <Compile Include="Models\Services\ServicioReportes.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -23,6 +23,15 @@ namespace DoctorWebServiciosWCF.Helpers
         }
 
         /// <summary>
+        /// Permite crear una instancia dao reportes.
+        /// </summary>
+        /// <returns>returna una instancia dao reportes.</returns>
+        internal static IReporteDAO CrearReporteDAO()
+        {
+            return new ReporteDAO();
+        }
+
+        /// <summary>
         /// Utilidad para crear excepciones
         /// </summary>
         /// <param name="mensaje">Mensaje de la excepcion.</param>

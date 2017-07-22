@@ -43,7 +43,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 }
 
             }
-            if (this.coleccion == null)
+            if (this.coleccion == null && typeof(T).FullName != "DoctorWebServiciosWCF.Models.Reporte")
                 throw Fabrica.CrearExcepcion($"No se detecto un DbSet asociado a {typeof(T).FullName}");
         }
 

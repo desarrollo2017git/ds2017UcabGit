@@ -2,7 +2,7 @@
 @model DoctorWebASP.ViewModels.ReportesIndexViewModel
 @{
     ViewBag.Title = "Reportes";
-    ViewData.indicarPaginaActual(MenuPaginas.Reportes);
+    ViewData.IndicarPaginaActual(EnumDoctorWebPagina.Reportes);
 }
 
 <!-- Content Header (Page header) -->
@@ -68,13 +68,13 @@
 
                         <div class="info-box-content">
                             <span class="info-box-text">Promedio uso a la aplicación.</span>
-                            @if (Model.resultadoProcesoR3.SinProblemas)
+                            @if (Model.resultadoProcesoR5.SinProblemas)
                             {
                                 <span class="info-box-number"><small>El promedio es de: </small>@Model.promedioUsoApp</span>
                             }
                             else
                             {
-                            <span class="info-box-number"><small style="color: #d33724;">@Model.resultadoProcesoR3.Mensaje</small></span>
+                            <span class="info-box-number"><small style="color: #d33724;">@Model.resultadoProcesoR5.Mensaje</small></span>
                             }
                         </div>
                     </div>
@@ -188,12 +188,12 @@
                         url: "@Url.Action(actionName: "getCantidadUsuariosRegistrados", controllerName: "Reportes")",
                         data: JSON.stringify(parameters),
                         datatype: "application/json",
-                        success: function (result) {
-                            console.log(result);
-                            if (result.resultadoProceso.SinProblemas)
-                                dateRange1.parent().next().text("Hay un total de " + result.resultadoProceso.Mensaje + " usuarios registrados durante este período de tiempo.");
+                        success: function (answer) {
+                            console.log(answer);
+                            if (answer.resultado.SinProblemas)
+                                dateRange1.parent().next().text("Hay un total de " + answer.resultado.Mensaje + " usuarios registrados durante este período de tiempo.");
                             else
-                                dateRange1.parent().next().text(result.resultadoProceso.Mensaje);
+                                dateRange1.parent().next().text(answer.resultado.Mensaje);
                         },
                         error: function (xmlhttprequest, textstatus, errorthrown) {
                             alert(" conection to the server failed ");
@@ -226,13 +226,13 @@
                         url: "@Url.Action(actionName: "getPromedioRecursosDisponibles", controllerName: "Reportes")",
                         data: JSON.stringify(parameters),
                         datatype: "application/json",
-                        success: function (result) {
+                        success: function (answer) {
                             //do something
-                            console.log(result);
-                            if (result.resultadoProceso.SinProblemas)
-                                dateRange2.parent().next().text("Hay un promedio de " + result.resultadoProceso.Mensaje + " recursos disponibles durante este período de tiempo.");
+                            console.log(answer);
+                            if (answer.resultado.SinProblemas)
+                                dateRange2.parent().next().text("Hay un promedio de " + answer.resultado.Mensaje + " recursos disponibles durante este período de tiempo.");
                             else
-                                dateRange2.parent().next().text(result.resultadoProceso.Mensaje);
+                                dateRange2.parent().next().text(answer.resultado.Mensaje);
                         },
                         error: function (xmlhttprequest, textstatus, errorthrown) {
                             alert(" conection to the server failed ");
@@ -264,13 +264,13 @@
                         url: "@Url.Action(actionName: "getPromedioCitasCanceladasPorMedico", controllerName: "Reportes")",
                         data: JSON.stringify(parameters),
                     datatype: "application/json",
-                    success: function (result) {
+                    success: function (answer) {
                         //do something
-                        console.log(result);
-                        if (result.resultadoProceso.SinProblemas)
-                            dateRange3.parent().next().text("Hay un promedio de " + result.resultadoProceso.Mensaje + " citas canceladas por médico.");
+                        console.log(answer);
+                        if (answer.resultado.SinProblemas)
+                            dateRange3.parent().next().text("Hay un promedio de " + answer.resultado.Mensaje + " citas canceladas por médico.");
                         else
-                            dateRange3.parent().next().text(result.resultadoProceso.Mensaje);
+                            dateRange3.parent().next().text(answer.resultado.Mensaje);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" conection to the server failed ");

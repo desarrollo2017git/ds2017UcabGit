@@ -33,6 +33,15 @@ namespace DoctorWebASP.Controllers.Helpers
         }
 
         /// <summary>
+        /// Permite crear una instancia de servicios reportes.
+        /// </summary>
+        /// <returns>Retorna la instancia para consumir los servicios</returns>
+        internal static IServicioReportes CrearServicioReportes()
+        {
+            return new ServicioReportes();
+        }
+
+        /// <summary>
         /// Permite crear una lista vacia de notificaciones.
         /// </summary>
         /// <returns>Retorna la lista de notificaciones.</returns>
