@@ -1373,6 +1373,7 @@
     <Content Include="Views\HistoriaMedicas\NotaDeGuardiaPaciente.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
+    <Content Include="Views\Citas\DeleteFromDoctor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
