@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
             var resultado = base.ObtenerPrimeroQue(registro => registro.CentroMedicoId == centroMedicoId);
             if (resultado == null)
-                throw Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
             return resultado;
         }
 
@@ -33,11 +34,11 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
             var consulta = base.ObtenerTodos();
             if (consulta == null)
-                throw Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
 
             var resultado = consulta.ToList();
             if (resultado.Count == 0)
-                throw Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se encontro registro de Centro Medico");
 
             return resultado;
         }
@@ -59,7 +60,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public static void EjemploDeUso()
         {
-            var daoPersonalizado = Fabrica.CrearCentroMedicoDAO();
+            var daoPersonalizado = Utilidades.Instancia.Fabrica.CrearCentroMedicoDAO();
             // Esta instancia tiene las funcionalidades definidas en la interfaz,
             // las cuales tienes que implementar en la clase.
             // daoPersonalizado.ActualizarCC
@@ -69,7 +70,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             // daoPersonalizado.ObtenerTodosCC
             // Este metodo, EjemploDeUso no esta en la interfaz por tanto no se puede incovar a traves de daoPersonalizado.
 
-            var daoGenerico = Fabrica.CrearDAO<CentroMedico>();
+            var daoGenerico = Utilidades.Instancia.Fabrica.CrearDAO<CentroMedico>();
             // Esta isntancia tiene los metodos genericos ya implementados en la clase DAO.
             // daoGenerico.Actualizar
             // daoGenerico.Borrar
@@ -80,7 +81,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         // Por ultimo, si quieres o necesitas hacer un CustomDAO, lo recomendable es que crees una clase y que herede de 
         // la clase DAO, asi como se hace con CentroMedicoDAO.
-        // Si solo necesitas las primitivas, te puedes ahorrar tiempo usando Fabrica.CrearDAO<ClaseModelo>(), lo unico
+        // Si solo necesitas las primitivas, te puedes ahorrar tiempo usando Utilidades.Instancia.Fabrica.CrearDAO<ClaseModelo>(), lo unico
         // que tienes que cuidar es que la clase modelo debe tener un DbSet en ContextoDB, si no, dara una excepcion...
     }
 }

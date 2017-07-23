@@ -2,13 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models
 {
@@ -95,11 +91,11 @@ namespace DoctorWebServiciosWCF.Models
                 {
                     try
                     {
-                        var host = Utilidades.ObtenerClave("SMTPServerHost");
-                        var port = Utilidades.ObtenerClave("SMTPServerPost");
-                        var fromName = Utilidades.ObtenerClave("SMTPFromName");
-                        var user = Utilidades.ObtenerClave("SMTPUserId");
-                        var pass = Utilidades.ObtenerClave("SMTPUserPassword");
+                        var host = Utilidades.Instancia.ObtenerClave("SMTPServerHost");
+                        var port = Utilidades.Instancia.ObtenerClave("SMTPServerPost");
+                        var fromName = Utilidades.Instancia.ObtenerClave("SMTPFromName");
+                        var user = Utilidades.Instancia.ObtenerClave("SMTPUserId");
+                        var pass = Utilidades.Instancia.ObtenerClave("SMTPUserPassword");
 
                         if (!String.IsNullOrEmpty(host) &&
                             !String.IsNullOrEmpty(port) &&

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    interface ICalendariosDAO
+    public interface ICalendariosDAO
     {
         void Actualizar(Calendario calendario, int calendarioId);
     }
