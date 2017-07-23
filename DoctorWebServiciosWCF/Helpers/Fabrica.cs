@@ -1,4 +1,4 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+﻿using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
@@ -69,7 +69,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia dao reportes.
         /// </summary>
         /// <returns>returna una instancia dao reportes.</returns>
-        internal static IReporteDAO CrearReporteDAO()
+        public IReporteDAO CrearReporteDAO()
         {
             return new ReporteDAO();
         }

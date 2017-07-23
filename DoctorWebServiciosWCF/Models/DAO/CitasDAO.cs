@@ -1,11 +1,8 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
-using DoctorWebServiciosWCF.Helpers;
-using DoctorWebServiciosWCF.Models.ORM;
+﻿using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {

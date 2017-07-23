@@ -1,9 +1,10 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+﻿using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
 
 namespace DoctorWebServiciosWCF.Models
@@ -122,7 +123,7 @@ namespace DoctorWebServiciosWCF.Models
                                 }
                                 message.Subject = Asunto;
 
-                                var contenido = Contenido.ColocarParametros(parametros);
+                                var contenido = ColocarParametros(Contenido, parametros);
 
                                 message.Body = contenido;
                                 message.IsBodyHtml = true;
@@ -136,6 +137,49 @@ namespace DoctorWebServiciosWCF.Models
                         //File.AppendAllLines("notificaciones.log", new[] { ex.Message, ex.StackTrace });
                     }
                 }));
+        }
+
+        /// <summary>
+        /// Permite reemplacar las claves de un contenido por su valor.
+        /// </summary>
+        /// <param name="contenido">Contenido con claves {{clave}}.</param>
+        /// <param name="parametros">Valores a reemplazar</param>
+        /// <returns>Contenido procesado.</returns>
+        private string ColocarParametros(string contenido, object parametros)
+        {
+            StringBuilder resultado = new StringBuilder(contenido);
+
+            if (parametros != null)
+            {
+                if (parametros is Dictionary<string, object>)
+                {
+                    foreach (var parametro in parametros as Dictionary<string, object>)
+                    {
+                        try
+                        {
+                            var valor = parametro.Value.ToString();
+                            var attibuto = parametro.Key;
+                            resultado = resultado.Replace($"{{{{{attibuto}}}}}", valor);
+                        }
+                        catch (Exception) { }
+                    }
+                }
+                else
+                    foreach (var parametro in parametros.GetType().GetProperties())
+                    {
+                        try
+                        {
+                            var valor = parametro.GetValue(parametros).ToString();
+                            var attibuto = parametro.Name;
+
+                            resultado = resultado.Replace($"{{{{{attibuto}}}}}", valor);
+                        }
+                        catch (Exception) { }
+                    }
+            }
+            resultado = resultado.Replace($"{{{{FechaActual}}}}", DateTime.Now.ToShortDateString());
+
+            return resultado.ToString();
         }
     }
 

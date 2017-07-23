@@ -1,5 +1,4 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
-using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -23,7 +22,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                              select p;
 
                 if (result == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 return result.Count();
             }
@@ -37,7 +36,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -56,7 +55,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                                            select p).Count();
 
                 if (cantidadCitasCanceladas == null || cantidadMedicos == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 if (cantidadMedicos == 0)
                     throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -86,7 +85,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -101,7 +100,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                                            where p is Medico
                                            select p).Count();
                 if (cantidadMedicos == null || cantidadCitas == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 if (cantidadMedicos == 0)
                     throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -127,7 +126,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -140,7 +139,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                              select p.FechaNacimiento;
 
                 if (result == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 double total = 0;
 
@@ -176,7 +175,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -200,7 +199,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                                             select rh).Count();
 
                 if (result == null || almacen == null || cantidadRecursos == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 if (cantidadRecursos == 0)
                     throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -246,7 +245,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -261,7 +260,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                                     select u).Count();
 
                 if (bitacora == null || usuarios == null)
-                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
                 if (usuarios == 0)
                     throw new DivideByZeroException("Hay un error de división entre cero.");
@@ -287,7 +286,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
 
         }

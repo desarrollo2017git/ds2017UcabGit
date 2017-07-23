@@ -3,7 +3,7 @@ using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
 using System.Collections.Generic;
-using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using System.Linq;
 
 namespace DoctorWebServiciosWCF.Services

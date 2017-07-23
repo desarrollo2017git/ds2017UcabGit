@@ -1,11 +1,6 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
-using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models.ORM;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {

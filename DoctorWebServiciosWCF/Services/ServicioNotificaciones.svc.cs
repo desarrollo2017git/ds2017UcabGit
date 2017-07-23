@@ -2,12 +2,7 @@
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
-using System.ServiceModel.Web;
-using System.Net;
-using System.Collections.Generic;
 using DoctorWebServiciosWCF.Helpers;
-using DoctorWebServiciosWCF.Controllers.Helpers;
-using System.Collections.Specialized;
 
 namespace DoctorWebServiciosWCF.Services
 {

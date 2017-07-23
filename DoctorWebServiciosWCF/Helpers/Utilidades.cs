@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.ServiceModel.Web;
 
-namespace DoctorWebServiciosWCF.Controllers.Helpers
+namespace DoctorWebServiciosWCF.Helpers
 {
     /// <summary>
     /// Aqui se definen un conjunto de metodos que son de ayuda para reciclar una tarea.

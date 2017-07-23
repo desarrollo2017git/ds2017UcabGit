@@ -1,7 +1,7 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
 using System.Collections.Specialized;
 
-namespace DoctorWebServiciosWCF.Controllers.Helpers
+namespace DoctorWebServiciosWCF.Helpers
 {
     /// <summary>
     /// Interfaz que debe aplicar toda utilidad.

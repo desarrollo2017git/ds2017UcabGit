@@ -28,6 +28,13 @@ namespace DoctorWebServiciosWCF.Helpers
         /// <returns>returna una instancia dao calendarios.</returns>
         ICalendariosDAO CrearCalendariosDAO();
 
+
+        /// <summary>
+        /// Permite crear una instancia dao calendarios.
+        /// </summary>
+        /// <returns>returna una instancia dao calendarios.</returns>
+        IReporteDAO CrearReporteDAO();
+
         ResultadoServicio<T> CrearResultadoDe<T>()
             where T : class;
 

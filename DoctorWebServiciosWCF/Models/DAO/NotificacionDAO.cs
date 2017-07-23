@@ -1,5 +1,4 @@
-﻿using DoctorWebServiciosWCF.Controllers.Helpers;
-using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
