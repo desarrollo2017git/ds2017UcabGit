@@ -122,6 +122,8 @@ namespace DoctorWebASP.Controllers.Helpers
         #region Grupo 02
         #endregion
         #region Grupo 03
+        VerPacientes,
+        CrearPaciente,
         #endregion
         #region Grupo 04
         #endregion
@@ -132,7 +134,7 @@ namespace DoctorWebASP.Controllers.Helpers
         #region Grupo 07
         #endregion
         #region Grupo 08
-        Reportes,Configurados,
+        Reportes, Configurados,
         #endregion
         #region Grupo 09
         Notificaciones,
