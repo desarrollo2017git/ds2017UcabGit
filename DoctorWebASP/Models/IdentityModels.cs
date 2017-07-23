@@ -36,6 +36,8 @@ namespace DoctorWebASP.Models
         public DbSet<ObservacionMedica> ObservacionMedicas { get; set; }
         public DbSet<ResultadoExamenMedico> ResultadoExamenMedicos { get; set; }
         public DbSet<ObservacionDeAtencionClinica> ObservacionDeAtencionClincas { get; set; }
+        public DbSet<Paciente> Pacientes { get; set; }
+        public DbSet<Seguro> Seguros { get; set; }
 
 
         public ApplicationDbContext() : base("DefaultConnection", throwIfV1Schema: false)

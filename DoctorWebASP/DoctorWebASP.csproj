@@ -251,6 +251,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Reporte.cs" />
+    <Compile Include="Models\Seguro.cs" />
     <Compile Include="Models\Services\IServicioalendarios.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
@@ -1383,10 +1384,12 @@
     <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
     <Content Include="Views\Citas\DeleteFromDoctor.cshtml" />
+    <Content Include="Views\Pacientes\Create.cshtml" />
+    <Content Include="Views\Pacientes\Edit.cshtml" />
+    <Content Include="Views\Pacientes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Pacientes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />

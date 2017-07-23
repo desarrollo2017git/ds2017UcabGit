@@ -1,131 +1,200 @@
-﻿using System;
+﻿using DoctorWebASP.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using DoctorWebASP.Models;
-using Microsoft.AspNet.Identity;
+using System.Web.UI.WebControls;
 
 namespace DoctorWebASP.Controllers
 {
-    public class PacientesController : Controller
+    public class PacienteController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: Pacientes
+        // GET: Paciente
         public ActionResult Index()
         {
-            return View(db.Personas.OfType<Paciente>().ToList());
+            return View(db.Pacientes.ToList());
         }
-
-        // GET: Pacientes/Details/5
-        public ActionResult Details(int? id)
+        [HttpPost]
+        public ActionResult Index(Paciente paciente)
         {
-            if (id == null)
+            string cedula = Request.Form["tCedula"].ToString();
+            int i = db.Pacientes.Where(p => p.Cedula == cedula).Count();
+            if (i > 0)
+                return View(db.Pacientes.ToList().Where(p => p.Cedula == cedula));
+            else
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ViewBag.MensajeError = "No existe un paciente con ese número de cédula.";
+                return View(db.Pacientes.ToList());
             }
-            Paciente paciente = db.Personas.OfType<Paciente>().Where(p => p.PersonaId == id).Single();
-            if (paciente == null)
-            {
-                return HttpNotFound();
-            }
-            return View(paciente);
         }
-
-        // GET: Pacientes/Create
+        [Authorize]
         public ActionResult Create()
         {
-            return View();
+            Paciente pac = new Paciente();
+            List<SelectListItem> ListSeguros = new List<SelectListItem>();
+            foreach (Seguro seguros_in in db.Seguros)
+            {
+                SelectListItem selectListItem = new SelectListItem()
+                {
+                    Text = seguros_in.Nombre.ToString(),
+                    Value = seguros_in.Id.ToString(),
+                    Selected = false
+                };
+                ListSeguros.Add(selectListItem);
+            }
+            ViewBag.List = ListSeguros;
+            return View(pac);
         }
 
-        // POST: Pacientes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PersonaId,Nombre,Apellido,Cedula,Genero,Telefono,FechaNacimiento,FechaCreacion,Email,Direccion,TipoSangre")] Paciente paciente)
+        public ApplicationUser GetAppUser()
         {
-            string userId = User.Identity.GetUserId();
-            ApplicationUser user = db.Users.Single(u => u.Id == userId);
+            string userid = this.HttpContext.User.Identity.GetUserId();
+            var store = new UserStore<ApplicationUser>(db);
+            ApplicationUser UserAPP = store.FindByIdAsync(userid).Result;
+            return UserAPP;
+        }
+
+        public Paciente AddSeguros(Paciente paciente)
+        {
+            if (Request.Form["ListSeguros"] == null)
+                return paciente;
+
+            string list_seguros = Request.Form["ListSeguros"].ToString();
+            string[] seguros = list_seguros.Split(',');
+            foreach (string seguro_in in seguros)
+            {
+                Seguro seguro_found;
+                seguro_found = db.Seguros.Find(Convert.ToInt32(seguro_in));
+                if (seguro_found != null)
+                    paciente.Seguros.Add(seguro_found);
+            }
+            return paciente;
+        }
+
+        public Paciente AddSegurosEdit(Paciente paciente)
+        {
+            if (Request.Form["ListSeguros"] == null)
+                return paciente;
+
+            string list_seguros = Request.Form["ListSeguros"].ToString();
+            string[] seguros = list_seguros.Split(',');
+            foreach (Seguro seguro in paciente.Seguros.ToList())
+            {
+                paciente.Seguros.Remove(seguro);
+                db.SaveChanges();
+            }
+            paciente.Seguros.Clear();
+            foreach (string seguro_in in seguros)
+            {
+                Seguro seguro_found;
+                seguro_found = db.Seguros.Find(Convert.ToInt32(seguro_in));
+                if (seguro_found != null && !paciente.Seguros.Contains(seguro_found))
+                {
+                    paciente.Seguros.Add(seguro_found);
+                    db.Entry(paciente).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            return paciente;
+        }
+
+        [HttpPost]
+        public ActionResult Create(Paciente paciente)
+        {
             if (ModelState.IsValid)
             {
-                paciente.ApplicationUser = user;
-                db.Personas.Add(paciente);
+                paciente.ApplicationUser = GetAppUser();
+                paciente = AddSeguros(paciente);
+                db.Pacientes.Add(paciente);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
-            return View(paciente);
+            List<SelectListItem> ListSeguros = new List<SelectListItem>();
+            foreach (Seguro seguros_in in db.Seguros)
+            {
+                SelectListItem selectListItem = new SelectListItem()
+                {
+                    Text = seguros_in.Nombre.ToString(),
+                    Value = seguros_in.Id.ToString(),
+                    Selected = false
+                };
+                ListSeguros.Add(selectListItem);
+            }
+            ViewBag.List = ListSeguros;
+            return View();
         }
-
-        // GET: Pacientes/Edit/5
-        public ActionResult Edit(int? id)
+        public bool Selected(Paciente paciente, Seguro seguro)
         {
-            if (id == null)
+            if (paciente.Seguros.Contains(seguro))
+                return true;
+            else
+                return false;
+        }
+        public ActionResult Edit(int id)
+        {
+            Paciente paciente = db.Pacientes.FirstOrDefault(x => x.PersonaId == id);
+            List<SelectListItem> ListSeguros = new List<SelectListItem>();
+            foreach (Seguro seguros_in in db.Seguros.ToList())
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                SelectListItem selectListItem = new SelectListItem()
+                {
+                    Text = seguros_in.Nombre.ToString(),
+                    Value = seguros_in.Id.ToString(),
+                    Selected = Selected(paciente, seguros_in)
+                };
+                ListSeguros.Add(selectListItem);
             }
-            Paciente paciente = db.Personas.OfType<Paciente>().Where(p => p.PersonaId == id).Single();
-            if (paciente == null)
-            {
-                return HttpNotFound();
-            }
+            ViewBag.List = ListSeguros;
             return View(paciente);
         }
-
-        // POST: Pacientes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PersonaId,Nombre,Apellido,Cedula,Genero,Telefono,FechaNacimiento,FechaCreacion,Email,Direccion,TipoSangre")] Paciente paciente)
+        public ActionResult Edit(Paciente paciente)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(paciente).State = EntityState.Modified;
                 db.SaveChanges();
+                //Paciente db_paciente = db.Pacientes.FirstOrDefault(g => g.PersonaId == paciente.PersonaId);
+                //paciente = AddSegurosEdit(db_paciente);
                 return RedirectToAction("Index");
             }
-            return View(paciente);
+            else
+            {
+                List<SelectListItem> ListSeguros = new List<SelectListItem>();
+                foreach (Seguro seguros_in in db.Seguros.ToList())
+                {
+                    SelectListItem selectListItem = new SelectListItem()
+                    {
+                        Text = seguros_in.Nombre.ToString(),
+                        Value = seguros_in.Id.ToString(),
+                        Selected = Selected(paciente, seguros_in)
+                    };
+                    ListSeguros.Add(selectListItem);
+                }
+                ViewBag.List = ListSeguros;
+                return View(paciente);
+            }
         }
 
-        // GET: Pacientes/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
+            Paciente db_paciente = db.Pacientes.FirstOrDefault(g => g.PersonaId == id);
+            if (db_paciente != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                foreach (Seguro Paciente_Seguro in db_paciente.Seguros.ToList())
+                {
+                    db_paciente.Seguros.Remove(Paciente_Seguro);
+                }
+                db.SaveChanges();
+                db.Pacientes.Remove(db_paciente);
+                db.SaveChanges();
             }
-            Paciente paciente = db.Personas.OfType<Paciente>().Where(p => p.PersonaId == id).Single();
-            if (paciente == null)
-            {
-                return HttpNotFound();
-            }
-            return View(paciente);
-        }
-
-        // POST: Pacientes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Paciente paciente = db.Personas.OfType<Paciente>().Where(p => p.PersonaId == id).Single();
-            db.Personas.Remove(paciente);
-            db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

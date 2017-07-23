@@ -1,16 +1,16 @@
 ﻿@model DoctorWebASP.Models.Paciente
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear Paciente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Paciente</h4>
         <hr />
@@ -86,11 +86,25 @@
                 @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.Seguros, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div style="font-family:Arial">
+                    @{
+                        @Html.ListBox("ListSeguros", (IEnumerable<SelectListItem>)ViewBag.List, new { style = "width:100%; height: 200px;" })
+                    }
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.TipoSangre, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.TipoSangre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownListFor(model => model.TipoSangre, new List<SelectListItem> {
+                       new SelectListItem { Value = "a" , Text = "A" },
+                       new SelectListItem { Value = "b" , Text = "B" },
+                       new SelectListItem { Value = "ab" , Text = "AB" }
+                    }, new { htmlAttributes = new { style = "width:300px;" } })
+
                 @Html.ValidationMessageFor(model => model.TipoSangre, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -101,7 +115,7 @@
             </div>
         </div>
     </div>
-}
+                        }
 
 <div>
     @Html.ActionLink("Back to List", "Index")
