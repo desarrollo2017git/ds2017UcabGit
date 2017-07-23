@@ -16,6 +16,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
         List<Calendario> ObtenerTiempoDoctor(int medicoid);
         List<Calendario> ObtenerCitasDoctor(int medicoid);
         Paciente ObtenerPacienteCalendario(int calendarioid);
+        Calendario GuardarCalendario(Calendario calendario);
+        bool HorarioValidoCalendario(Calendario calendario);
     }
 
 }

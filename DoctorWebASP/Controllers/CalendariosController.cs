@@ -82,12 +82,36 @@ namespace DoctorWebASP.Controllers
                 try
                 {
                     var calendarios = new SelectList(""); var calendarios2 = new SelectList("");
-                    string userID = User.Identity.GetUserId();
+                    string userID = consulta.ObtenerUsuarioLoggedIn(this);
+                    calendario.Medico = consulta.ObtenerMedico(userID).Single();
+
+                    /*Debe ir en ServicioCalendario de acá en adelante
                     calendario.HoraFin = calendario.HoraInicio.AddHours(2);
                     calendario.Medico = db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userID);
                     calendarios = new SelectList(db.Calendarios.Where(c => c.Medico.PersonaId == calendario.Medico.PersonaId && c.HoraInicio <= calendario.HoraInicio && c.HoraFin > calendario.HoraInicio));
                     calendarios2 = new SelectList(db.Calendarios.Where(c => c.Medico.PersonaId == calendario.Medico.PersonaId && c.HoraInicio < calendario.HoraFin && c.HoraFin >= calendario.HoraFin));
+                    */
+                    if ((ModelState.IsValid))
+                    {
+                        try
+                        {
+                            Calendario pepe = consulta.GuardarCalendario(calendario);
+                            if (pepe == null)
+                            {
+                                string mensaje = "Ese bloque de horas ya esta asignado";
+                                return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine(e);
+                            string mensaje = "Hubo un problema creando su horario de cita";
+                            return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                        }
 
+                
+                    }
+                    /*
                     if (((calendarios.Count() == 0) && (calendarios2.Count() == 0)) && (calendario.HoraInicio >= System.DateTime.Now))
                     {
                         try
@@ -111,6 +135,7 @@ namespace DoctorWebASP.Controllers
                         string mensaje = "Su horario no pudo ser agendado";
                         return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                     }
+                    */
                 }
                 catch (Exception e)
                 {

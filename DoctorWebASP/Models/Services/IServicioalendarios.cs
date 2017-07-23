@@ -17,7 +17,8 @@ namespace DoctorWebASP.Models.Services
         List<Calendario> ObtenerTiempoDoctor(int medicoId);
         List<Calendario> ObtenerCitasDoctor(int medicoId);
         Paciente ObtenerPacienteCalendario(int calendarioId);
-
+        Calendario GuardarCalendario(Calendario calendario);
+       
 
 
     }

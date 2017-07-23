@@ -32,5 +32,8 @@ namespace DoctorWebServiciosWCF.Services
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerPacienteCalendario?calendarioId={calendarioId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<Paciente> ObtenerPacienteCalendario(int calendarioId);
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/GuardarCalendario", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoProceso GuardarCalendario(Calendario calendario);
     }
 }
