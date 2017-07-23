@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
 using System.Collections.Generic;
@@ -27,26 +28,28 @@ namespace DoctorWebServiciosWCF.Models.Command
                 if (args[0] is ContextoBD)
                     db = (ContextoBD)args[0];
                 else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, primer parametro no es valido. se espera un ContextoBD.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, primer parametro no es valido. se espera un ContextoBD.");
 
                 DbSet<T> coleccion;
                 if (args[1] is DbSet<T>)
                     coleccion = (DbSet<T>)args[1];
                 else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, segundo parametro no es valido. se espera un DbSet<T>.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, segundo parametro no es valido. se espera un DbSet<T>.");
 
                 T datos;
                 if (args[2] is T)
                     datos = (T)args[2];
                 else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, tercer parametro no es valido. se espera un T.");
-                // Era necesario el attach
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, tercer parametro no es valido. se espera un T.");
+                
+                Utilidades.Instancia.Debug($"Creando {typeof(T).Name}.");
                 coleccion.Attach(datos);
                 coleccion.Add(datos);
                 db.SaveChanges();
+                Utilidades.Instancia.Debug($"Registro {typeof(T).Name} Creado.");
             }
             else
-                throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, cantidad de parametros no es valida. se espera 3.");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOCrear, cantidad de parametros no es valida. se espera 3.");
         }
     }
 }

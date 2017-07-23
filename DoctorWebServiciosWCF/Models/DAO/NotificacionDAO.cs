@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -66,7 +67,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                     return true;
                 }
                 else
-                    throw Fabrica.CrearExcepcion("No se encontro la notificacion con el codigo indicado.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se encontro la notificacion con el codigo indicado.");
             }
             catch (DoctorWebException e)
             {
@@ -74,7 +75,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -99,7 +100,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -115,7 +116,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 var notificacion = ObtenerPrimeroQue(notificaion => notificaion.Nombre == nombre);
 
                 if (notificacion == null)
-                    throw Fabrica.CrearExcepcion(mensaje: "No se encontro el registro que busca");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "No se encontro el registro que busca");
 
                 return notificacion;
             }
@@ -125,7 +126,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -141,7 +142,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 var notificacion = ObtenerPrimeroQue(registro => registro.NotificacionId == codigo);
 
                 if (notificacion == null)
-                    throw Fabrica.CrearExcepcion(mensaje: "No se encontro el registro que busca");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "No se encontro el registro que busca");
 
                 return notificacion;
             }
@@ -151,7 +152,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 

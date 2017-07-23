@@ -1,4 +1,5 @@
-﻿using DoctorWebServiciosWCF.Helpers;
+﻿using DoctorWebServiciosWCF.Controllers.Helpers;
+using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <param name="calendario">Calendario para devolver la disponibilidad</param>
         public void EliminarCita(Modelo cita, Calendario calendario)
         {
-            var notificacionDAO = Fabrica.CrearNotificacionDAO();
+            var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO();
             try
             {
                 var notificacion = notificacionDAO.Obtener("cancelarCita");
@@ -37,12 +38,12 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
             // Actializamos el estado del calendario a disponible
             // luego, utilizamos el comando Actualizar
             calendario.Disponible = 1;
-            var daoCalendario = Fabrica.CrearDAO<Calendario>();
+            var daoCalendario = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
             daoCalendario.Actualizar(calendario, registro => registro.CalendarioId == calendario.CalendarioId);
 
             // Obtenemos la cita a eliminar de la BD usando el comando ObtenerPrimeroQue
@@ -69,11 +70,11 @@ namespace DoctorWebServiciosWCF.Models.DAO
             // luego cambiamos su contenido por el del calendario que recibimos cuya disponibilidad es 0  
             // usando el comando Actualizar  
             calendario.Disponible = 0;
-            var daoCalendario = Fabrica.CrearDAO<Calendario>();
+            var daoCalendario = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
             daoCalendario.Actualizar(calendario, registro => registro.CalendarioId == calendario.CalendarioId);
 
             // NOTA: Igual aca
-            var notificacionDAO = Fabrica.CrearNotificacionDAO();
+            var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO();
             try
             {
                 var notificacion = notificacionDAO.Obtener("generarCita");
@@ -90,7 +91,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
             catch (Exception e)
             {
-                throw Fabrica.CrearExcepcion(interna: e);
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
 
@@ -101,7 +102,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Calendario</returns>
         public Calendario ObtenerCalendario(int calendarioId)
         {
-            var daoCalendario = Fabrica.CrearDAO<Calendario>();
+            var daoCalendario = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
             //var calendario = daoCalendario.ObtenerPrimeroQue(c => c.CalendarioId == calendarioId);
             var calendario = db.Calendarios.Include(m => m.Medico).Single(c => c.CalendarioId == calendarioId);
             return calendario;
@@ -124,7 +125,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Especialidad medica</returns>
         public EspecialidadMedica ObtenerEspecialidadMedica(int espMedica)
         {
-            var daoEspecialidades = Fabrica.CrearDAO<EspecialidadMedica>();
+            var daoEspecialidades = Utilidades.Instancia.Fabrica.CrearDAO<EspecialidadMedica>();
             return daoEspecialidades.ObtenerPrimeroQue(e => e.EspecialidadMedicaId == espMedica);
         }
         
@@ -135,7 +136,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Centro medico</returns>
         public CentroMedico ObtenerCentroMedico(int centroMedicoId)
         {
-            var daoCentrosMedicos = Fabrica.CrearDAO<CentroMedico>();
+            var daoCentrosMedicos = Utilidades.Instancia.Fabrica.CrearDAO<CentroMedico>();
             return daoCentrosMedicos.ObtenerPrimeroQue(m => m.CentroMedicoId == centroMedicoId);
 
         }
@@ -147,7 +148,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Especialidad medica</returns>
         public EspecialidadMedica ObtenerEspecialidadMedicaDelDoctor(int medicoId)
         {
-            var daoPersonas = Fabrica.CrearDAO<Persona>();
+            var daoPersonas = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             return daoPersonas.ObtenerTodos().OfType<Medico>().Where(m => m.PersonaId == medicoId).Select(p => p.EspecialidadMedica).Single();
         }
 
@@ -158,7 +159,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Medico</returns>
         public Medico ObtenerMedicoAsignadoACita(int citaId)
         {
-            var daoCalendario = Fabrica.CrearDAO<Calendario>();
+            var daoCalendario = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
             return daoCalendario.ObtenerTodos().Where(m => m.Cita.CitaId == citaId).Select(p => p.Medico).Single();
         }
 
@@ -169,7 +170,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Paciente</returns>
         public Paciente ObtenerPaciente(string userId)
         {
-            var daoPersonas = Fabrica.CrearDAO<Persona>();
+            var daoPersonas = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             return daoPersonas.ObtenerTodos().OfType<Paciente>().Single(p => p.ApplicationUserId == userId);
         }
 
@@ -180,7 +181,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Medico</returns>
         public Medico ObtenerMedico(string userId)
         {
-            var daoPersonas = Fabrica.CrearDAO<Persona>();
+            var daoPersonas = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             return daoPersonas.ObtenerTodos().OfType<Medico>().Include(m => m.EspecialidadMedica).Single(p => p.ApplicationUserId == userId);
         }
         
@@ -210,7 +211,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Lista de centros medicos</returns>
         public List<CentroMedico> ObtenerSelectListCentrosMedicos()
         {
-            var dao = Fabrica.CrearDAO<CentroMedico>();
+            var dao = Utilidades.Instancia.Fabrica.CrearDAO<CentroMedico>();
             return dao.ObtenerTodos().ToList();
         }
         
@@ -222,7 +223,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         public List<EspecialidadMedica> ObtenerEsMedicasPorMedicosEnCentroMedico(int cMedicoId)
         {
             //.Include(e => e.EspecialidadMedica).Include(e => e.CentroMedico)
-            var daoPersonas = Fabrica.CrearDAO<Persona>();
+            var daoPersonas = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             return daoPersonas.ObtenerTodos().OfType<Medico>().Where(m => m.CentroMedico.CentroMedicoId == cMedicoId).Select(c => c.EspecialidadMedica).Distinct().ToList();
         }
 
@@ -234,7 +235,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Lista de medicos</returns>
         public List<Medico> ObtenerSelectListMedicosQueTrabajanEnCentroMedico(int centroMedicoId, int espMedica)
         {
-            var daoPersonas = Fabrica.CrearDAO<Persona>();
+            var daoPersonas = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             return daoPersonas.ObtenerTodos().OfType<Medico>().Where(p => p.CentroMedico.CentroMedicoId == centroMedicoId && p.EspecialidadMedica.EspecialidadMedicaId == espMedica).ToList();
         }
 
@@ -245,7 +246,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Centro medico</returns>
         public CentroMedico ObtenerCentroMedicoRif(string centroMedicoRif)
         {
-            var daoCentrosMedicos = Fabrica.CrearDAO<CentroMedico>();
+            var daoCentrosMedicos = Utilidades.Instancia.Fabrica.CrearDAO<CentroMedico>();
             return daoCentrosMedicos.ObtenerPrimeroQue(m => m.Rif == centroMedicoRif);
         }
 
@@ -257,7 +258,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         public List<Calendario> ObtenerListaDisponibilidad(int medicoId)
         {
             //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
-            var daoCalendarios = Fabrica.CrearDAO<Calendario>();
+            var daoCalendarios = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
             return daoCalendarios.ObtenerTodos().Where(m => m.Medico.PersonaId == medicoId && m.Disponible == 1).OrderBy(m => m.HoraInicio).ToList();
         }
     }
