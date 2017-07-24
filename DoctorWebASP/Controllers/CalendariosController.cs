@@ -26,35 +26,30 @@ namespace DoctorWebASP.Controllers
             this.consulta = db;
         }
 
-
-
         // GET: Calendarios
+        /// <summary>
+        /// Metodo que llama a la interfaz de calendario principal, 
+        /// </summary>
+        /// <returns> Interfaz calendario</returns>
         public ActionResult Index()
         {
             return View(db.Calendarios.ToList());
         }
 
-        // GET: Calendarios/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Calendario calendario = db.Calendarios.Find(id);
-            if (calendario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(calendario);
-        }
-
+        /// <summary>
+        /// Devuelve la vista de error cuando no se sabe su causa
+        /// </summary>
+        /// <returns> vista de error general</returns>
         [HttpPost]
         public ActionResult ErrorCalendario()
         {
             return View();
         }
-
+        /// <summary>
+        /// Devuelve la vista de error cuando se sabe su causa
+        /// </summary>
+        /// <param name="mensaje"> mensaje a mostrar en la vista</param>
+        /// <returns>vista de error personalizada</returns>
         public ActionResult ErrorCalendario(string mensaje)
         {
             var model = new SadFaceViewModel
@@ -64,15 +59,12 @@ namespace DoctorWebASP.Controllers
             return View("ErrorCalendario", model);
         }
 
-        // GET: Calendarios/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
         // POST: Calendarios/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        ///Metodo que crea un nuevo tiempo libre para que el doctor pueda usarlo en citas recibe un objeto calendario
+        /// </summary>
+        /// <param name="calendario"> aclendario para ser creado</param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CalendarioId,HoraInicio,HoraFin,Cancelada,Disponible")] Calendario calendario)
@@ -81,14 +73,13 @@ namespace DoctorWebASP.Controllers
             {
                 try
                 {
-                    var calendarios = new SelectList(""); var calendarios2 = new SelectList("");
-                    string userID = consulta.ObtenerUsuarioLoggedIn(this);
-                    calendario.Medico = consulta.ObtenerMedico(userID).Single();
+                    string userID = consulta.ObtenerUsuarioLoggedIn(this);  // id del usuario
+                    calendario.Medico = consulta.ObtenerMedico(userID).Single(); // set de medico en el calendario
                     if ((ModelState.IsValid))
                     {
                         try
                         {
-                            Calendario pepe = consulta.GuardarCalendario(calendario);
+                            Calendario pepe = consulta.GuardarCalendario(calendario); // intenta incertar si no cumple las condiciones devuelve null
                             if (pepe == null)
                             {
                                 string mensaje = "El bloque de horas solicitado no está disponible";
@@ -113,76 +104,22 @@ namespace DoctorWebASP.Controllers
             return View(calendario);
         }
 
-
-
-        // GET: Calendarios/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Calendario calendario = db.Calendarios.Find(id);
-            if (calendario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(calendario);
-        }
-
-        // POST: Calendarios/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CalendarioId,HoraInicio,HoraFin,Cancelada,Disponible")] Calendario calendario)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(calendario).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(calendario);
-        }
-
-        // GET: Calendarios/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Calendario calendario = db.Calendarios.Find(id);
-            if (calendario == null)
-            {
-                return HttpNotFound();
-            }
-            return View(calendario);
-        }
-
-        public ActionResult Eliminar()
-        {
-            return View();
-        }
-
+        /// <summary>
+        /// Metodo que enlista los tiempos libres de un doctor en la vista de eliminar
+        /// </summary>
+        /// <returns> vista de eliminar con la lista cargada</returns>
         public ActionResult listaCalendario()
         {
-            //string userID = User.Identity.GetUserId();
-            // return View(db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.Disponible == 1).ToList());
-            string userID = consulta.ObtenerUsuarioLoggedIn(this);
-            var medicos = consulta.ObtenerMedico(userID);
+            string userID = consulta.ObtenerUsuarioLoggedIn(this); // id del usuario del sistema 
+            var medicos = consulta.ObtenerMedico(userID); // medico que esta logeado
             return View(consulta.ObtenerTiempoDoctor(medicos.First().PersonaId));
-
-
         }
 
         /// <summary>
-        /// ///////////////////////////////////////
+        /// Metodo para eliminar tiempos libres de doctor recibe el objeto calendario a eliminar
         /// </summary>
-        /// <param name="calendario"></param>
+        /// <param name="calendario">calendario para ser eliminado</param>
         /// <returns></returns>
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Eliminar([Bind(Include = "CalendarioId,HoraInicio,HoraFin,Cancelada,Disponible")] Calendario calendario)
@@ -191,26 +128,22 @@ namespace DoctorWebASP.Controllers
             {
                 try
                 {
-                    string userID = consulta.ObtenerUsuarioLoggedIn(this);
-                    var medicos = consulta.ObtenerMedico(userID);
+                    string userID = consulta.ObtenerUsuarioLoggedIn(this); // usuario logeado
+                    var medicos = consulta.ObtenerMedico(userID); // valida que sea medico
                     if (medicos.Count() > 0)
                     {
                         try
                         {
                             Calendario cal2 = new Calendario();
-                            var cal = consulta.ObtenerTiempoDoctor(medicos.First().PersonaId);
+                            var cal = consulta.ObtenerTiempoDoctor(medicos.First().PersonaId); // busca los tiempos del medico
                             
                             if (cal.Count() > 0)
                             {
 
-                                cal2 = cal.Find(x => x.CalendarioId == calendario.CalendarioId);
+                                cal2 = cal.Find(x => x.CalendarioId == calendario.CalendarioId); // si el medico tiene ese tiempo asignado se le da a cal2
                                 if (cal2.CalendarioId == calendario.CalendarioId && cal2.Disponible == 1)
                                 {
-                                    //calendario.Cancelada = false;
-                                    //calendario.HoraFin = calendario.HoraInicio.AddHours(2);
-                                    //calendario.Disponible = 1;
-                                    consulta.EliminarCalendario(cal2);
-                                    //db.SaveChanges();
+                                    consulta.EliminarCalendario(cal2); //elimina el tiempo cal2
                                     return RedirectToAction("Eliminar");
                                 }
                                 else
@@ -244,10 +177,69 @@ namespace DoctorWebASP.Controllers
             return View(calendario);
         }
 
+        // POST: Calendarios/Json
+        /// <summary>
+        /// Este metodo construye el Json que sera consumido por el calendario en la vista
+        /// </summary>
+        /// <returns> Json que es consumido</returns>
+        [HttpPost]
+        public ActionResult Json()
+        {
+            try
+            {
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                int medicoid;
+                int pacienteid;
+                string jsondata;
+                string path;
+                string userId = consulta.ObtenerUsuarioLoggedIn(this);
+                var medico = consulta.ObtenerMedico(userId); // obtinene medico logeado o nulo si es paciente
+                var paciente = consulta.ObtenerPaciente(userId); // obtinene paciente logeado o nulo si es medico
+                if (medico.Count > 0) // si es medico
+                {
+                    medicoid = medico.First().PersonaId;
+                    var callist = consulta.ObtenerTiempoDoctor(medicoid); // obtiene los tiempos para citas del doctor y abajo lo formatea para el consumo
+                    var calArray = from cal in callist select new { id = cal.CalendarioId, title = cal.CalendarioId + ". Tiempo agendado para cita ", start = cal.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cal.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cal.Disponible, cal.Cancelada, backgroundColor = "#00a65a" };
+                    var citlist = consulta.ObtenerCitasDoctor(medicoid); // obtiene los tiempos de citas del doctor y abajo lo formatea para el consumo
+                    var citArray = from cit in citlist select new { id = cit.CalendarioId, title = "Cita Médica con: " + consulta.ObtenerPacienteCalendario(cit.CalendarioId).NombreCompleto, start = cit.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cit.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cit.Disponible, cit.Cancelada, backgroundColor = "#f56954" };
+                    var cita_tiempo = citArray.Union(calArray); // une las dos listas de tiepos y citas
+                    serializer.MaxJsonLength = Int32.MaxValue;
+                    jsondata = serializer.Serialize(cita_tiempo);
+                    path = Server.MapPath("~/Content/");
+                    System.IO.File.WriteAllText(path + "calendario.json", jsondata); // contruye el json
+                    TempData["msg"] = "Json file Generated! check this in your App_Data folder";
+                    return RedirectToAction("Index");
+                }
+
+                else if (paciente.Count > 0) // si es paciente
+                {
+                    pacienteid = paciente.First().PersonaId; // obtiene el id del paciente 
+                    var citlist = consulta.ObtenerCitasPaciente(pacienteid);  // obtiene los tiempos de citas del paciente y abajo lo formatea para el consumo
+                    var citArray = from cit in citlist select new { id = cit.CalendarioId, title = "Cita Médica con: " + consulta.ObtenerMedicoCalendario(cit.CalendarioId).NombreCompleto, start = cit.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cit.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cit.Disponible, cit.Cancelada, backgroundColor = "#f56954" };
+                    serializer.MaxJsonLength = Int32.MaxValue;
+                    jsondata = serializer.Serialize(citArray);
+                    path = Server.MapPath("~/Content/");
+                    System.IO.File.WriteAllText(path + "calendario.json", jsondata);  // contruye el json
+                    TempData["msg"] = "Json file Generated! check this in your App_Data folder";
+                    return RedirectToAction("Index");
+                }
+                else
+                    return RedirectToAction("ErrorCalendario");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return RedirectToAction("ErrorCalendario"); 
+            }
+        }
+
+
+ //////////////////////////////CODIGO AUTO-GENERADO///////////////////////////////////////////////
+   
         // POST: Calendarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)  // no es usado
         {
             Calendario calendario = db.Calendarios.Find(id);
             db.Calendarios.Remove(calendario);
@@ -255,7 +247,7 @@ namespace DoctorWebASP.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)  // no es usado
         {
             if (disposing)
             {
@@ -263,115 +255,77 @@ namespace DoctorWebASP.Controllers
             }
             base.Dispose(disposing);
         }
-
-        /*public JsonResult Json()
+        // GET: Calendarios/Delete/5
+        public ActionResult Eliminar() // no es usado
         {
-            var calendarsDates = GetCalendario();
-            string cal = JsonConvert.SerializeObject(calendarsDates.ToArray());
-            return Json(calendarsDates, JsonRequestBehavior.AllowGet);
-        }*/
-
-
-
-        /*private SelectList GetCalendario()
-        {
-            var calendarList = new SelectList("");
-            string userID = User.Identity.GetUserId();
-            Medico login = new Medico();
-            int medicoid;
-            login = db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userID);
-            medicoid = login.PersonaId;
-            calendarList = new SelectList(db.Calendarios.Where(c => c.Medico.PersonaId == medicoid));
-            return calendarList;
-        }*/
-        [HttpPost]
-        //[Authorize]
-        public ActionResult Json(Calendario obj)
-        {
-            try
-            {
-                //Persona uno = new Persona();
-                //var login = new Medico();
-                //Paciente login2 = new Paciente();
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                int medicoid;
-                int pacienteid;
-                string jsondata;
-                string path;
-                string userId = consulta.ObtenerUsuarioLoggedIn(this);
-                var medico = consulta.ObtenerMedico(userId);
-                var paciente = consulta.ObtenerPaciente(userId);
-                //int a = 1;
-                //var login = db.Personas.OfType<Medico>().Where(p => p.ApplicationUser.Id == userID);
-                // var login2 = db.Personas.OfType<Paciente>().Where(p => p.ApplicationUser.Id == userID);
-                if (medico.Count > 0)
-                {
-
-                    medicoid = medico.First().PersonaId;
-                    var callist = consulta.ObtenerTiempoDoctor(medicoid);
-                    var calArray = from cal in callist select new { id = cal.CalendarioId, title = cal.CalendarioId + ". Tiempo agendado para cita ", start = cal.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cal.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cal.Disponible, cal.Cancelada, backgroundColor = "#00a65a" };
-
-
-                    var citlist = consulta.ObtenerCitasDoctor(medicoid);
-                    var citArray = from cit in citlist select new { id = cit.CalendarioId, title = "Cita Médica con: " + consulta.ObtenerPacienteCalendario(cit.CalendarioId).NombreCompleto, start = cit.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cit.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cit.Disponible, cit.Cancelada, backgroundColor = "#f56954" };
-
-                    //String intento = "";
-
-                    foreach (var elemento in citArray)
-                    {
-                        Persona pana = consulta.ObtenerPacienteCalendario(elemento.id);
-                        
-                       
-                    }
-
-
-                    var cita_tiempo = citArray.Union(calArray);
-                    
-
-                    
-                    serializer.MaxJsonLength = Int32.MaxValue;
-                    jsondata = serializer.Serialize(cita_tiempo);
-                    path = Server.MapPath("~/Content/");
-                
-                     // Write that JSON to txt file,  
-                    System.IO.File.WriteAllText(path + "calendario.json", jsondata);
-                    TempData["msg"] = "Json file Generated! check this in your App_Data folder";
-                    return RedirectToAction("Index");
-
-                }
-
-                //Paceinteid = login2.PersonaId;
-                else if (paciente.Count > 0)
-                {
-
-
-                    pacienteid = paciente.First().PersonaId;
-                    var citlist = consulta.ObtenerCitasPaciente(pacienteid);
-                    var citArray = from cit in citlist select new { id = cit.CalendarioId, title = "Cita Médica con: " + consulta.ObtenerMedicoCalendario(cit.CalendarioId).NombreCompleto, start = cit.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cit.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cit.Disponible, cit.Cancelada, backgroundColor = "#f56954" };
-                   // var citlist = db.Calendarios.Where(c => c.Cita.Paciente.PersonaId == pacienteid && c.Disponible == 0).ToList()
-                    //    .Select(c => new { id = c.CalendarioId, title = "Cita Médica con " + c.Medico.NombreCompleto, start = c.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = c.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), c.Disponible, c.Cancelada, backgroundColor = "#f56954" });
-                    // Pass the "personlist" object for conversion object to JSON string
-         
-
-                    serializer.MaxJsonLength = Int32.MaxValue;
-                    jsondata = serializer.Serialize(citArray);
-                    path = Server.MapPath("~/Content/");
-
-                    // Write that JSON to txt file,  
-                    System.IO.File.WriteAllText(path + "calendario.json", jsondata);
-                    TempData["msg"] = "Json file Generated! check this in your App_Data folder";
-                    return RedirectToAction("Index");
-
-                }
-                else
-                    return RedirectToAction("ErrorCalendario");
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return RedirectToAction("ErrorCalendario"); // hola
-            }
+            return View();
         }
+        public ActionResult Delete(int? id) // no es usado
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Calendario calendario = db.Calendarios.Find(id);
+            if (calendario == null)
+            {
+                return HttpNotFound();
+            }
+            return View(calendario);
+        }
+
+        // GET: Calendarios/Details/5
+        public ActionResult Details(int? id)  // no es usado
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Calendario calendario = db.Calendarios.Find(id);
+            if (calendario == null)
+            {
+                return HttpNotFound();
+            }
+            return View(calendario);
+        }
+
+        // POST: Calendarios/Edit/5
+        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
+        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "CalendarioId,HoraInicio,HoraFin,Cancelada,Disponible")] Calendario calendario)  // no es usado
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(calendario).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(calendario);
+        }
+
+        // GET: Calendarios/Edit/5
+        public ActionResult Edit(int? id)  // no es usado
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Calendario calendario = db.Calendarios.Find(id);
+            if (calendario == null)
+            {
+                return HttpNotFound();
+            }
+            return View(calendario);
+        }
+
+        // GET: Calendarios/Create
+        public ActionResult Create()  // no es usado
+        {
+            return View();
+        }
+
+
     }
 }
