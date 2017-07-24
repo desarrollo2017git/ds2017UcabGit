@@ -22,7 +22,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Instancia dao para interactuar con la Base de datos.
         /// </summary>
-        private readonly IReporteDAO dao = Fabrica.CrearReporteDAO();
+        private readonly IReporteDAO dao = Utilidades.Instancia.Fabrica.CrearReporteDAO();
 
         public string DoWork(string codigo)
         {
@@ -31,7 +31,7 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoProceso ReportesPreestablecidos(string codigo, string fechaInicio, string fechaFin)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultado = Utilidades.Instancia.Fabrica.CrearResultadoProceso();
 
             try
             {
@@ -40,7 +40,7 @@ namespace DoctorWebServiciosWCF.Services
                     throw new FormatException("El código debe ser un número.");
 
                 if (!(id >= 1 && id <= 6))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
+                    throw Fabrica.Instancia.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
 
                 switch (id)
                 {
@@ -77,7 +77,7 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoServicio<object> ObtenerAtributos(List<string> entidades)
         {
-            var resultado = Fabrica.CrearResultadoDe<object>();
+            var resultado = Fabrica.Instancia.CrearResultadoDe<object>();
             try
             {
                 var obj = JsonConvert.SerializeObject(dao.obtenerAtributos(entidades));
@@ -101,7 +101,7 @@ namespace DoctorWebServiciosWCF.Services
         public void comprobarFecha(string fechaInicio, string fechaFin)
         {
             if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
-                throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
         }
 
         public void ReportesConfigurados(Dictionary<string, string> datos)

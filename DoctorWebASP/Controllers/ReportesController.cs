@@ -1,5 +1,4 @@
 ﻿using DoctorWebASP.Controllers.Helpers;
-using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
 using DoctorWebASP.Models.Services;
 using DoctorWebASP.ViewModels;
@@ -13,7 +12,6 @@ namespace DoctorWebASP.Controllers
 {
     public class ReportesController : Controller
     {
-
         #region Instancia ReportesController
         /// <summary>
         /// Instancia que da acceso a los servicios web.

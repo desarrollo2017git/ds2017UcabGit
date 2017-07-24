@@ -1,9 +1,6 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
@@ -27,13 +24,15 @@ namespace DoctorWebServiciosWCF.Models.Command
                 if (args[0] is DbSet<T2>)
                     coleccion = (DbSet<T2>)args[0];
                 else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOContar, primer parametro no es valido. se espera un DbSet.");
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOContar, primer parametro no es valido. se espera un DbSet.");
 
+                Utilidades.Instancia.Debug($"Contando {typeof(T2).Name}.");
                 object c  = ""+coleccion.Count();
+                Utilidades.Instancia.Debug($"Conteo {typeof(T2).Name} Exitoso.");
                 return (T)c;
             }
             else
-                throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOContar, cantidad de parametros no es valida. se espera 1.");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOContar, cantidad de parametros no es valida. se espera 1.");
         }
     }
 }

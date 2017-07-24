@@ -2,9 +2,6 @@
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
-using System.ServiceModel.Web;
-using System.Net;
-using System.Collections.Generic;
 using DoctorWebServiciosWCF.Helpers;
 
 namespace DoctorWebServiciosWCF.Services
@@ -17,7 +14,23 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Instancia dao para interactuar con la Base de datos.
         /// </summary>
-        private readonly INotificacionDAO dao = Fabrica.CrearNotificacionDAO();
+        private INotificacionDAO dao = null;
+        private IUtilidades utils = null;
+
+        /// <summary>
+        /// Constructor Base
+        /// </summary>
+        public ServicioNotificaciones() : this(Utilidades.Instancia.Fabrica.CrearNotificacionDAO(), Utilidades.Instancia) { }
+        
+        /// <summary>
+        /// Constructor que permite cambiar el dao utilizado por el servicio.
+        /// </summary>
+        /// <param name="notificacionDAO">Instrancia de dao a utilizar en el servicio.</param>
+        public ServicioNotificaciones(INotificacionDAO notificacionDAO, IUtilidades utils)
+        {
+            this.dao = notificacionDAO;
+            this.utils = utils;
+        }
 
         /// <summary>
         /// Este metodo permite borrarla notificacion que conindicide con el codigo indicado.
@@ -26,12 +39,12 @@ namespace DoctorWebServiciosWCF.Services
         /// <returns>Indica el resultado del proceso</returns>
         public ResultadoProceso Borrar(string codigo)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultado = utils.Fabrica.CrearResultadoProceso();
             try
             {
                 int id = 0;
                 if (!int.TryParse(codigo, out id))
-                    throw Fabrica.CrearExcepcion("el odigo debe ser un numero.");
+                    throw utils.Fabrica.CrearExcepcion(mensaje: "el codigo debe ser un numero.");
 
                 string mensaje = string.Empty;
                 dao.Borrar(out mensaje, id);
@@ -52,19 +65,18 @@ namespace DoctorWebServiciosWCF.Services
         /// <returns>Indica el resultado del proceso</returns>
         public ResultadoProceso Enviar(string nombre, string correo)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultado = utils.Fabrica.CrearResultadoProceso();
             try
             {
                 var notificacion = dao.Obtener(nombre);
+                
+                var parametros = utils.Fabrica.CrearDiccionario<string, object>();
 
-                IncomingWebRequestContext request = WebOperationContext.Current.IncomingRequest;
-                WebHeaderCollection headers = request.Headers;
+                var cabecera = utils.ObtenerCabeceraActual();
 
-                var parametros = Fabrica.CrearDiccionario<string, object>();
-
-                foreach (var key in request.Headers.AllKeys)
+                foreach (var key in cabecera.AllKeys)
                 {
-                    parametros.Add(key, request.Headers[key]);
+                    parametros.Add(key, cabecera[key]);
                 }
 
                 notificacion.Enviar(correo, parametros);
@@ -84,7 +96,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <returns>Indica el resultado del proceso</returns>
         public ResultadoProceso Guardar(Notificacion notificacion)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultado = utils.Fabrica.CrearResultadoProceso();
             try
             {
                 string mensaje = string.Empty;
@@ -105,12 +117,12 @@ namespace DoctorWebServiciosWCF.Services
         /// <returns>Indica el resultado del proceso</returns>
         public ResultadoServicio<Notificacion> Obtener(string codigo)
         {
-            var resultado = Fabrica.CrearResultadoDe<Notificacion>();
+            var resultado = utils.Fabrica.CrearResultadoDe<Notificacion>();
             try
             {
                 int id = 0;
                 if (!int.TryParse(codigo, out id))
-                    throw Fabrica.CrearExcepcion(mensaje: "el codigo debe ser un numero.");
+                    throw utils.Fabrica.CrearExcepcion(mensaje: "el codigo debe ser un numero.");
 
                 var datos = dao.Obtener(id);
                 resultado.Inicializar(datos);
@@ -131,7 +143,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <returns>Indica el resultado del proceso</returns>
         public ResultadoServicioPaginado<Notificacion> ObtenerTodos(string nombre, int pagina = 0, int numeroFilas = 30)
         {
-            var resultado = Fabrica.CrearResultadoPaginadoDe<Notificacion>();
+            var resultado = utils.Fabrica.CrearResultadoPaginadoDe<Notificacion>();
             try
             {
                 int cantidadPaginas;
