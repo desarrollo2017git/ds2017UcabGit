@@ -118,5 +118,33 @@ namespace DoctorWebServiciosWCF.Services
             }
             return resultado;
         }
+
+        public ResultadoServicio<List<Calendario>> ObtenerCitasPaciente(int pacienteId)
+        {
+            var resultado = new ResultadoServicio<List<Calendario>>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerCitasPaciente(pacienteId));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+        public ResultadoServicio<Medico> ObtenerMedicoCalendario(int calendarioId)
+        {
+            var resultado = new ResultadoServicio<Medico>();
+            try
+            {
+                resultado.Inicializar(Dao.ObtenerMedicoCalendario(calendarioId));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
     }
+
 }

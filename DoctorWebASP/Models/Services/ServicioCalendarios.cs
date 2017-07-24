@@ -310,5 +310,83 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+
+        public List<Calendario> ObtenerCitasPaciente(int pacienteId)
+        {
+            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
+
+
+                var action = "ObtenerCitasPaciente";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                request.AddQueryParameter("pacienteId", pacienteId.ToString());
+                //request.AddQueryParameter("espMedica", espMedica.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<Calendario>>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public Medico ObtenerMedicoCalendario(int calendarioId)
+        {
+
+            //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
+
+                var action = "ObtenerMedicoCalendario";
+                var request = new RestRequest(resource: action, method: Method.GET);
+                request.AddQueryParameter("calendarioId", calendarioId.ToString());
+                //var json = JsonConvert.SerializeObject(body);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Medico>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw new DoctorWebException(resultado.Mensaje);
+                }
+                else
+                {
+                    throw new DoctorWebException("No finalizo");
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }

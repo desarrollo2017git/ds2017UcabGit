@@ -96,6 +96,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public Paciente ObtenerPacienteCalendario(int calendarioId)
         {
+
+            var pacientedao = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
             int pacienteId = db.Citas.Where(c => c.CitaId == calendarioId).Select(p => p.Paciente.PersonaId).Single();
             return db.Personas.OfType<Paciente>().Single(p => p.PersonaId == pacienteId);
 
@@ -116,6 +118,24 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 return true;
             else
                 return false;
+        }
+
+        public List<Calendario> ObtenerCitasPaciente(int pacienteId)
+        {
+            //     var citlist = db.Calendarios.Where(c => c.Cita.Paciente.PersonaId == pacienteid && c.Disponible == 0).ToList()
+            var Calendarios = Utilidades.Instancia.Fabrica.CrearDAO<Calendario>();
+            return Calendarios.ObtenerTodos().Where(c => c.Cita.Paciente.PersonaId == pacienteId && c.Disponible == 0).ToList();
+ 
+        }
+
+        public Medico ObtenerMedicoCalendario(int calendarioId)
+        {
+     
+            var pacientedao = Utilidades.Instancia.Fabrica.CrearDAO<Persona>();
+            int medicoId = db.Calendarios.Where(c => c.CalendarioId == calendarioId).Select(p => p.Medico.PersonaId).Single();
+            return db.Personas.OfType<Medico>().Single(p => p.PersonaId == medicoId);
+
+
         }
 
     }
