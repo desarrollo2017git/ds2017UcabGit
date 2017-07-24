@@ -19,6 +19,11 @@ namespace DoctorWebServiciosWCF.Services
         {
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de registrar un calendario
+        /// </summary>
+        /// <param name="calendario"> Objeto Calendario </param>
+        /// <returns> Resultado servicio de Calendario </returns>
         public ResultadoServicio<Calendario> GuardarCalendario(Calendario calendario)
         {
             var resultado = new ResultadoServicio<Calendario>();
@@ -33,6 +38,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de eliminar un calendario
+        /// </summary>
+        /// <param name="calendario"> Objeto Calendario </param>
+        /// <returns> Resultado servicio de Calendario </returns>
         public ResultadoProceso EliminarCalendario(Calendario calendario)
         {
             var resultado = new ResultadoProceso();
@@ -48,6 +58,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener el medico asociado al id dado
+        /// </summary>
+        /// <param name="userId"> Codigo identificador del medico </param>
+        /// <returns> Resultado servicio de Medico </returns>
         public ResultadoServicio<List<Medico>> ObtenerMedico(string userId)
         {
             var resultado = new ResultadoServicio<List<Medico>>();
@@ -62,6 +77,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener el paciente asociado al id dado
+        /// </summary>
+        /// <param name="userId"> Codigo identificador del paciente </param>
+        /// <returns> Resultado servicio de Paciente </returns>
         public ResultadoServicio<List<Paciente>> ObtenerPaciente(string userId)
         {
             var resultado = new ResultadoServicio<List<Paciente>>();
@@ -76,6 +96,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener el tiempo libre de un medico especifico
+        /// </summary>
+        /// <param name="medicoId"> Codigo identificador del medico </param>
+        /// <returns> Resultado servicio de Calendario </returns>
         public ResultadoServicio<List<Calendario>> ObtenerTiempoDoctor(int medicoId)
         {
             var resultado = new ResultadoServicio<List<Calendario>>();
@@ -90,6 +115,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener las citas asociadas a un medico específico
+        /// </summary>
+        /// <param name="medicoId"> Codigo identificador del medico </param>
+        /// <returns> Resultado servicio de Calendario </returns>
         public ResultadoServicio<List<Calendario>> ObtenerCitasDoctor(int medicoId)
         {
             var resultado = new ResultadoServicio<List<Calendario>>();
@@ -104,6 +134,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener el paciente asociado a un calendario específico
+        /// </summary>
+        /// <param name="calendarioId"> Codigo identificador del calendario </param>
+        /// <returns> Resultado servicio de Paciente </returns>
         public ResultadoServicio<Paciente> ObtenerPacienteCalendario(int calendarioId)
         {
             var resultado = new ResultadoServicio<Paciente>();
@@ -118,6 +153,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener las citas asociadas a un paciente específico
+        /// </summary>
+        /// <param name="pacienteId"> Codigo identificador del paciente </param>
+        /// <returns> Resultado servicio de Calendario </returns>
         public ResultadoServicio<List<Calendario>> ObtenerCitasPaciente(int pacienteId)
         {
             var resultado = new ResultadoServicio<List<Calendario>>();
@@ -131,6 +171,12 @@ namespace DoctorWebServiciosWCF.Services
             }
             return resultado;
         }
+
+        /// <summary>
+        /// Metodo del servicio web que se encarga de obtener el medico asociado a un calendario específico
+        /// </summary>
+        /// <param name="calendarioId"> Codigo identificador del calendario </param>
+        /// <returns> Resultado servicio de Medico </returns>
         public ResultadoServicio<Medico> ObtenerMedicoCalendario(int calendarioId)
         {
             var resultado = new ResultadoServicio<Medico>();

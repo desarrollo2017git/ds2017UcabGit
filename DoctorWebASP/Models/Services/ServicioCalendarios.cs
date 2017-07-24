@@ -21,13 +21,12 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo en el cliente utilizado para obtener un medico especifico
+        /// Metodo utilizado para obtener una lista de medicos realcionados, suministrando el identificador de su usuario
         /// </summary>
         /// <param name="userId">Identificador de usuario del medico</param>
-        /// <returns>Medico</returns>
+        /// <returns>Una lista con los medicos asociados</returns>
         public List<Medico> ObtenerMedico(string userId)
         {
-            //return db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
@@ -35,10 +34,7 @@ namespace DoctorWebASP.Models.Services
                 var action = "ObtenerMedico";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -63,25 +59,19 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo en el cliente utilizado para obtener un paciente en especifico
+        /// Metodo  utilizado para obtener una lista de pacientes suministrando el identificador de su usuario
         /// </summary>
         /// <param name="userId">Identificador de usuario del paciente</param>
         /// <returns>Paciente</returns>
         public List<Paciente> ObtenerPaciente(string userId)
         {
-
-            //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
                 var action = "ObtenerPaciente";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -106,27 +96,20 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo en el cliente para obtener una lista de los horarios
+        /// Metodo que sirve paraobtener una lista de los horarios de un medico proporcionando su identificador
         /// disponibles de un doctor
         /// </summary>
         /// <param name="medicoId">Identificador del doctor</param>
         /// <returns>Lista de horarios</returns>
         public List<Calendario> ObtenerTiempoDoctor(int medicoId)
         {
-            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
-
                 var action = "ObtenerTiempoDoctor";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("medicoId", medicoId.ToString());
-                //request.AddQueryParameter("espMedica", espMedica.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -149,23 +132,20 @@ namespace DoctorWebASP.Models.Services
                 throw e;
             }
         }
-
+        /// <summary>
+        /// Metodo que al pasarle el identificador de un medico, devuelve una lista con sus citas agendadas
+        /// </summary>
+        /// <param name="medicoId"> Número único que identifica a cada medico</param>
+        /// <returns> Una lista de calendario que corresponde a las citas agendadas del medico </returns>
         public List<Calendario> ObtenerCitasDoctor(int medicoId)
         {
-            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
-
                 var action = "ObtenerCitasDoctor";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("medicoId", medicoId.ToString());
-                //request.AddQueryParameter("espMedica", espMedica.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -189,11 +169,13 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-
+        /// <summary>
+        /// Método que recibe el identificador de un calendario y retorna el paciente asociado 
+        /// </summary>
+        /// <param name="calendarioId"> Número identificador del calendario </param>
+        /// <returns> Un objeto paciente asociado al calendario suministrado </returns>
         public Paciente ObtenerPacienteCalendario(int calendarioId)
         {
-
-            //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
@@ -201,10 +183,7 @@ namespace DoctorWebASP.Models.Services
                 var action = "ObtenerPacienteCalendario";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("calendarioId", calendarioId.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -228,12 +207,16 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        /// <summary>
+        /// Este método crea y registra un calendario recibiendo un objeto de este tipo
+        /// </summary>
+        /// <param name="cal"> Un objeto calendario a ser agregado al sistema </param>
+        /// <returns> El objeto agregado, que al ser validado se corrobora que la creacion fue exitosa </returns>
         public Calendario GuardarCalendario(Calendario cal)
         {
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
                 var action = "GuardarCalendario";
                 var request = new RestRequest(resource: action, method: Method.POST);
                 request.RequestFormat = DataFormat.Json;
@@ -241,14 +224,7 @@ namespace DoctorWebASP.Models.Services
                 var body = new {calendario = cal};
                 var json = JsonConvert.SerializeObject(body, settings);
                 request.AddParameter("application/json", json, null, ParameterType.RequestBody);
-
-                //var json = JsonConvert.SerializeObject(body);
-
-
-                //request.AddHeader("Content-Type", "application/json");
-                //request.AddJsonBody(body);
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -272,6 +248,11 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        /// <summary>
+        /// Este método se encarga de eliminar del sistema al objeto suministrado
+        /// </summary>
+        /// <param name="cal"> Un objeto calendario para eliminar </param>
+        /// <returns> El objeto calendario que se eliminó, de manera que sirva para comprobar que la eliminación fue exitosa </returns>
         public Calendario EliminarCalendario(Calendario cal)
         {
             try
@@ -284,9 +265,7 @@ namespace DoctorWebASP.Models.Services
                 var body = new { calendario = cal };
                 var json = JsonConvert.SerializeObject(body, settings);
                 request.AddParameter("application/json", json, null, ParameterType.RequestBody);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -310,23 +289,20 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-
+        /// <summary>
+        /// Método que recibe el identificador de un paciente y retorna una lista con todas sus citas
+        /// </summary>
+        /// <param name="pacienteId"> El codigo identificador de un paciente </param>
+        /// <returns> Una lista donde estarán todas sus citas </returns>
         public List<Calendario> ObtenerCitasPaciente(int pacienteId)
         {
-            //Where(m => m.Medico.PersonaId == mdId && m.Disponible == 1).OrderBy(m => m.HoraInicio)
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
-
                 var action = "ObtenerCitasPaciente";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("pacienteId", pacienteId.ToString());
-                //request.AddQueryParameter("espMedica", espMedica.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
@@ -350,21 +326,20 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        /// <summary>
+        /// Metodo que consigue un objeto médico al pasarle el identificador de un objeto calendario que tenga asociado
+        /// </summary>
+        /// <param name="calendarioId"> El códogo identificador del calendario </param>
+        /// <returns> El objeto médico asociado al calendario del codigo suministrado </returns>
         public Medico ObtenerMedicoCalendario(int calendarioId)
         {
-
-            //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
-
                 var action = "ObtenerMedicoCalendario";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 request.AddQueryParameter("calendarioId", calendarioId.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
                 var response = client.Execute(request);
-
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
