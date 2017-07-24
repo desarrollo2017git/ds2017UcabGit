@@ -1,10 +1,10 @@
-﻿using System;
+﻿using DoctorWebServiciosWCF.Models.ORM;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
-
 namespace DoctorWebServiciosWCF.Models
 {
     [DataContract]
@@ -16,6 +16,7 @@ namespace DoctorWebServiciosWCF.Models
         public String Diagnostico { get; set; }
         [DataMember]
         public String Indicacion { get; set; }
-        public virtual Paciente Paciente { get; set; }
+        [DataMember]
+        public int Paciente { get; set; }
     }
 }

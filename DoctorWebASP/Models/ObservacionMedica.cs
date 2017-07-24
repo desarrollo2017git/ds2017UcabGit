@@ -16,6 +16,6 @@ namespace DoctorWebASP.Models
         public String Diagnostico { get; set; } 
         [Required]
         public String Indicacion { get; set; }
-        public virtual Paciente Paciente { get; set; }
+        public int Paciente  { get; set; }
     }
 }

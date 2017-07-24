@@ -4,11 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h1 style="text-align:center;">Panel de Observaciones Médicas</h1>
-
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Crear nueva Observación Médica", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -17,6 +16,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Indicacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Paciente)
         </th>
         <th></th>
     </tr>
@@ -30,8 +32,12 @@
             @Html.DisplayFor(modelItem => item.Indicacion)
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.ObservacionMedicaId }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.ObservacionMedicaId })
+            @Html.DisplayFor(modelItem => item.Paciente)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ObservacionMedicaId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ObservacionMedicaId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ObservacionMedicaId })
         </td>
     </tr>
 }

@@ -1,39 +1,48 @@
 ﻿@model DoctorWebASP.Models.ObservacionDeAtencionClinica
-@{
-    ViewBag.Title = "Eliminar Atención Clinica";
-}
-<h1 style="text-align:center;">Eliminar  Observación de Atención Clinica</h1>
-<h3>Desea Eliminar esta Observación de Atención Clinica?</h3>
-<div>
 
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ObservacionDeAtencionClinica</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
             @Html.DisplayNameFor(model => model.Observacion)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.Observacion)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.Comentario)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.Comentario)
         </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.tipo)
         </dt>
+
         <dd>
             @Html.DisplayFor(model => model.tipo)
         </dd>
+
     </dl>
-    @using (Html.BeginForm())
-    {
+
+    @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Volver a lista de Observación de Atención Clinica", "Index")
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
         </div>
     }
 </div>

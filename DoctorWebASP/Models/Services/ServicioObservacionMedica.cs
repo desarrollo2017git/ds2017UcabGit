@@ -15,9 +15,10 @@ namespace DoctorWebASP.Models.Services
     public class ServicioObservacionMedica : IServicioObservacionMedica
     {
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para eliminar una Observacion Medica
+        /// Metodo del cliente que realiza el llamado para eliminar una Cita
         /// </summary>
-        /// <param name="observacionMedica">Observacion a Eliminar</param>
+        /// <param name="cita">Cita a Eliminar</param>
+        /// <param name="calendario">Calendario para devolver su disponibilidad</param>
         public void EliminarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
@@ -58,16 +59,17 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para Guardar una observacion medica
+        /// Metodo del cliente que realiza el llamado para Guardar una Cita
         /// </summary>
-        /// <param name="observacionMedica">observacion Medica que se guardará</param>
+        /// <param name="cita">Cita que se guardará</param>
+        /// <param name="calendario">Calendario al que se le quita la disponibilidad</param>
         public void GuardarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
 
-                var action = "GuardarObservarcionMedica";
+                var action = "GuardarObservacionMedica";
                 var request = new RestRequest(resource: action, method: Method.POST);
                 request.RequestFormat = DataFormat.Json;
                 var settings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat };
@@ -75,7 +77,11 @@ namespace DoctorWebASP.Models.Services
                 var json = JsonConvert.SerializeObject(body, settings);
                 request.AddParameter("application/json", json, null, ParameterType.RequestBody);
 
-           
+                //var json = JsonConvert.SerializeObject(body);
+
+
+                //request.AddHeader("Content-Type", "application/json");
+                //request.AddJsonBody(body);
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -101,24 +107,23 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+
         /// <summary>
-        /// Metodo del cliente que realiza el llamado al servicio
-        /// para obtener una observacion medica especifica
+        /// Metodo del cliente para obtener la lista de citas de un doctor especifico
         /// </summary>
-        /// <param name="id">Id de la observacion medica que se desea obtener</param>
-        /// <returns>Observacion Medica</returns>                
-        public ObservacionMedica ObtenerObservacionMedica(int id)
+        /// <param name="userId">Identificador de usuario del doctor</param>
+        /// <returns>Lista de citas</returns>
+        public List<ObservacionMedica> ObtenerSelectListObservacionMedica()
         {
-
-       
-
+            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
 
-                var action = "ObtenerObservacionMedica";
+
+                var action = "ObtenerSelectListObservacionMedica";
                 var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("id", id.ToString());
+               // request.AddQueryParameter("userId", userId);
                 //var json = JsonConvert.SerializeObject(body);
 
                 var response = client.Execute(request);
@@ -126,10 +131,10 @@ namespace DoctorWebASP.Models.Services
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<ObservacionMedica>>();
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<ObservacionMedica>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-                        return resultado.Contenido;
+                        return resultado.Contenido.ToList();
                     }
                     else
                         throw new DoctorWebException(resultado.Mensaje);
@@ -146,55 +151,8 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-        /// <summary>
-        /// Metodo en el cliente utilizado para obtener un paciente en especifico
-        /// </summary>
-        /// <param name="userId">Identificador de usuario del paciente</param>
-        /// <returns>Paciente</returns>
-        public Paciente ObtenerPaciente(string userId)
-        {
-
-            //return db.Personas.OfType<Paciente>().Single(p => p.ApplicationUser.Id == userId);
-            try
-            {
-                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCitas"));
-
-                var action = "ObtenerPaciente";
-                var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("userId", userId.ToString());
-                //var json = JsonConvert.SerializeObject(body);
-
-                var response = client.Execute(request);
-
-                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Paciente>>();
-                    if (resultado != null && resultado.SinProblemas)
-                    {
-                        return resultado.Contenido;
-                    }
-                    else
-                        throw new DoctorWebException(resultado.Mensaje);
-                }
-                else
-                {
-                    throw new DoctorWebException("No finalizo");
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        /// <summary>
-        /// Metodo en el cliente utilizado para obtener una lista de todos
-        /// los centros medicos
-        /// </summary>
-        /// <returns>SelectList</returns>
-        public List<ObservacionMedica> ObtenerListaObservacionMedica()
+        /*
+        public SelectList ObtenerSelectListObservacionMedica()
         {
             //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
             try
@@ -202,7 +160,7 @@ namespace DoctorWebASP.Models.Services
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
 
 
-                var action = "ObtenerListaObservacionMedica";
+                var action = "ObtenerSelectListObservacionMedica";
                 var request = new RestRequest(resource: action, method: Method.GET);
                 //request.AddQueryParameter("userId", userId);
                 //var json = JsonConvert.SerializeObject(body);
@@ -215,7 +173,7 @@ namespace DoctorWebASP.Models.Services
                     var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<ObservacionMedica>>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
-                        List<ObservacionMedica> selectList = new List<ObservacionMedica>(resultado.Contenido);
+                        SelectList selectList = new SelectList(resultado.Contenido, "Diagnostico", "Indicacion", "Paciente");
                         return selectList;
                     }
                     else
@@ -233,6 +191,7 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        */
 
     }
 }

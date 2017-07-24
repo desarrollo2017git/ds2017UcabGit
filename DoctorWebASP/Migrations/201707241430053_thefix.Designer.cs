@@ -7,13 +7,13 @@ namespace DoctorWebASP.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class nuevamigracion : IMigrationMetadata
+    public sealed partial class thefix : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(nuevamigracion));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(thefix));
         
         string IMigrationMetadata.Id
         {
-            get { return "201707221407550_nuevamigracion"; }
+            get { return "201707241430053_thefix"; }
         }
         
         string IMigrationMetadata.Source

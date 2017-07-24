@@ -25,7 +25,7 @@ namespace DoctorWebASP.Models
         public string Comentario { get; set; }
         [Required]
         public Tipo tipo { get; set; }
-        public virtual Paciente Paciente { get; set; }
+      //  public virtual Paciente Paciente { get; set; }
 
     }
 }

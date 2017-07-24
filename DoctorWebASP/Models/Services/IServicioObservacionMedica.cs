@@ -11,20 +11,19 @@ namespace DoctorWebASP.Models.Services
 {
     public interface IServicioObservacionMedica
     {
-        // Metodo en el cliente para obtener una Observacion Medica
-        ObservacionMedica ObtenerObservacionMedica(int observacionMedicaId);
+ 
 
-        // Metodo en el cliente utilizado para obtener un paciente en especifico
-        Paciente ObtenerPaciente(string userId);
-
-        // Metodo del cliente que realiza el llamado para Guardar una observacion Medica
+        // Metodo del cliente que realiza el llamado para Guardar una Observacion Medica
         void GuardarObservacionMedica(ObservacionMedica observacionMedica);
 
-        // Metodo del cliente que realiza el llamado para eliminar una observacion medica
-        void EliminarObservacionMedica(ObservacionMedica observacionMedica);
+     
+        // Metodo en el cliente utilizado para obtener una lista de todos
+        // Observaciones Medicas
+        List<ObservacionMedica> ObtenerSelectListObservacionMedica();
 
-        // Metodo en el cliente utilizado para obtener una lista de todas las observaciones medicas
-        List<ObservacionMedica> ObtenerListaObservacionMedica();
+ 
+        // Metodo del cliente que realiza el llamado para eliminar una Cita
+        void EliminarObservacionMedica(ObservacionMedica observacionMedica);
 
     }
 }

@@ -238,6 +238,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MedicosController.cs" />
+    <Compile Include="Controllers\MessageDialog.cs" />
     <Compile Include="Controllers\NotificacionesController.cs" />
     <Compile Include="Controllers\ObservacionDeAtencionClinicasController.cs" />
     <Compile Include="Controllers\ObservacionMedicasController.cs" />
@@ -245,17 +246,21 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
-    <Compile Include="Migrations\201707221407550_nuevamigracion.cs" />
-    <Compile Include="Migrations\201707221407550_nuevamigracion.Designer.cs">
-      <DependentUpon>201707221407550_nuevamigracion.cs</DependentUpon>
+    <Compile Include="Migrations\201707221649562_Fix.cs" />
+    <Compile Include="Migrations\201707221649562_Fix.Designer.cs">
+      <DependentUpon>201707221649562_Fix.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707221609129_nuevamigracion2.cs" />
-    <Compile Include="Migrations\201707221609129_nuevamigracion2.Designer.cs">
-      <DependentUpon>201707221609129_nuevamigracion2.cs</DependentUpon>
+    <Compile Include="Migrations\201707222059102_milagrito.cs" />
+    <Compile Include="Migrations\201707222059102_milagrito.Designer.cs">
+      <DependentUpon>201707222059102_milagrito.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201707221625397_pruebag4.cs" />
-    <Compile Include="Migrations\201707221625397_pruebag4.Designer.cs">
-      <DependentUpon>201707221625397_pruebag4.cs</DependentUpon>
+    <Compile Include="Migrations\201707241430053_thefix.cs" />
+    <Compile Include="Migrations\201707241430053_thefix.Designer.cs">
+      <DependentUpon>201707241430053_thefix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707241450184_thefix2.cs" />
+    <Compile Include="Migrations\201707241450184_thefix2.Designer.cs">
+      <DependentUpon>201707241450184_thefix2.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Services\IServicioObservacionMedica.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
@@ -1348,16 +1353,6 @@
     <Content Include="Views\Calendarios\ErrorCalendario.cshtml" />
     <Content Include="Views\Calendarios\Index.cshtml" />
     <Content Include="Views\Calendarios\listaCalendario.cshtml" />
-    <Content Include="Views\ObservacionDeAtencionClinicas\Create.cshtml" />
-    <Content Include="Views\ObservacionDeAtencionClinicas\Delete.cshtml" />
-    <Content Include="Views\ObservacionDeAtencionClinicas\Details.cshtml" />
-    <Content Include="Views\ObservacionDeAtencionClinicas\Edit.cshtml" />
-    <Content Include="Views\ObservacionDeAtencionClinicas\Index.cshtml" />
-    <Content Include="Views\ObservacionMedicas\Create.cshtml" />
-    <Content Include="Views\ObservacionMedicas\Delete.cshtml" />
-    <Content Include="Views\ObservacionMedicas\Details.cshtml" />
-    <Content Include="Views\ObservacionMedicas\Edit.cshtml" />
-    <Content Include="Views\ObservacionMedicas\Index.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Create.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Delete.cshtml" />
     <Content Include="Views\ResultadoExamenMedicoes\Details.cshtml" />
@@ -1387,9 +1382,21 @@
     <Content Include="Views\HistoriaMedicas\NotaDeGuardiaPaciente.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
+    <Content Include="Views\Citas\DeleteFromDoctor.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Create.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Delete.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Details.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Edit.cshtml" />
+    <Content Include="Views\ObservacionMedicas\Index.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Create.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Delete.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Details.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Edit.cshtml" />
+    <Content Include="Views\ObservacionDeAtencionClinicas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Default\" />
     <Folder Include="Views\Pacientes\" />
   </ItemGroup>
   <ItemGroup>
@@ -1401,14 +1408,17 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201707221407550_nuevamigracion.resx">
-      <DependentUpon>201707221407550_nuevamigracion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707221649562_Fix.resx">
+      <DependentUpon>201707221649562_Fix.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707221609129_nuevamigracion2.resx">
-      <DependentUpon>201707221609129_nuevamigracion2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707222059102_milagrito.resx">
+      <DependentUpon>201707222059102_milagrito.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201707221625397_pruebag4.resx">
-      <DependentUpon>201707221625397_pruebag4.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201707241430053_thefix.resx">
+      <DependentUpon>201707241430053_thefix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707241450184_thefix2.resx">
+      <DependentUpon>201707241450184_thefix2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -3,7 +3,7 @@ namespace DoctorWebASP.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class pruebag4 : DbMigration
+    public partial class thefix2 : DbMigration
     {
         public override void Up()
         {

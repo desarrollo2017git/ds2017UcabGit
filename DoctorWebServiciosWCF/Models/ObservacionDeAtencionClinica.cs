@@ -1,7 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace DoctorWebServiciosWCF.Models
 {
+   
     public class ObservacionDeAtencionClinica
     {
         public enum Tipo
@@ -19,7 +22,8 @@ namespace DoctorWebServiciosWCF.Models
         public string Comentario { get; set; }
         [Required]
         public Tipo tipo { get; set; }
-        public virtual Paciente Paciente { get; set; }
+        //  public virtual Paciente Paciente { get; set; }
+
 
     }
 }

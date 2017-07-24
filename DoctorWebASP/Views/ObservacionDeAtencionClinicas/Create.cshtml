@@ -1,15 +1,18 @@
 ﻿@model DoctorWebASP.Models.ObservacionDeAtencionClinica
-@{
-    ViewBag.Title = "Crear Observación de Atención Clinica";
-}
-<h1 style="text-align:center;">Crear nueva Observación de Atención Clinica</h1>
 
-@using (Html.BeginForm())
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-
+    
     <div class="form-horizontal">
-        <!--  <h4>ObservacionDeAtencionClinica</h4> -->
+        <h4>ObservacionDeAtencionClinica</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -19,6 +22,7 @@
                 @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.Comentario, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -26,6 +30,7 @@
                 @Html.ValidationMessageFor(model => model.Comentario, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             @Html.LabelFor(model => model.tipo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -33,16 +38,19 @@
                 @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
             </div>
         </div>
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
+
 <div>
-    @Html.ActionLink("Regresar a Observación de Atención Médica", "Index")
+    @Html.ActionLink("Back to List", "Index")
 </div>
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

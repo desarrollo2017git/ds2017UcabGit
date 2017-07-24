@@ -7,15 +7,14 @@ namespace DoctorWebServiciosWCF.Models.DAO
 {
     public interface IObservacionMedicaDAO
     {
-        // Metodo del DAO para obtener observaciones a partir de su identificador
-        ObservacionMedica ObtenerObservacion(int observacionMedicaId);
-        // Metodo del DAO para obtener pacientes a partir de su identificador de usuario
-        Paciente ObtenerPaciente(string userId);
-        // Metodo del DAO para guardar Observaciones Medicas en la Base de datos
+        // Metodo del DAO para guardar Observaciones Medias en la Base de datos
         void GuardarObservacionMedica(ObservacionMedica observacionMedica);
-        // Metodo del DAO utilizado para eliminar Observaciones Medicas
-        void EliminarObservacionMedica(ObservacionMedica observacionMedica);
+
         // Metodo del DAO para obtener una lista de las observaciones medicas
-        List<ObservacionMedica> ObtenerListaObservacionMedica();
+        List<ObservacionMedica> ObtenerSelectListObservacionMedica();
+
+        // Metodo del Data Access Object utilizado para eliminar observaciones medicas. 
+        void EliminarObservacionMedica(ObservacionMedica observacionMedica);
+        
     }
 }
