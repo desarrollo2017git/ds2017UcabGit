@@ -21,7 +21,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
             try
             {
                 // Obtenemos la cita a eliminar de la BD usando el comando ObtenerPrimeroQue
-                // luego eliminamos dicha cita con el comando Borrar
+                // luego eliminamos dicha observacion con el comando Borrar
                 var observacionAEliminar = ObtenerPrimeroQue(c => c.ObservacionMedicaId == observacionMedica.ObservacionMedicaId);
                 Borrar(observacionAEliminar);
             }

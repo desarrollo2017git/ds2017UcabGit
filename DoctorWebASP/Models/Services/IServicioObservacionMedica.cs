@@ -22,7 +22,7 @@ namespace DoctorWebASP.Models.Services
         List<ObservacionMedica> ObtenerSelectListObservacionMedica();
 
  
-        // Metodo del cliente que realiza el llamado para eliminar una Cita
+        // Metodo del cliente que realiza el llamado para eliminar una observacion medica
         void EliminarObservacionMedica(ObservacionMedica observacionMedica);
 
     }

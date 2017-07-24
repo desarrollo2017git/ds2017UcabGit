@@ -23,12 +23,11 @@ namespace DoctorWebASP.Controllers
             this.consulta = db;
         }
 
-        // GET: Citas
+        // GET: ObservacionMedica
         /// <summary>
-        /// Metodo que llama a la interfaz de consulta de citas principal, 
-        /// Si el usuario conectado actual es medico se llama a IndexDoctor
+        /// Metodo que llama a la interfaz de consulta de observaciones
         /// </summary>
-        /// <returns> Interfaz de consulta de citas agendadas de paciente </returns>
+        /// <returns> Interfaz de consulta de observaciones medicas </returns>
         [Authorize]
         public ActionResult Index()
         {

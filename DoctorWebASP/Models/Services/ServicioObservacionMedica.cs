@@ -15,10 +15,9 @@ namespace DoctorWebASP.Models.Services
     public class ServicioObservacionMedica : IServicioObservacionMedica
     {
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para eliminar una Cita
+        /// Metodo del cliente que realiza el llamado para eliminar una observacion medica
         /// </summary>
-        /// <param name="cita">Cita a Eliminar</param>
-        /// <param name="calendario">Calendario para devolver su disponibilidad</param>
+        /// <param name="observacionMedica">observacion a Eliminar</param>
         public void EliminarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
@@ -59,10 +58,9 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para Guardar una Cita
+        /// Metodo del cliente que realiza el llamado para Guardar una observacion medica
         /// </summary>
-        /// <param name="cita">Cita que se guardará</param>
-        /// <param name="calendario">Calendario al que se le quita la disponibilidad</param>
+        /// <param name="observacionMedica">observacion medica que se guardará</param>
         public void GuardarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
@@ -77,11 +75,7 @@ namespace DoctorWebASP.Models.Services
                 var json = JsonConvert.SerializeObject(body, settings);
                 request.AddParameter("application/json", json, null, ParameterType.RequestBody);
 
-                //var json = JsonConvert.SerializeObject(body);
-
-
-                //request.AddHeader("Content-Type", "application/json");
-                //request.AddJsonBody(body);
+               
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -109,13 +103,12 @@ namespace DoctorWebASP.Models.Services
 
 
         /// <summary>
-        /// Metodo del cliente para obtener la lista de citas de un doctor especifico
+        /// Metodo del cliente para obtener la lista de observaciones medicas
         /// </summary>
-        /// <param name="userId">Identificador de usuario del doctor</param>
-        /// <returns>Lista de citas</returns>
+        /// <returns>Lista de observaciones medicas</returns>
         public List<ObservacionMedica> ObtenerSelectListObservacionMedica()
         {
-            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
+           
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
@@ -123,9 +116,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerSelectListObservacionMedica";
                 var request = new RestRequest(resource: action, method: Method.GET);
-               // request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
-
+     
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
