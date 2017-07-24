@@ -202,7 +202,8 @@ namespace DoctorWebASP.Controllers
                             
                             if (cal.Count() > 0)
                             {
-                                cal2 = cal.First();
+
+                                cal2 = cal.Find(x => x.CalendarioId == calendario.CalendarioId);
                                 if (cal2.CalendarioId == calendario.CalendarioId && cal2.Disponible == 1)
                                 {
                                     //calendario.Cancelada = false;
