@@ -1,6 +1,7 @@
 ﻿using DoctorWebServiciosWCF.Controllers.Helpers;
 using DoctorWebServiciosWCF.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -226,7 +227,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
-                return result.Count();
+                return promedio;
             }
             catch(DivideByZeroException e)
             {
@@ -289,7 +290,42 @@ namespace DoctorWebServiciosWCF.Models.DAO
             {
                 throw Fabrica.CrearExcepcion(interna: e);
             }
+        }
 
+        public Dictionary<string, object> obtenerAtributos(List<string> entidades)
+        {
+            try
+            {
+                String PROJECT_MODEL_STR = "DoctorWebServiciosWCF.Models.";
+
+                object item;
+                var filtros = new Dictionary<string, object>();
+
+                foreach (var entidad in entidades)
+                {
+                    // create the object from the specification string
+                    var tipo = Type.GetType(PROJECT_MODEL_STR + entidad);
+                    item = Activator.CreateInstance(Type.GetType(PROJECT_MODEL_STR + entidad));
+
+                    var attributos = new Dictionary<string, string>();
+                    foreach (var property in item.GetType().GetProperties())
+                    {
+                        if (!property.PropertyType.ToString().Contains("Models") && !property.Name.Contains("Concat") && !property.Name.Contains("Application") && !property.Name.Contains("NombreCompleto"))
+                            attributos.Add(key: property.Name, value: "");
+                    }
+                    filtros.Add(tipo.Name, attributos);
+                }
+
+                return filtros;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
         }
     }
 }

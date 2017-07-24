@@ -3,9 +3,12 @@ using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -26,7 +29,7 @@ namespace DoctorWebServiciosWCF.Services
             return "Hola mundo";
         }
 
-        public ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin)
+        public ResultadoProceso ReportesPreestablecidos(string codigo, string fechaInicio, string fechaFin)
         {
             var resultado = Fabrica.CrearResultadoProceso();
 
@@ -36,38 +39,32 @@ namespace DoctorWebServiciosWCF.Services
                 if (!int.TryParse(codigo, out id))
                     throw new FormatException("El código debe ser un número.");
 
-                if (!tipo.Equals(ReporteTipo.preestablecido.ToString()) && !tipo.Equals(ReporteTipo.configurado.ToString()))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
-
-                if (tipo.Equals(ReporteTipo.preestablecido.ToString()) && !(id >= 1 && id <= 6))
+                if (!(id >= 1 && id <= 6))
                     throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
 
-                if (tipo.Equals(ReporteTipo.preestablecido.ToString()))
+                switch (id)
                 {
-                    switch (id)
-                    {
-                        case 1:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
-                            break;
-                        case 2:
-                            resultado.Inicializar(dao.getPromedioEdadPaciente().ToString());
-                            break;
-                        case 3:
-                            resultado.Inicializar(dao.getPromedioCitasPorMedico().ToString());
-                            break;
-                        case 4:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
-                            break;
-                        case 5:
-                            resultado.Inicializar(dao.getPromedioUsoApp().ToString());
-                            break;
-                        case 6:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getPromedioCitasCanceladasPorMedico(fechaInicio, fechaFin).ToString());
-                            break;
-                    }
+                    case 1:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
+                        break;
+                    case 2:
+                        resultado.Inicializar(dao.getPromedioEdadPaciente().ToString());
+                        break;
+                    case 3:
+                        resultado.Inicializar(dao.getPromedioCitasPorMedico().ToString());
+                        break;
+                    case 4:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
+                        break;
+                    case 5:
+                        resultado.Inicializar(dao.getPromedioUsoApp().ToString());
+                        break;
+                    case 6:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getPromedioCitasCanceladasPorMedico(fechaInicio, fechaFin).ToString());
+                        break;
                 }
             }
             catch (Exception ex)
@@ -78,10 +75,38 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        public ResultadoServicio<object> ObtenerAtributos(List<string> entidades)
+        {
+            var resultado = Fabrica.CrearResultadoDe<object>();
+            try
+            {
+                var obj = JsonConvert.SerializeObject(dao.obtenerAtributos(entidades));
+                resultado.Inicializar(obj);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+
+            return resultado;
+        }
+
+        public List<String> ObtenerMetricas(List<String> entidades)
+        {
+            List<string> attributes = new List<string>();
+
+            return entidades;
+        }
+
         public void comprobarFecha(string fechaInicio, string fechaFin)
         {
             if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
                 throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+        }
+
+        public void ReportesConfigurados(Dictionary<string, string> datos)
+        {
+            throw new NotImplementedException();
         }
     }
 }

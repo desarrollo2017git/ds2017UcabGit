@@ -14,5 +14,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
         double getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr);
         double getPromedioUsoApp();
         double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
+        Dictionary<string, object> obtenerAtributos(List<String> entidades);
     }
 }

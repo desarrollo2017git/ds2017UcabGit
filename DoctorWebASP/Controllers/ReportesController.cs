@@ -3,22 +3,16 @@ using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
 using DoctorWebASP.Models.Services;
 using DoctorWebASP.ViewModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace DoctorWebASP.Controllers
 {
     public class ReportesController : Controller
     {
-        private ApplicationDbContext db;
 
         #region Instancia ReportesController
         /// <summary>
@@ -42,9 +36,6 @@ namespace DoctorWebASP.Controllers
             this.Servicio = servicio;
         }
         #endregion
-
-        private string lastTimeOnDay = "11:59:59 PM";
-        private string firstTimeOnDay = "12:00:00 AM";
 
         #region REPORTES PRESTABLECIDOS
         /// <summary>
@@ -199,6 +190,56 @@ namespace DoctorWebASP.Controllers
             return Json(new { resultado });
         }
         #endregion
+        #endregion
+
+        #region REPORTES CONFIGURADOS
+        /// <summary>
+        /// Método que instancia la interfaz o vista para los reportes configurados.
+        /// </summary>
+        /// <returns>Retorna un objeto de tipo View</returns>
+        public ActionResult Configurados()
+        {
+            var result = getEntities();
+
+            return View(result);
+        }
+
+        /// <summary>
+        /// Metodo utilizado para llenar una lista de entidades.
+        /// </summary>
+        /// <returns>Retorna un tipo de dato IEnumerable </returns>
+        public Dictionary<string,string> getEntities()
+        {
+            var entitiesDict = new Dictionary<string, string>
+            {
+                { "CentroMedico", "Centro Medico" },
+                { "Medico", null },
+                { "Paciente", null },
+                { "RecursoHospitalario", "Recurso Hospitalario" }
+            };
+
+            return entitiesDict;
+        }
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
+        [HttpPost]
+        public JsonResult getAttributes(List<string> selectedEntities)
+        {
+            ResultadoServicio<String> resultado = Fabrica.CrearResultadoDe<String>();
+            try
+            {
+                resultado = Servicio.obtenerAtributos(selectedEntities);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return Json(new { answer = resultado.Contenido });
+        }
         #endregion
     }
 }

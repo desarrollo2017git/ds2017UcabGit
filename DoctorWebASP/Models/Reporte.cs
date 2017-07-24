@@ -11,6 +11,6 @@ namespace DoctorWebASP.Models
 
     public enum ReporteTipo : byte
     {
-        preestablecido, configurado
+        preestablecidos, configurados
     }
 }

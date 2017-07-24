@@ -18,8 +18,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/1";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/1";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
                 comprobarFecha(fechaInicio, fechaFin);
                 solicitud.AddQueryParameter("fechaInicio", fechaInicio);
@@ -29,7 +29,7 @@ namespace DoctorWebASP.Models.Services
 
                 if (respuesta != null && respuesta.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    var datos = (JObject) JsonConvert.DeserializeObject(respuesta.Content);
+                    var datos = (JObject)JsonConvert.DeserializeObject(respuesta.Content);
                     var resultado = datos[$"{accion}Result"].ToObject<ResultadoProceso>();
                     if (resultado != null && resultado.SinProblemas)
                     {
@@ -56,8 +56,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/6";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/6";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
                 comprobarFecha(fechaInicio, fechaFin);
                 solicitud.AddQueryParameter("fechaInicio", fechaInicio);
@@ -94,8 +94,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/2";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/2";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
 
                 var respuesta = cliente.Execute(solicitud);
@@ -129,8 +129,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/3";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/3";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
 
                 var respuesta = cliente.Execute(solicitud);
@@ -164,8 +164,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/4";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/4";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
                 comprobarFecha(fechaInicio, fechaFin);
                 solicitud.AddQueryParameter("fechaInicio", fechaInicio);
@@ -202,8 +202,8 @@ namespace DoctorWebASP.Models.Services
             {
                 var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
 
-                var accion = "Reportes";
-                var requestUrl = $"{accion}/{ReporteTipo.preestablecido.ToString()}/5";
+                var accion = "ReportesPreestablecidos";
+                var requestUrl = "reportes/preestablecidos/5";
                 var solicitud = new RestRequest(resource: requestUrl, method: Method.GET);
 
                 var respuesta = cliente.Execute(solicitud);
@@ -230,6 +230,46 @@ namespace DoctorWebASP.Models.Services
                 throw Fabrica.CrearExcepcion(interna: e);
             }
         }
+
+
+        public ResultadoServicio<String> obtenerAtributos(List<string> entities)
+        {
+            try
+            {
+                var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
+
+                var accion = "ObtenerAtributos";
+                var solicitud = new RestRequest(resource: accion, method: Method.POST);
+                var cuerpo = new { entidades = entities };
+
+                solicitud.AddHeader("Content-Type", "application/json");
+                solicitud.AddJsonBody(cuerpo);
+
+                var respuesta = cliente.Execute(solicitud);
+
+                if (respuesta != null && respuesta.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(respuesta.Content);
+                    var resultado = datos[$"{accion}Result"].ToObject<ResultadoServicio<String>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado;
+                    }
+                    else
+                        throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
+                }
+                throw Fabrica.CrearExcepcion(mensaje: "No finalizo correctamente");
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
+        }
+
 
         public void comprobarFecha(string fechaInicio, string fechaFin)
         {

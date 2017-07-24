@@ -1,4 +1,5 @@
 ﻿using DoctorWebServiciosWCF.Models.Results;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,20 @@ namespace DoctorWebServiciosWCF.Services
         string DoWork(string codigo);
 
         [OperationContract]
-        [WebGet(UriTemplate = "/reportes/{tipo}/{codigo}?fechaInicio={fechaInicio}&fechaFin={fechaFin}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin);
+        [WebGet(UriTemplate = "/reportes/preestablecidos/{codigo}?fechaInicio={fechaInicio}&fechaFin={fechaFin}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoProceso ReportesPreestablecidos(string codigo, string fechaInicio, string fechaFin);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "obtenerAtributos", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //ResultadoServicio<JObject> ObtenerAtributos(List<string> entidades);
+        ResultadoServicio<object> ObtenerAtributos(List<string> entidades);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "obtenerMetricas", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        List<String> ObtenerMetricas(List<string> atributos);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/reportes/configurados", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        void ReportesConfigurados(Dictionary<string, string> datos);
     }
 }
