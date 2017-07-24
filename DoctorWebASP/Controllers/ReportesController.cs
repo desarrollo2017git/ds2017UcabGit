@@ -1,25 +1,15 @@
 ﻿using DoctorWebASP.Controllers.Helpers;
-using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
 using DoctorWebASP.Models.Services;
 using DoctorWebASP.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity.Core;
-using System.Data.SqlClient;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace DoctorWebASP.Controllers
 {
     public class ReportesController : Controller
     {
-        private ApplicationDbContext db;
-
+        
         #region Instancia ReportesController
         /// <summary>
         /// Instancia que da acceso a los servicios web.
@@ -43,8 +33,8 @@ namespace DoctorWebASP.Controllers
         }
         #endregion
 
-        private string lastTimeOnDay = "11:59:59 PM";
-        private string firstTimeOnDay = "12:00:00 AM";
+        //private string lastTimeOnDay = "11:59:59 PM";
+        //private string firstTimeOnDay = "12:00:00 AM";
 
         #region REPORTES PRESTABLECIDOS
         /// <summary>

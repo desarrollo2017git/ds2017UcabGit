@@ -321,7 +321,7 @@ namespace DoctorWebASP.Controllers
                 string userId = consulta.ObtenerUsuarioLoggedIn(this);
                 var medico = consulta.ObtenerMedico(userId);
                 var paciente = consulta.ObtenerPaciente(userId);
-                int a = 1;
+                //int a = 1;
                 //var login = db.Personas.OfType<Medico>().Where(p => p.ApplicationUser.Id == userID);
                 // var login2 = db.Personas.OfType<Paciente>().Where(p => p.ApplicationUser.Id == userID);
                 if (medico.Count > 0)
@@ -335,7 +335,7 @@ namespace DoctorWebASP.Controllers
                     var citlist = consulta.ObtenerCitasDoctor(medicoid);
                     var citArray = from cit in citlist select new { id = cit.CalendarioId, title = "Cita Médica con: " + consulta.ObtenerPacienteCalendario(cit.CalendarioId).Nombre, start = cit.HoraInicio.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), end = cit.HoraFin.ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), cit.Disponible, cit.Cancelada, backgroundColor = "#f56954" };
 
-                    String intento = "";
+                    //String intento = "";
 
                     foreach (var elemento in citArray)
                     {

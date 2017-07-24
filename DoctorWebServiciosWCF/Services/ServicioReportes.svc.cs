@@ -19,7 +19,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Instancia dao para interactuar con la Base de datos.
         /// </summary>
-        private readonly IReporteDAO dao = Fabrica.CrearReporteDAO();
+        private readonly IReporteDAO dao = Utilidades.Instancia.Fabrica.CrearReporteDAO();
 
         public string DoWork(string codigo)
         {
@@ -28,7 +28,7 @@ namespace DoctorWebServiciosWCF.Services
 
         public ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultado = Utilidades.Instancia.Fabrica.CrearResultadoProceso();
 
             try
             {
@@ -37,10 +37,10 @@ namespace DoctorWebServiciosWCF.Services
                     throw new FormatException("El código debe ser un número.");
 
                 if (!tipo.Equals(ReporteTipo.preestablecido.ToString()) && !tipo.Equals(ReporteTipo.configurado.ToString()))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
 
                 if (tipo.Equals(ReporteTipo.preestablecido.ToString()) && !(id >= 1 && id <= 6))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
 
                 if (tipo.Equals(ReporteTipo.preestablecido.ToString()))
                 {
@@ -81,7 +81,7 @@ namespace DoctorWebServiciosWCF.Services
         public void comprobarFecha(string fechaInicio, string fechaFin)
         {
             if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
-                throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
         }
     }
 }
