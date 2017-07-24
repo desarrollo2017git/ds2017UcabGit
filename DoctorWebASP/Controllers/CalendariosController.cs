@@ -84,13 +84,6 @@ namespace DoctorWebASP.Controllers
                     var calendarios = new SelectList(""); var calendarios2 = new SelectList("");
                     string userID = consulta.ObtenerUsuarioLoggedIn(this);
                     calendario.Medico = consulta.ObtenerMedico(userID).Single();
-
-                    /*Debe ir en ServicioCalendario de acá en adelante
-                    calendario.HoraFin = calendario.HoraInicio.AddHours(2);
-                    calendario.Medico = db.Personas.OfType<Medico>().Single(p => p.ApplicationUser.Id == userID);
-                    calendarios = new SelectList(db.Calendarios.Where(c => c.Medico.PersonaId == calendario.Medico.PersonaId && c.HoraInicio <= calendario.HoraInicio && c.HoraFin > calendario.HoraInicio));
-                    calendarios2 = new SelectList(db.Calendarios.Where(c => c.Medico.PersonaId == calendario.Medico.PersonaId && c.HoraInicio < calendario.HoraFin && c.HoraFin >= calendario.HoraFin));
-                    */
                     if ((ModelState.IsValid))
                     {
                         try
@@ -98,7 +91,7 @@ namespace DoctorWebASP.Controllers
                             Calendario pepe = consulta.GuardarCalendario(calendario);
                             if (pepe == null)
                             {
-                                string mensaje = "Ese bloque de horas ya esta asignado";
+                                string mensaje = "El bloque de horas solicitado no está disponible";
                                 return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                             }
                         }
@@ -108,34 +101,7 @@ namespace DoctorWebASP.Controllers
                             string mensaje = "Hubo un problema creando su horario de cita";
                             return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                         }
-
-                
                     }
-                    /*
-                    if (((calendarios.Count() == 0) && (calendarios2.Count() == 0)) && (calendario.HoraInicio >= System.DateTime.Now))
-                    {
-                        try
-                        {
-                            calendario.Cancelada = false;
-                            //calendario.HoraFin = calendario.HoraInicio.AddHours(2);
-                            calendario.Disponible = 1;
-                            db.Calendarios.Add(calendario);
-                            db.SaveChanges();
-                            return RedirectToAction("Create");
-                        }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                            string mensaje = "Hubo un problema creando su horario de cita";
-                            return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
-                        }
-                    }
-                    else
-                    {
-                        string mensaje = "Su horario no pudo ser agendado";
-                        return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
-                    }
-                    */
                 }
                 catch (Exception e)
                 {
@@ -146,6 +112,8 @@ namespace DoctorWebASP.Controllers
 
             return View(calendario);
         }
+
+
 
         // GET: Calendarios/Edit/5
         public ActionResult Edit(int? id)
@@ -200,9 +168,20 @@ namespace DoctorWebASP.Controllers
 
         public ActionResult listaCalendario()
         {
-            string userID = User.Identity.GetUserId();
-            return View(db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.Disponible == 1).ToList());
+            //string userID = User.Identity.GetUserId();
+            // return View(db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.Disponible == 1).ToList());
+            string userID = consulta.ObtenerUsuarioLoggedIn(this);
+            var medicos = consulta.ObtenerMedico(userID);
+            return View(consulta.ObtenerTiempoDoctor(medicos.First().PersonaId));
+
+
         }
+
+        /// <summary>
+        /// ///////////////////////////////////////
+        /// </summary>
+        /// <param name="calendario"></param>
+        /// <returns></returns>
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -212,25 +191,25 @@ namespace DoctorWebASP.Controllers
             {
                 try
                 {
-                    string userID = User.Identity.GetUserId();
-                    var medicos = db.Personas.OfType<Medico>().Select(p => p.ApplicationUser.Id == userID);
+                    string userID = consulta.ObtenerUsuarioLoggedIn(this);
+                    var medicos = consulta.ObtenerMedico(userID);
                     if (medicos.Count() > 0)
                     {
                         try
                         {
                             Calendario cal2 = new Calendario();
-                            var cal = db.Calendarios.Where(c => c.Medico.ApplicationUser.Id == userID && c.CalendarioId == calendario.CalendarioId).ToList();
+                            var cal = consulta.ObtenerTiempoDoctor(medicos.First().PersonaId);
                             
                             if (cal.Count() > 0)
                             {
                                 cal2 = cal.First();
                                 if (cal2.CalendarioId == calendario.CalendarioId && cal2.Disponible == 1)
                                 {
-                                    calendario.Cancelada = false;
+                                    //calendario.Cancelada = false;
                                     //calendario.HoraFin = calendario.HoraInicio.AddHours(2);
-                                    calendario.Disponible = 1;
-                                    db.Calendarios.Remove(cal2);
-                                    db.SaveChanges();
+                                    //calendario.Disponible = 1;
+                                    consulta.EliminarCalendario(cal2);
+                                    //db.SaveChanges();
                                     return RedirectToAction("Eliminar");
                                 }
                                 else

@@ -272,6 +272,43 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
+        public Calendario EliminarCalendario(Calendario cal)
+        {
+            try
+            {
+                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioCalendarios"));
+                var action = "EliminarCalendario";
+                var request = new RestRequest(resource: action, method: Method.DELETE);
+                request.RequestFormat = DataFormat.Json;
+                var settings = new JsonSerializerSettings() { DateFormatHandling = DateFormatHandling.MicrosoftDateFormat };
+                var body = new { calendario = cal };
+                var json = JsonConvert.SerializeObject(body, settings);
+                request.AddParameter("application/json", json, null, ParameterType.RequestBody);
+
+                var response = client.Execute(request);
+
+                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
+                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<Calendario>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado.Contenido;
+                    }
+                    else
+                        throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
+                }
+                throw Fabrica.CrearExcepcion(mensaje: "No finalizo correctamente");
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
+        }
 
     }
 }

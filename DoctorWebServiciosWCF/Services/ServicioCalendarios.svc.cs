@@ -34,6 +34,21 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        public ResultadoProceso EliminarCalendario(Calendario calendario)
+        {
+            var resultado = new ResultadoProceso();
+            try
+            {
+                Dao.EliminarCalendario(calendario);
+                resultado.Inicializar("Todo bien");
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
         public ResultadoServicio<List<Medico>> ObtenerMedico(string userId)
         {
             var resultado = new ResultadoServicio<List<Medico>>();

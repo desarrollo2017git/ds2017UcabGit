@@ -18,6 +18,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         Paciente ObtenerPacienteCalendario(int calendarioid);
         Calendario GuardarCalendario(Calendario calendario);
         bool HorarioValidoCalendario(Calendario calendario);
+        Calendario EliminarCalendario(Calendario calendarioId);
     }
 
 }
