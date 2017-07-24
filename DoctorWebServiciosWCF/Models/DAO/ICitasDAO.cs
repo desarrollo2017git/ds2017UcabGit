@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    public interface ICitasDAO
+    public interface ICitasDao
     {
         // Metodo del DAO para obtener un centro medico especifico
         CentroMedico ObtenerCentroMedico(int centroMedicoId);

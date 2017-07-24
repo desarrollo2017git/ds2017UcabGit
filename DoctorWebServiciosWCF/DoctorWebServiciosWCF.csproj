@@ -75,6 +75,7 @@
   <ItemGroup>
     <Content Include="Services\ServicioCalendarios.svc" />
     <Content Include="Services\ServicioNotificaciones.svc" />
+    <Content Include="Services\ServicioPacientes.svc" />
     <Content Include="Services\ServicioReportes.svc" />
     <Content Include="Services\ServicioCitas.svc" />
     <Content Include="Web.config">
@@ -116,7 +117,9 @@
     <Compile Include="Models\DAO\ICitasDAO.cs" />
     <Compile Include="Models\DAO\IDAO.cs" />
     <Compile Include="Models\DAO\INotificacionDAO.cs" />
+    <Compile Include="Models\DAO\IPacienteDAO.cs" />
     <Compile Include="Models\DAO\IReporteDAO.cs" />
+    <Compile Include="Models\DAO\PacienteDAO.cs" />
     <Compile Include="Models\DAO\ReporteDAO.cs" />
     <Compile Include="Models\DoctorWebException.cs" />
     <Compile Include="Models\EquipoMedico.cs" />
@@ -136,6 +139,7 @@
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
     <Compile Include="Models\Results\ResultadoServicio.cs" />
+    <Compile Include="Models\Seguro.cs" />
     <Compile Include="Models\Supervisor.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
@@ -143,6 +147,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IServicioCalendarios.cs" />
     <Compile Include="Services\IServicioNotificaciones.cs" />
+    <Compile Include="Services\IServicioPacientes.cs" />
     <Compile Include="Services\IServicioReportes.cs" />
     <Compile Include="Services\IServicioCitas.cs" />
     <Compile Include="Services\ServicioCalendarios.svc.cs">
@@ -150,6 +155,9 @@
     </Compile>
     <Compile Include="Services\ServicioNotificaciones.svc.cs">
       <DependentUpon>ServicioNotificaciones.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ServicioPacientes.svc.cs">
+      <DependentUpon>ServicioPacientes.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\ServicioReportes.svc.cs">
       <DependentUpon>ServicioReportes.svc</DependentUpon>

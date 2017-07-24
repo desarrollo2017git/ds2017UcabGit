@@ -133,6 +133,8 @@ namespace DoctorWebServiciosWCF.Helpers
             return new CentroMedicoDAO();
         }
 
+
+
         /// <summary>
         /// Permite crear una instancia resultado paginado del servicio.
         /// </summary>

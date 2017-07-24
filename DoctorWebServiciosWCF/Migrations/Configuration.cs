@@ -9,7 +9,7 @@ namespace DoctorWebServiciosWCF.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(DoctorWebServiciosWCF.Models.ORM.ContextoBD context)
