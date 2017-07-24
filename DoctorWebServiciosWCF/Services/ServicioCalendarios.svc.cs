@@ -19,13 +19,12 @@ namespace DoctorWebServiciosWCF.Services
         {
         }
 
-        public ResultadoProceso GuardarCalendario(Calendario calendario)
+        public ResultadoServicio<Calendario> GuardarCalendario(Calendario calendario)
         {
-            var resultado = new ResultadoProceso();
+            var resultado = new ResultadoServicio<Calendario>();
             try
             {
-                Dao.GuardarCalendario(calendario);
-                resultado.Inicializar("Todo bien");
+                resultado.Inicializar(Dao.GuardarCalendario(calendario));
             }
             catch (Exception ex)
             {

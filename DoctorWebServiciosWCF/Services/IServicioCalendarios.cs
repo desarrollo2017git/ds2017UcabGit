@@ -34,7 +34,7 @@ namespace DoctorWebServiciosWCF.Services
         ResultadoServicio<Paciente> ObtenerPacienteCalendario(int calendarioId);
         [OperationContract]
         [WebInvoke(UriTemplate = "/GuardarCalendario", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso GuardarCalendario(Calendario calendario);
+        ResultadoServicio<Calendario> GuardarCalendario(Calendario calendario);
         [OperationContract]
         [WebInvoke(UriTemplate = "/EliminarCalendario", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso EliminarCalendario(Calendario calendario);
