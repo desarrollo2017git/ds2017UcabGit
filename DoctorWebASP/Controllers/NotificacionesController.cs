@@ -53,23 +53,18 @@ namespace DoctorWebASP.Controllers
             }
             catch (Exception ex)
             {
-                if (Session != null)
-                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 notificaciones = Fabrica.CrearListaNotificaciones();
             }
 
+            ViewData.IndicarNotificacionNombre(nombre);
+            ViewData.IndicarFilas(filas);
+            ViewData.IndicarPermitirSiguiente(indice < cantidadPaginas - 1);
+            ViewData.IndicarPermitirAnterior(indice > 0);
+            ViewData.IndicarSiguienteIndice(indice + 1);
+            ViewData.IndicarAnteriorIndice(indice - 1);
+            ViewData.IndicarTotalPaginas(cantidadPaginas);
 
-            if (ViewData != null)
-            {
-
-                ViewData.IndicarNotificacionNombre(nombre);
-                ViewData.IndicarFilas(filas);
-                ViewData.IndicarPermitirSiguiente(indice < cantidadPaginas - 1);
-                ViewData.IndicarPermitirAnterior(indice > 0);
-                ViewData.IndicarSiguienteIndice(indice + 1);
-                ViewData.IndicarAnteriorIndice(indice - 1);
-                ViewData.IndicarTotalPaginas(cantidadPaginas);
-            }
             return View(model: notificaciones);
         }
 
@@ -83,14 +78,12 @@ namespace DoctorWebASP.Controllers
             Notificacion model = null;
             if (codigo != 0)
             {
-                try
-                {
+                try {
                     model = Servicio.Obtener(codigo);
                 }
                 catch (Exception ex)
                 {
-                    if (Session != null)
-                        Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 }
             }
             else
@@ -120,7 +113,7 @@ namespace DoctorWebASP.Controllers
                 model.Actualizar(collection);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Guardar(out mensaje, model);
-                if (sinProblemas && Session != null)
+                if (sinProblemas)
                 {
                     Session.IndicarNotificacion("Se ha creado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
                 }
@@ -128,8 +121,7 @@ namespace DoctorWebASP.Controllers
             }
             catch (Exception ex)
             {
-                if (Session != null)
-                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 return View("Detail", model);
             }
         }
@@ -148,7 +140,7 @@ namespace DoctorWebASP.Controllers
                 model.Actualizar(collection);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Guardar(out mensaje, model);
-                if (sinProblemas && Session != null)
+                if (sinProblemas)
                 {
                     Session.IndicarNotificacion("Se ha actualizado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
                 }
@@ -159,8 +151,7 @@ namespace DoctorWebASP.Controllers
                 if (model == null)
                     return RedirectToAction("Index");
 
-                if (Session != null)
-                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
                 return View("Detail", model);
             }
         }
@@ -179,8 +170,7 @@ namespace DoctorWebASP.Controllers
             }
             catch (Exception ex)
             {
-                if (Session != null)
-                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
             }
             return RedirectToAction("Index");
         }
@@ -198,15 +188,14 @@ namespace DoctorWebASP.Controllers
                 var codigo = int.Parse(collection["NotificacionId"]);
                 var mensaje = String.Empty;
                 var sinProblemas = Servicio.Borrar(out mensaje, codigo);
-                if (sinProblemas && Session != null)
+                if (sinProblemas)
                 {
                     Session.IndicarNotificacion("Se ha borrado la notificacion sin problemas.", EnumDoctorWebTipoNotificacion.success);
                 }
             }
             catch (Exception ex)
             {
-                if (Session != null)
-                    Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
+                Session.IndicarNotificacion(ex.Message, EnumDoctorWebTipoNotificacion.danger);
             }
             return RedirectToAction("Index");
         }

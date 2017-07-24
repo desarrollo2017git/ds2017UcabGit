@@ -3,6 +3,8 @@ using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.Results;
 using DoctorWebServiciosWCF.Models.DAO;
 using System.Collections.Generic;
+using DoctorWebServiciosWCF.Controllers.Helpers;
+using System.Linq;
 
 namespace DoctorWebServiciosWCF.Services
 {
@@ -87,7 +89,7 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 //var dato = Dao.ObtenerCentroMedico(centroMedicoId);
-                //resultado.Inicializar(Utilidades.Instancia.Procesar(dato));
+                //resultado.Inicializar(Utilidades.Procesar(dato));
                 resultado.Inicializar(Dao.ObtenerCentroMedico(centroMedicoId));
             }
             catch (Exception ex)
@@ -108,7 +110,7 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 //var dato = Dao.ObtenerCentroMedico(centroMedicoId);
-                //resultado.Inicializar(Utilidades.Instancia.Procesar(dato));
+                //resultado.Inicializar(Utilidades.Procesar(dato));
                 resultado.Inicializar(Dao.ObtenerCentroMedicoRif(centroMedicoRif));
             }
             catch (Exception ex)
@@ -148,7 +150,7 @@ namespace DoctorWebServiciosWCF.Services
             try
             {
                 //var dato = Dao.ObtenerCitasDoctor(userId);
-                //resultado.Inicializar(Utilidades.Instancia.Procesar(dato));
+                //resultado.Inicializar(Utilidades.Procesar(dato));
                 resultado.Inicializar(Dao.ObtenerCitasDoctor(userId));
             }
             catch (Exception ex)

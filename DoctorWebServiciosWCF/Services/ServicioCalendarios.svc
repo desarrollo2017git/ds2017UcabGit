@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="DoctorWebServiciosWCF.Services.ServicioCalendarios" CodeBehind="ServicioCalendarios.svc.cs" %>

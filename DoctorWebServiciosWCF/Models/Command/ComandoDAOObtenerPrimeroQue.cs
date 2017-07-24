@@ -1,8 +1,10 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
@@ -24,25 +26,18 @@ namespace DoctorWebServiciosWCF.Models.Command
                 if (args[0] is DbSet<T>)
                     coleccion = (DbSet<T>)args[0];
                 else
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, primer parametro no es valido. se espera un DbSet.");
+                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, primer parametro no es valido. se espera un DbSet.");
 
                 Expression<Func<T, bool>> exprecion;
                 if (args[1] is Expression<Func<T, bool>>)
                     exprecion = (Expression<Func<T, bool>>)args[1];
                 else
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, segundo parametro no es valido, se espera un Expression<Func<T2, bool>>.");
+                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, segundo parametro no es valido, se espera un Expression<Func<T2, bool>>.");
 
-                Utilidades.Instancia.Debug($"Buscando {typeof(T).Name}.");
-                var registro = coleccion.Single(exprecion);
-                if(registro == null)
-                    Utilidades.Instancia.Debug($"No se encontro registro de {typeof(T).Name}.");
-                else
-                    Utilidades.Instancia.Debug($"La busqueda de {typeof(T).Name} culmino sin problemas.");
-
-                return registro;
+                return coleccion.Single(exprecion);
             }
             else
-                throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, cantidad de parametros no es valida. se espera 2.");
+                throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerPrimero, cantidad de parametros no es valida. se espera 2.");
         }
     }
 }

@@ -23,7 +23,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador no recibe notificaciones del servicio, lista vacia.
-        public void CLIG09CtrlIndexCaso1()
+        public void ASPNotificacionCtrlIndexCaso1()
         {
             //Inicializar
             int cantidadRegistros = 0;
@@ -67,7 +67,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe notificaciones del servicio, lista con 1 elemento de un total de 3 en base de datos.
-        public void CLIG09CtrlIndexCaso2()
+        public void ASPNotificacionCtrlIndexCaso2()
         {
             //Inicializar
             int cantidadRegistros = 3;
@@ -111,7 +111,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador captura una excepcion tras invocar el servicio.
-        public void CLIG09CtrlIndexCaso3()
+        public void ASPNotificacionCtrlIndexCaso3()
         {
             //Inicializar
             int cantidadRegistros = 0;
@@ -133,7 +133,7 @@ namespace DoctorWebPruebasUnitarias
 
             // El resultado del metodo es una Vista?
             Assert.IsInstanceOfType(resultado, typeof(ViewResult));
-            /*
+
             ViewResult vista = (ViewResult)resultado;
             // La vista tiene errores?
             Assert.IsNotNull(vista.ViewData["error"]);
@@ -148,13 +148,13 @@ namespace DoctorWebPruebasUnitarias
             // En caso de poder paginar cual es el indice de la siguiente pagina?
             Assert.AreEqual(2, vista.ViewData["siguienteIndice"]);
             // En caso de poder paginar cual es el indice de la anterior pagina?
-            Assert.AreEqual(0, vista.ViewData["anteriorIndice"]);*/
+            Assert.AreEqual(0, vista.ViewData["anteriorIndice"]);
 
         }
 
         [TestMethod]
         // El controlador recibe codigo de notificacion igual a 0.
-        public void CLIG09CtrlDetailCaso1()
+        public void ASPNotificacionCtrlDetailCaso1()
         {
             //Inicializar
             int codigo = 0;
@@ -180,7 +180,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe un codigo de notificacion y el servicio le regresa el registro.
-        public void CLIG09CtrlDetailCaso2()
+        public void ASPNotificacionCtrlDetailCaso2()
         {
             //Inicializar
             int codigo = 1;
@@ -208,7 +208,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe un codigo de notificacion y el servicio encuentra el registro.
-        public void CLIG09CtrlDetailCaso3()
+        public void ASPNotificacionCtrlDetailCaso3()
         {
             //Inicializar
             int codigo = 1;
@@ -229,7 +229,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe un codigo de notificacion y falla el invocar el servicio.
-        public void CLIG09CtrlDetailCaso4()
+        public void ASPNotificacionCtrlDetailCaso4()
         {
             //Inicializar
             int codigo = 1;            
@@ -249,7 +249,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe los datos del formulario y guarda la notificacion sin problemas.
-        public void CLIG09CtrlCreateCaso1()
+        public void ASPNotificacionCtrlCreateCaso1()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -279,7 +279,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe los datos del formulario y falla al guardar la notificacion.
-        public void CLIG09CtrlCreateCaso2()
+        public void ASPNotificacionCtrlCreateCaso2()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -309,7 +309,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe los datos del formulario y guarda la notificacion.
-        public void CLIG09CtrlEditareCaso1()
+        public void ASPNotificacionCtrlEditareCaso1()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -339,7 +339,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe los datos del formulario y falla al guardar la notificacion.
-        public void CLIG09CtrlEditareCaso2()
+        public void ASPNotificacionCtrlEditareCaso2()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -369,7 +369,7 @@ namespace DoctorWebPruebasUnitarias
 
         [TestMethod]
         // El controlador recibe la notificacion y el servicio la borra correctamente.
-        public void CLIG09CtrlDeleteCaso1()
+        public void ASPNotificacionCtrlDeleteCaso1()
         {
             //Inicializar
             FormCollection collection = new FormCollection();
@@ -393,73 +393,8 @@ namespace DoctorWebPruebasUnitarias
         }
 
         [TestMethod]
-        // El controlador recibe el codigo de notificacion y mientra la vista.
-        public void CLIG09CtrlDeleteCaso3()
-        {
-            //Inicializar
-            int codigo = 1;
-
-            var respuestaServicio = new Notificacion() { NotificacionId = codigo };
-            servicio_mocked
-                .Setup(servicio => servicio.Obtener(codigo))
-                .Returns(() => { return respuestaServicio; });
-
-            var controlador = new NotificacionesController(servicio_mocked.Object);
-
-            //Ejecutar
-            var resultado = controlador.Delete(codigo);
-
-            //Evaluar
-            // El resultado es redireccionar al usuario?
-            Assert.IsInstanceOfType(resultado, typeof(ViewResult));
-        }
-
-        [TestMethod]
-        // El controlador recibe el codigo de notificacion pero no existe.
-        public void CLIG09CtrlDeleteCaso4()
-        {
-            //Inicializar
-            int codigo = 1;
-
-            Notificacion respuestaServicio = null;
-            servicio_mocked
-                .Setup(servicio => servicio.Obtener(codigo))
-                .Returns(() => { return respuestaServicio; });
-
-            var controlador = new NotificacionesController(servicio_mocked.Object);
-
-            //Ejecutar
-            var resultado = controlador.Delete(codigo);
-
-            //Evaluar
-            // El resultado es redireccionar al usuario?
-            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
-        }
-
-        [TestMethod]
-        // El controlador recibe el codigo de notificacion pero no existe.
-        public void CLIG09CtrlDeleteCaso5()
-        {
-            //Inicializar
-            int codigo = 0;
-            
-            servicio_mocked
-                .Setup(servicio => servicio.Obtener(codigo))
-                .Returns(() => { throw new Exception(); });
-
-            var controlador = new NotificacionesController(servicio_mocked.Object);
-
-            //Ejecutar
-            var resultado = controlador.Delete(codigo);
-
-            //Evaluar
-            // El resultado es redireccionar al usuario?
-            Assert.IsInstanceOfType(resultado, typeof(RedirectToRouteResult));
-        }
-
-        [TestMethod]
         // El controlador recibe la notificacion y falla al borrarla con el servicio.
-        public void CLIG09CtrlDeleteCaso2()
+        public void ASPNotificacionCtrlDeleteCaso2()
         {
             //Inicializar
             FormCollection collection = new FormCollection();

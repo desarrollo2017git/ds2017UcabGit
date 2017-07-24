@@ -31,11 +31,11 @@ namespace ReportesUnitTest
         {
             //ACT
             ReportesController rc = new ReportesController();
-            //var promedio = rc.getPromedioCitasCanceladasPorMedico("01-01-2017", "27-08-2017");
+            var promedio = rc.getPromedioCitasCanceladasPorMedico("01-01-2017", "27-08-2017");
 
             //ASSERT
-            //Assert.IsNotNull(promedio);
-            //Assert.IsInstanceOfType(promedio, typeof(JsonResult));
+            Assert.IsNotNull(promedio);
+            Assert.IsInstanceOfType(promedio, typeof(JsonResult));
         }
 
         [TestMethod]

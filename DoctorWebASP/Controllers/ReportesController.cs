@@ -1,39 +1,42 @@
 ﻿using DoctorWebASP.Controllers.Helpers;
+using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
-using DoctorWebASP.Models.Services;
 using DoctorWebASP.ViewModels;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity.Core;
+using System.Data.SqlClient;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace DoctorWebASP.Controllers
 {
     public class ReportesController : Controller
     {
-        #region Instancia ReportesController
-        /// <summary>
-        /// Instancia que da acceso a los servicios web.
-        /// </summary>
-        private IServicioReportes Servicio { get; set; }
+        private ApplicationDbContext db;
+        private string lastTimeOnDay = "11:59:59 PM";
+        private string firstTimeOnDay = "12:00:00 AM";
 
         /// <summary>
-        /// Constructor por defecto.
+        /// Método constructor de la clase ReportesController
         /// </summary>
-        public ReportesController() : this(Fabrica.CrearServicioReportes())
+        public ReportesController()
         {
+            db = new ApplicationDbContext();
         }
 
         /// <summary>
-        /// Constructor para indicar una implementacion diferente para los servicios web.
+        /// Método utilizado para liberar recursos no administrados que usa la aplicación.
         /// </summary>
-        /// <param name="servicio"></param>
-        public ReportesController(IServicioReportes servicio) : base()
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
         {
-            this.Servicio = servicio;
+            db.Dispose();
         }
-        #endregion
 
         #region REPORTES PRESTABLECIDOS
         /// <summary>
@@ -44,9 +47,55 @@ namespace DoctorWebASP.Controllers
         public ActionResult Index()
         {
             var indexViewModel = new ReportesIndexViewModel();
-            indexViewModel.resultadoProcesoR2 = getPromedioEdadPaciente();
-            indexViewModel.resultadoProcesoR3 = getPromedioCitasPorMedico();
-            indexViewModel.resultadoProcesoR5 = getPromedioUsoApp();
+            var resultadoProcesoR2 = new ResultadoProceso();
+            var resultadoProcesoR3 = new ResultadoProceso();
+            var resultadoProcesoR5 = new ResultadoProceso();
+
+            try
+            {
+                // REPORTE #2 - Promedio de edad de los pacientes
+                indexViewModel.promedioEdadPacientes = getPromedioEdadPaciente();
+                resultadoProcesoR2.SinProblemas = true;
+            }
+            catch (Exception ex)
+            {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProcesoR2.Mensaje = "Hay un error de conexión con la base de datos.";
+                else
+                    resultadoProcesoR2.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
+            }
+
+            try
+            {
+                // REPORTE #3 - Promedio de citas por médico
+                indexViewModel.promedioCitasPorMedico = getPromedioCitasPorMedico();
+                resultadoProcesoR3.SinProblemas = true;
+            }
+            catch (Exception ex)
+            {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProcesoR3.Mensaje = "Hay un error de conexión con la base de datos.";
+                else
+                    resultadoProcesoR3.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
+            }
+
+            try
+            {
+                // REPORTE #5 - Promedio de uso de la aplicación
+                indexViewModel.promedioUsoApp = getPromedioUsoApp();
+                resultadoProcesoR5.SinProblemas = true;
+            }
+            catch (Exception ex)
+            {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProcesoR5.Mensaje = "Hay un error de conexión con la base de datos.";
+                else
+                    resultadoProcesoR5.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
+            }
+
+            indexViewModel.resultadoProcesoR2 = resultadoProcesoR2;
+            indexViewModel.resultadoProcesoR3 = resultadoProcesoR3;
+            indexViewModel.resultadoProcesoR5 = resultadoProcesoR5;
 
             return View(indexViewModel);
         }
@@ -62,16 +111,34 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public ActionResult getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr)
         {
-            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
+            ResultadoProceso resultadoProceso = new ResultadoProceso();
             try
             {
-                resultado = Servicio.getCantidadUsuariosRegistrados(fechaInicioStr, fechaFinStr);
-            } catch (Exception ex)
-            {
+                DateTime fechaInicio = DateTime.Parse(fechaInicioStr + " " + firstTimeOnDay, CultureInfo.InvariantCulture);
+                DateTime fechaFin = DateTime.Parse(fechaFinStr + " " + lastTimeOnDay, CultureInfo.InvariantCulture);
 
-                resultado.Mensaje = ex.Message;
+                var result = from p in db.Personas
+                             where p.FechaCreacion >= fechaInicio & p.FechaCreacion <= fechaFin
+                             select p;
+
+                if (result == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                resultadoProceso.Inicializar(result.Count().ToString());
+
+                return Json(new { resultadoProceso });
             }
-            return Json(new { resultado });
+            catch (Exception ex)
+            {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProceso.Mensaje = "Hay un error de conexión con la base de datos.";
+                if (ex is FormatException)
+                    resultadoProceso.Mensaje = "Hay un error de con el formato de las fechas.";
+                else
+                    resultadoProceso.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
+
+                return Json(new { resultadoProceso });
+            }
         }
         #endregion
 
@@ -80,19 +147,34 @@ namespace DoctorWebASP.Controllers
         /// Método utilizado para obtener el promedio de edad de los pacientes.
         /// </summary>
         /// <returns>Retorna un tipo de dato double.</returns>
-        public ResultadoProceso getPromedioEdadPaciente()
+        public double getPromedioEdadPaciente()
         {
-            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
-            try
-            {
-                resultado = Servicio.getPromedioEdadPaciente();
-            }
-            catch (Exception ex)
-            {
+            var result = from p in db.Personas
+                         where (p is Paciente)
+                         select p.FechaNacimiento;
 
-                resultado.Mensaje = ex.Message;
+            if (result == null)
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+            double total = 0;
+
+            double cantidadPacientes = result.Count();
+
+            if (cantidadPacientes == 0)
+                throw new DivideByZeroException("Hay un error de división entre cero.");
+
+            foreach (var r in result.ToList())
+            {
+                Age age = new Age(r, DateTime.Today.AddDays(1).AddTicks(-1));
+                total = total + age.Years;
             }
-            return resultado;
+
+            double promedio = total / cantidadPacientes;
+
+            if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
+
+            return promedio;
         }
         #endregion
 
@@ -101,19 +183,26 @@ namespace DoctorWebASP.Controllers
         /// Método utilizado para obtener el promedio de citas por médico.
         /// </summary>
         /// <returns>Retorna un tipo de dato double.</returns>
-        public ResultadoProceso getPromedioCitasPorMedico()
+        public double getPromedioCitasPorMedico()
         {
-            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
-            try
-            {
-                resultado = Servicio.getPromedioCitasPorMedico();
-            }
-            catch (Exception ex)
-            {
+            double? cantidadCitas = (from c in db.Calendarios
+                                     where !c.Cancelada & c.Disponible == 0
+                                     select c).Count();
+            double? cantidadMedicos = (from p in db.Personas
+                                       where p is Medico
+                                       select p).Count();
+            if (cantidadMedicos == null || cantidadCitas == null)
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
-                resultado.Mensaje = ex.Message;
-            }
-            return resultado;
+            if (cantidadMedicos == 0)
+                throw new DivideByZeroException("Hay un error de división entre cero.");
+
+            double promedio = (double)cantidadCitas / (double)cantidadMedicos;
+
+            if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+            return promedio;
         }
         #endregion
 
@@ -128,18 +217,67 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public ActionResult getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultadoProceso = new ResultadoProceso();
 
             try
             {
-                resultado = Servicio.getPromedioRecursosDisponibles(fechaInicioStr, fechaFinStr);
+                DateTime dtFechaInicio = DateTime.Parse(fechaInicioStr + " " + firstTimeOnDay, CultureInfo.InvariantCulture);
+                DateTime dtFechaFin = DateTime.Parse(fechaFinStr + " " + lastTimeOnDay, CultureInfo.InvariantCulture);
+
+                var result = from ur in db.UsoRecursos
+                             join ci in db.Citas on ur.Cita equals ci
+                             join ca in db.Calendarios on ci.Calendario equals ca
+                             where ca.HoraInicio >= dtFechaInicio & ca.HoraInicio <= dtFechaFin & !ca.Cancelada
+                             select ur;
+
+                var almacen = (from a in db.Almacenes
+                               select a);
+
+                double? cantidadRecursos = (from rh in db.RecursosHospitalarios
+                                            select rh).Count();
+
+                if (result == null || almacen == null || cantidadRecursos == null)
+                    throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadRecursos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double? totalCantidadRecursos = 0;
+
+                foreach (var a in almacen.ToList())
+                {
+                    foreach (var ur in result.ToList())
+                    {
+                        if (a.RecursoHospitalario == ur.RecursoHospitalario)
+                        {
+                            if (a.Disponible - ur.Cantidad >= 0)
+                            {
+                                totalCantidadRecursos = totalCantidadRecursos + (a.Disponible - ur.Cantidad);
+                            }
+                        }
+                    }
+                }
+
+                double promedio = (double)totalCantidadRecursos / (double)cantidadRecursos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                resultadoProceso.Inicializar(promedio.ToString());
+
+                return Json(new { resultadoProceso });
             }
             catch (Exception ex)
             {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProceso.Mensaje = "Hay un error de conexión con la base de datos.";
+                if (ex is FormatException)
+                    resultadoProceso.Mensaje = "Hay un error de con el formato de las fechas.";
+                else
+                    resultadoProceso.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
 
-                resultado.Mensaje = ex.Message;
+                return Json(new { resultadoProceso });
             }
-            return Json(new { resultado });
         }
         #endregion
 
@@ -148,19 +286,26 @@ namespace DoctorWebASP.Controllers
         /// Método utilizado para obtener el promedio de uso de la aplicación.
         /// </summary>
         /// <returns>Returna un tipo de dato double.</returns>
-        public ResultadoProceso getPromedioUsoApp()
+        public double getPromedioUsoApp()
         {
-            ResultadoProceso resultado = Fabrica.CrearResultadoProceso();
-            try
-            {
-                resultado = Servicio.getPromedioUsoApp();
-            }
-            catch (Exception ex)
-            {
+            double? bitacora = (from b in db.Bitacoras
+                                select b).Count();
 
-                resultado.Mensaje = ex.Message;
-            }
-            return resultado;
+            double? usuarios = (from u in db.Users
+                                select u).Count();
+
+            if (bitacora == null || usuarios == null)
+                throw Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+            if (usuarios == 0)
+                throw new DivideByZeroException("Hay un error de división entre cero.");
+
+            double promedio = (double)bitacora / (double)usuarios;
+
+            if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
+
+            return promedio;
         }
         #endregion
 
@@ -174,18 +319,46 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public ActionResult getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
         {
-            var resultado = Fabrica.CrearResultadoProceso();
+            var resultadoProceso = new ResultadoProceso();
 
             try
             {
-                resultado = Servicio.getPromedioCitasCanceladasPorMedico(fechaInicioStr, fechaFinStr);
+                DateTime dtFechaInicio = DateTime.Parse(fechaInicioStr, CultureInfo.InvariantCulture);
+                DateTime dtFechaFin = DateTime.Parse(fechaFinStr, CultureInfo.InvariantCulture);
+
+                double? cantidadCitasCanceladas = (from c in db.Calendarios
+                                                   where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
+                                                   select c).Count();
+                double? cantidadMedicos = (from p in db.Personas
+                                           where p is Medico
+                                           select p).Count();
+
+                if (cantidadCitasCanceladas == null || cantidadMedicos == null)
+                    throw new Exception("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadMedicos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)cantidadCitasCanceladas / (double)cantidadMedicos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                resultadoProceso.Inicializar(promedio.ToString());
+
+                return Json(new { resultadoProceso });
             }
             catch (Exception ex)
             {
+                if (ex is SqlException || ex is DataException || ex is EntityException)
+                    resultadoProceso.Mensaje = "Hay un error de conexión con la base de datos.";
+                if (ex is FormatException)
+                    resultadoProceso.Mensaje = "Hay un error de con el formato de las fechas.";
+                else
+                    resultadoProceso.Mensaje = (ex.InnerException == null) ? ex.Message : ex.InnerException.Message;
 
-                resultado.Mensaje = ex.Message;
+                return Json(new { resultadoProceso });
             }
-            return Json(new { resultado });
         }
         #endregion
         #endregion
@@ -197,7 +370,7 @@ namespace DoctorWebASP.Controllers
         /// <returns>Retorna un objeto de tipo View</returns>
         public ActionResult Configurados()
         {
-            var result = getEntities();
+            IEnumerable<string> result = getEntities();
 
             return View(result);
         }
@@ -206,17 +379,16 @@ namespace DoctorWebASP.Controllers
         /// Metodo utilizado para llenar una lista de entidades.
         /// </summary>
         /// <returns>Retorna un tipo de dato IEnumerable </returns>
-        public Dictionary<string,string> getEntities()
+        public IEnumerable<string> getEntities()
         {
-            var entitiesDict = new Dictionary<string, string>
-            {
-                { "CentroMedico", "Centro Medico" },
-                { "Medico", null },
-                { "Paciente", null },
-                { "RecursoHospitalario", "Recurso Hospitalario" }
-            };
+            List<string> entities = new List<string>();
 
-            return entitiesDict;
+            entities.Add("Centro Medico");
+            entities.Add("Medico");
+            entities.Add("Paciente");
+            entities.Add("Recurso Hospitalario");
+
+            return entities;
         }
 
         /// <summary>
@@ -225,18 +397,118 @@ namespace DoctorWebASP.Controllers
         /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
         /// <returns>Retorna un objeto de tipo JSON</returns>
         [HttpPost]
-        public JsonResult getAttributes(List<string> selectedEntities)
+        public ActionResult getAttributes(List<string> selectedEntities)
         {
-            ResultadoServicio<String> resultado = Fabrica.CrearResultadoDe<String>();
-            try
+            List<string> attributes = new List<string>();
+            object entity = null;
+
+            if (selectedEntities == null)
+                throw new Exception("Hay un problema con la consulta en la base de datos.");
+
+            foreach (var se in selectedEntities)
             {
-                resultado = Servicio.obtenerAtributos(selectedEntities);
+                if (se.Equals("Centro Medico"))
+                {
+                    entity = new CentroMedico();
+
+                    foreach (PropertyInfo prop in entity.GetType().GetProperties())
+                    {
+                        if (prop.Name.Equals("Nombre"))
+                            attributes.Add(se + "." + prop.Name);
+                    }
+                }
+
+                if (se.Equals("Medico"))
+                {
+                    entity = new Medico();
+
+                    foreach (PropertyInfo prop in entity.GetType().GetProperties())
+                    {
+                        if (prop.Name.Equals("Nombre") || prop.Name.Equals("Apellido") || prop.Name.Equals("Sueldo"))
+                            attributes.Add(se + "." + prop.Name);
+                    }
+                }
+
+                if (se.Equals("Paciente"))
+                {
+                    entity = new Paciente();
+
+                    foreach (PropertyInfo prop in entity.GetType().GetProperties())
+                    {
+                        if (prop.Name.Equals("Nombre") || prop.Name.Equals("Apellido") || prop.Name.Equals("TipoSangre"))
+                            attributes.Add(se + "." + prop.Name);
+                    }
+                }
+
+                if (se.Equals("Recurso Hospitalario"))
+                {
+                    entity = new RecursoHospitalario();
+
+                    foreach (PropertyInfo prop in entity.GetType().GetProperties())
+                    {
+                        if (prop.Name.Equals("Nombre") || prop.Name.Equals("Tipo"))
+                            attributes.Add(se + "." + prop.Name);
+                    }
+                }
             }
-            catch (Exception ex)
+
+            return Json(new { atributos = attributes });
+        }
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de métricas, según los parámetros recibidos.
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <param name="selectedAttributes">Parámetro que indica los atributos seleccionados.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
+        [HttpPost]
+        public ActionResult getMetrics(List<string> selectedEntities, List<string> selectedAttributes)
+        {
+            List<string> metrics = new List<string>();
+
+            if (selectedEntities.Count() == 2)
             {
-                resultado.Mensaje = ex.Message;
+                if (selectedEntities.Contains("Medico") & selectedEntities.Contains("Paciente"))
+                {
+                    if (selectedAttributes.Contains("Medico.Nombre") & selectedAttributes.Contains("Medico.Apellido") & selectedAttributes.Contains("Paciente.Nombre") || selectedAttributes.Contains("Paciente.Apellido"))
+                    {
+                        metrics.Add("Lista de pacientes por medico.");
+                    }
+                }
             }
-            return Json(new { answer = resultado.Contenido });
+
+            return Json(new { metricas = metrics });
+        }
+
+        /// <summary>
+        /// Método utilizado para obtener el resultado de la métrica seleccionada.
+        /// </summary>
+        /// <param name="selectedMetric">Parámetro que indica la métrica seleccionada.</param>
+        /// <returns>Retorna un objeto de tipo JSON</returns>
+        [HttpPost]
+        public string getReport(string selectedMetric)
+        {
+            dynamic query = null;
+
+            if (selectedMetric.Equals("Lista de pacientes por medico."))
+            {
+                query = from m in db.Personas
+                        where m is Medico
+                        join ca in db.Calendarios
+                        on m equals ca.Medico
+                        join ci in db.Citas
+                        on ca equals ci.Calendario
+                        join pa in db.Personas
+                        on ci.Paciente equals pa
+                        where pa is Paciente
+                        select new
+                        {
+                            Medico = m.Nombre + " " + m.Apellido,
+                            Paciente = pa.Nombre + " " + pa.Apellido
+                        };
+            }
+
+            return (Newtonsoft.Json.JsonConvert.SerializeObject(query));
         }
         #endregion
     }

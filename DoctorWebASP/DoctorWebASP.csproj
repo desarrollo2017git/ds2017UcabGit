@@ -246,7 +246,6 @@
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
-<<<<<<< HEAD
     <Compile Include="Migrations\201707221649562_Fix.cs" />
     <Compile Include="Migrations\201707221649562_Fix.Designer.cs">
       <DependentUpon>201707221649562_Fix.cs</DependentUpon>
@@ -267,23 +266,11 @@
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
     <Compile Include="Models\Services\ServicioObservacionMedica.cs" />
-=======
-    <Compile Include="Migrations\201707222319156_Init.cs" />
-    <Compile Include="Migrations\201707222319156_Init.Designer.cs">
-      <DependentUpon>201707222319156_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Reporte.cs" />
-    <Compile Include="Models\Services\IServicioalendarios.cs" />
-    <Compile Include="Models\Services\IServicioCitas.cs" />
-    <Compile Include="Models\Services\IServicioNotificaciones.cs" />
-    <Compile Include="Models\Services\IServicioReportes.cs" />
-    <Compile Include="Models\Services\ServicioCalendarios.cs" />
->>>>>>> master
     <Compile Include="Models\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Almacen.cs" />
     <Compile Include="Models\Bitacora.cs" />
@@ -308,7 +295,6 @@
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicio.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
-    <Compile Include="Models\Services\ServicioReportes.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1397,7 +1383,6 @@
     <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
     <Content Include="Views\Citas\DeleteFromDoctor.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ObservacionMedicas\Create.cshtml" />
     <Content Include="Views\ObservacionMedicas\Delete.cshtml" />
     <Content Include="Views\ObservacionMedicas\Details.cshtml" />
@@ -1408,8 +1393,6 @@
     <Content Include="Views\ObservacionDeAtencionClinicas\Details.cshtml" />
     <Content Include="Views\ObservacionDeAtencionClinicas\Edit.cshtml" />
     <Content Include="Views\ObservacionDeAtencionClinicas\Index.cshtml" />
-=======
->>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1425,7 +1408,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <EmbeddedResource Include="Migrations\201707221649562_Fix.resx">
       <DependentUpon>201707221649562_Fix.cs</DependentUpon>
     </EmbeddedResource>
@@ -1437,10 +1419,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707241450184_thefix2.resx">
       <DependentUpon>201707241450184_thefix2.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="Migrations\201707222319156_Init.resx">
-      <DependentUpon>201707222319156_Init.cs</DependentUpon>
->>>>>>> master
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

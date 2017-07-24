@@ -1,9 +1,9 @@
 ﻿@using DoctorWebASP.Controllers.Helpers
-@model Dictionary<string, string>
+@model IEnumerable<string>
 
 @{
     ViewBag.Title = "Configurados";
-    ViewData.IndicarPaginaActual(EnumDoctorWebPagina.Configurados);
+    ViewData.indicarPaginaActual(MenuPaginas.Configurados);
 }
 
 <section class="content-header">
@@ -38,9 +38,9 @@
                                     <div class="form-group">
                                         <label>Entidades</label>
                                         <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione la(s) entidad(es) que desea" style="width: 100%;" id="select-entities">
-                                            @foreach(KeyValuePair<string,string> entity in Model)
+                                            @foreach (var entities in Model)
                                             {
-                                                <option value="@entity.Key">@( String.IsNullOrEmpty(entity.Value) ? entity.Key : entity.Value )</option>
+                                                <option value="@entities">@entities</option>
                                             }
                                         </select>
                                     </div>
@@ -157,28 +157,15 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
-                        object = jQuery.parseJSON(result.answer);
-                        console.log(object);
                         var selectAttr = $("#select-attributes");
                         var submitAttr = $("#submit-attributes");
 
                         $(selectAttr).empty();
-                        Object.keys(object).forEach(function (entidad, index) {
-                            console.log(entidad);
-                            for (var atributo in object[entidad]) {
-                                console.log(atributo);
-                                var opcion = entidad + '.' + atributo;
-                                var newOption = new Option(opcion, opcion, true, false);
-                                selectAttr.append(newOption).trigger('change');
-                            }
-                        });
 
-                        //for (var i in object) {
-                        //    console.log(object[i].val());
-                        //    var newOption = new Option(result.answer[i], result.answer[i], true, false);
-                        //    selectAttr.append(newOption).trigger('change');
-                        //}
+                        for (var i in result.atributos) {
+                            var newOption = new Option(result.atributos[i], result.atributos[i], true, false);
+                            selectAttr.append(newOption).trigger('change');
+                        }
 
                         $(selectAttr).prop('disabled', false);
                         $(submitAttr).prop('disabled', false);
@@ -214,7 +201,6 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
                         var selectMet = $("#select-metrics");
                         var submitMet = $("#generate-report");
 
@@ -246,7 +232,6 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
                         var tableRep = $("#report");
                         var finish = $("#finish");
 
