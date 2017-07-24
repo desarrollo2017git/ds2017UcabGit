@@ -8,7 +8,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
 {
     using Modelo = CentroMedico;
 
-    interface ICentroMedicoDAO
+    public interface ICentroMedicoDAO
     {
         Modelo ObtenerCC(int centroMedicoId);
 

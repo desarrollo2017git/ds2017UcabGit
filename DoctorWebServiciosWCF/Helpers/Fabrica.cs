@@ -1,6 +1,8 @@
-﻿using DoctorWebServiciosWCF.Models;
+﻿using DoctorWebServiciosWCF.Helpers;
+using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +11,67 @@ using System.Web;
 namespace DoctorWebServiciosWCF.Helpers
 {
     /// <summary>
-    /// Implementacion del patron fabrica.
+    /// Implementacion del patron Utilidades.Instancia.Fabrica.
     /// </summary>
-    public class Fabrica
+    public class Fabrica: IFabrica
     {
+        /// <summary>
+        /// Instancia de Utilidades
+        /// </summary>
+        private static IFabrica instancia;
+        private IUtilidades utils;
+
+        /// <summary>
+        /// Instancia de Utilidades
+        /// </summary>
+        public static IFabrica Instancia
+        {
+            get
+            {
+                Singleton();
+                return instancia;
+            }
+            set { instancia = value; }
+        }
+
+        /// <summary>
+        /// Definimos el constructor privado para crear mas instancias que la del singleton.
+        /// </summary>
+        private Fabrica(): this(Utilidades.Instancia)
+        {
+
+        }
+
+        public Fabrica(IUtilidades utils)
+        {
+            this.utils = utils;
+        }
+
+        /// <summary>
+        /// Inicializa la instancia si aun es nula.
+        /// </summary>
+        private static void Singleton()
+        {
+            if (instancia == null)
+                instancia = new Fabrica();
+        }
+
         /// <summary>
         /// Permite crear una instancia dao notificaciones.
         /// </summary>
         /// <returns>returna una instancia dao notificaciones.</returns>
-        internal static INotificacionDAO CrearNotificacionDAO()
+        public INotificacionDAO CrearNotificacionDAO()
         {
             return new NotificacionDAO();
+        }
+
+        /// <summary>
+        /// Permite crear una instancia dao reportes.
+        /// </summary>
+        /// <returns>returna una instancia dao reportes.</returns>
+        public IReporteDAO CrearReporteDAO()
+        {
+            return new ReporteDAO();
         }
 
         /// <summary>
@@ -28,16 +80,27 @@ namespace DoctorWebServiciosWCF.Helpers
         /// <param name="mensaje">Mensaje de la excepcion.</param>
         /// <param name="interna">Excepcion interna.</param>
         /// <returns>Retorna la excepcion generada.</returns>
-        public static Exception CrearExcepcion(string mensaje = "Excepcion no controlada.", Exception interna = null)
+        public Exception CrearExcepcion(string mensaje = "Excepcion no controlada.", Exception interna = null)
         {
-            return new DoctorWebException(mensaje, interna);
+            var encapsulado = new DoctorWebException(mensaje, interna);
+            try
+            {
+                if (utils.ObtenerClave("GenerarLogs").Equals("true"))
+                {
+                    Logger logger = LogManager.GetLogger("GuardarLog");                    
+                    logger.Error(encapsulado, mensaje);
+                }
+            }
+            catch { }
+
+            return encapsulado;
         }
 
         /// <summary>
         /// Permite crear una instancia dao calendarios.
         /// </summary>
         /// <returns>returna una instancia dao calendarios.</returns>
-        internal static ICalendariosDAO CrearCalendariosDAO()
+        public ICalendariosDAO CrearCalendariosDAO()
         {
             return new CalendariosDAO();
         }
@@ -46,7 +109,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia resultado del servicio.
         /// </summary>
         /// <returns>returna una instancia resultado del servicio.</returns>
-        internal static ResultadoServicio<T> CrearResultadoDe<T>()
+        public ResultadoServicio<T> CrearResultadoDe<T>()
             where T : class
         {
             return new ResultadoServicio<T>();
@@ -56,7 +119,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia resultado del servicio.
         /// </summary>
         /// <returns>returna una instancia resultado del servicio.</returns>
-        internal static ResultadoProceso CrearResultadoProceso()
+        public ResultadoProceso CrearResultadoProceso()
         {
             return new ResultadoProceso();
         }
@@ -65,7 +128,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia dao centro medico.
         /// </summary>
         /// <returns>returna una instancia dao centro medico.</returns>
-        internal static ICentroMedicoDAO CrearCentroMedicoDAO()
+        public ICentroMedicoDAO CrearCentroMedicoDAO()
         {
             return new CentroMedicoDAO();
         }
@@ -74,7 +137,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia resultado paginado del servicio.
         /// </summary>
         /// <returns>returna una instancia resultado paginado del servicio.</returns>
-        internal static ResultadoServicioPaginado<T> CrearResultadoPaginadoDe<T>()
+        public ResultadoServicioPaginado<T> CrearResultadoPaginadoDe<T>()
             where T : class
         {
             return new ResultadoServicioPaginado<T>();
@@ -84,7 +147,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// Permite crear una instancia dictionario.
         /// </summary>
         /// <returns>returna una instancia dao dictionario.</returns>
-        internal static Dictionary<T1, T2> CrearDiccionario<T1, T2>()
+        public Dictionary<T1, T2> CrearDiccionario<T1, T2>()
         {
             return new Dictionary<T1, T2>();
         }
@@ -94,7 +157,7 @@ namespace DoctorWebServiciosWCF.Helpers
         /// </summary>
         /// <typeparam name="T">Modelo</typeparam>
         /// <returns>Retorna una instancia DAO Generica.</returns>
-        internal static IDAO<T> CrearDAO<T>()
+        public IDAO<T> CrearDAO<T>()
             where T : class
         {
             return new DAO<T>();

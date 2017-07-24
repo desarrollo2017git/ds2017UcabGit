@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using DoctorWebASP.Models.Services;
+using DoctorWebASP.Models.Results;
 
 namespace DoctorWebASP.Controllers.Helpers
 {
@@ -24,12 +25,40 @@ namespace DoctorWebASP.Controllers.Helpers
         }
 
         /// <summary>
+        /// Permite crear una instancia resultado del servicio.
+        /// </summary>
+        /// <returns>returna una instancia resultado del servicio.</returns>
+        internal static ResultadoProceso CrearResultadoProceso()
+        {
+            return new ResultadoProceso();
+        }
+
+        /// <summary>
+        /// Permite crear una instancia resultado del servicio.
+        /// </summary>
+        /// <returns>returna una instancia resultado del servicio.</returns>
+        internal static ResultadoServicio<T> CrearResultadoDe<T>()
+            where T : class
+        {
+            return new ResultadoServicio<T>();
+        }
+
+        /// <summary>
         /// Permite crear una instancia de servicios notificaciones.
         /// </summary>
         /// <returns>Retorna la instancia para consumir los servicios</returns>
         internal static IServicioNotificaciones CrearServicioNotificaciones()
         {
             return new ServicioNotificaciones();
+        }
+
+        /// <summary>
+        /// Permite crear una instancia de servicios reportes.
+        /// </summary>
+        /// <returns>Retorna la instancia para consumir los servicios</returns>
+        internal static IServicioReportes CrearServicioReportes()
+        {
+            return new ServicioReportes();
         }
 
         /// <summary>

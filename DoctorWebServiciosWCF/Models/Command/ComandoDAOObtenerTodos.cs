@@ -1,9 +1,5 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.Command
 {
@@ -27,12 +23,18 @@ namespace DoctorWebServiciosWCF.Models.Command
                 if (args[0] is DbSet<T2>)
                     coleccion = (DbSet<T2>)args[0];
                 else
-                    throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodos, primer parametro no es valido. se espera un DbSet.");
-                
-                return (T)coleccion;
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodos, primer parametro no es valido. se espera un DbSet.");
+
+                Utilidades.Instancia.Debug($"Buscando {typeof(T2).Name}.");
+                var valor = (T)coleccion;
+                if (valor == null)
+                    Utilidades.Instancia.Debug($"No se encontraron reistros de {typeof(T2).Name}.");
+                else
+                    Utilidades.Instancia.Debug($"La busqueda de {typeof(T2).Name} culmino sin problemas.");
+                return valor;
             }
             else
-                throw Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodos, cantidad de parametros no es valida. se espera 1.");
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(mensaje: "ComandoDAOObtenerTodos, cantidad de parametros no es valida. se espera 1.");
         }
     }
 }

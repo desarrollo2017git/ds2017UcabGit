@@ -22,10 +22,10 @@ namespace DoctorWebServiciosWCF.Controllers
                     throw new FormatException("El código debe ser un número.");
 
                 if (!tipo.Equals(ReporteTipo.preestablecido.ToString()) && !tipo.Equals(ReporteTipo.configurado.ToString()))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
 
                 if (tipo.Equals(ReporteTipo.preestablecido.ToString()) && !(id >= 1 && id <= 6))
-                    throw Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
             }
             catch (Exception ex)
             {

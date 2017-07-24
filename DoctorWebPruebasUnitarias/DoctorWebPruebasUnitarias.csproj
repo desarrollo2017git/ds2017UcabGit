@@ -94,6 +94,10 @@
       <Project>{01B39127-E8E6-4B8E-A237-EE4DC9FEBB09}</Project>
       <Name>DoctorWebASP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DoctorWebServiciosWCF\DoctorWebServiciosWCF.csproj">
+      <Project>{3d0059c1-13fc-4b21-9316-182dc3743056}</Project>
+      <Name>DoctorWebServiciosWCF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,7 +2,6 @@
 using DoctorWebServiciosWCF.Models.Command;
 using DoctorWebServiciosWCF.Models.ORM;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
@@ -43,8 +42,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 }
 
             }
-            if (this.coleccion == null)
-                throw Fabrica.CrearExcepcion($"No se detecto un DbSet asociado a {typeof(T).FullName}");
+            if (this.coleccion == null && typeof(T).FullName != "DoctorWebServiciosWCF.Models.Reporte")
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion($"No se detecto un DbSet asociado a {typeof(T).FullName}");
         }
 
         /// <summary>
