@@ -70,6 +70,15 @@ namespace DoctorWebASP.Controllers.Helpers
         }
 
         /// <summary>
+        /// Permite crear un Paciente.
+        /// </summary>
+        /// <returns>retorna el Paciente creada.</returns>
+        internal static Paciente CrearPaciente()
+        {
+            return new Paciente();
+        }
+
+        /// <summary>
         /// Permite crear un constructur de url.
         /// </summary>
         /// <param name="host">Url para base.</param>

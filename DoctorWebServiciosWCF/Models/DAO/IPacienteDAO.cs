@@ -18,6 +18,9 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         //Metodo para obtener todos los seguros
         List<Seguro> ObtenerSeguros();
+        
+        //Obtener lista de pacientes
+        List<Paciente> ObtenerPacientesList();
 
         // Metodo del Data Access Object utilizado para eliminar Citas. 
         void EliminarPaciente(Paciente paciente);

@@ -255,6 +255,7 @@
     <Compile Include="Models\Services\IServicioalendarios.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
+    <Compile Include="Models\Services\IServicioPacientes.cs" />
     <Compile Include="Models\Services\IServicioReportes.cs" />
     <Compile Include="Models\Services\ServicioCalendarios.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicio.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
+    <Compile Include="Models\Services\ServicioPacientes.cs" />
     <Compile Include="Models\Services\ServicioReportes.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
@@ -302,6 +304,7 @@
     <Compile Include="ViewModels\EspecialidadViewModel.cs" />
     <Compile Include="ViewModels\MedicoBackdoorViewModel.cs" />
     <Compile Include="ViewModels\MedicoViewModel.cs" />
+    <Compile Include="ViewModels\PacientesViewModel.cs" />
     <Compile Include="ViewModels\SadFaceViewModel.cs" />
     <Compile Include="ViewModels\ReportesViewModel.cs" />
   </ItemGroup>

@@ -11,16 +11,20 @@ namespace DoctorWebServiciosWCF.Models.DAO
     public class PacienteDAO : DAO<Modelo>, IPacienteDAO
     {
         /// <summary>
-        /// Este metodo permite guardar los cambios de la notificacion que se indica.
+        /// Este metodo permite guardar los cambios de un paciente.
         /// </summary>
-        /// <param name="notificacion">Notificacion a guardar</param>
+        /// <param name="paciente">paciente a guardar</param>
         /// <returns>Indica si finalizo correctamente o no.</returns>
         public bool GuardarPaciente(Modelo paciente)
         {
             try
             {
                 var daoPaciente = Utilidades.Instancia.Fabrica.CrearDAO<Paciente>();
-                daoPaciente.Crear(paciente);
+
+                if (paciente.PersonaId > 0)
+                    daoPaciente.Actualizar(paciente, registro => registro.PersonaId == paciente.PersonaId);
+                else
+                    daoPaciente.Crear(paciente);
                 return true;
             }
             catch (DoctorWebException e)
@@ -33,27 +37,24 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
         }
 
-        /*public Paciente AddSeguros(Paciente paciente)
-        {
-            if (Request.Form["ListSeguros"] == null)
-                return paciente;
 
-            string list_seguros = Request.Form["ListSeguros"].ToString();
-            string[] seguros = list_seguros.Split(',');
-            foreach (string seguro_in in seguros)
-            {
-                Seguro seguro_found;
-                seguro_found = db.Seguros.Find(Convert.ToInt32(seguro_in));
-                if (seguro_found != null)
-                    paciente.Seguros.Add(seguro_found);
-            }
-            return paciente;
-        }*/
-
-
+        /// <summary>
+        /// Metodo para obtener la lista de seguros
+        /// </summary>
+        /// <returns>Lista de Seguros</returns>
         public List<Seguro> ObtenerSeguros()
         {
             var daoPacientes = Utilidades.Instancia.Fabrica.CrearDAO<Seguro>();
+            return daoPacientes.ObtenerTodos().ToList();
+        }
+
+        /// <summary>
+        /// Metodo para obtener la lista de pacientes
+        /// </summary>
+        /// <returns>Lista de Pacientes</returns>
+        public List<Paciente> ObtenerPacientesList()
+        {
+            var daoPacientes = Utilidades.Instancia.Fabrica.CrearDAO<Paciente>();
             return daoPacientes.ObtenerTodos().ToList();
         }
 

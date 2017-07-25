@@ -92,6 +92,24 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Metodo del servicio web para obtener la lista de los pacientes
+        /// </summary>
+        /// <returns>Resultado servicio lista de centros medicos</returns>
+        public ResultadoServicio<List<Paciente>> ObtenerPacientesList()
+        {
+            var resultado = new ResultadoServicio<List<Paciente>>();
+            try
+            {
+                resultado.Inicializar(dao.ObtenerPacientesList());
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return resultado;
+        }
+
 
     }
 }

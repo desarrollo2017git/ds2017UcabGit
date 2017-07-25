@@ -15,8 +15,9 @@ namespace DoctorWebASP.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         public IServicioCitas consulta { get; set; }
-        public CitasController(): this(new ServicioCitas()) {
-            }
+        public CitasController() : this(new ServicioCitas())
+        {
+        }
 
         public CitasController(IServicioCitas db)
         {
@@ -117,7 +118,7 @@ namespace DoctorWebASP.Controllers
             if (centrosMedicos.Count() == 0)
             {
                 string mensaje = "La aplicacion no cuenta con consultas medicas habilitadas por los momentos";
-                return RedirectToAction("SadFace","Citas",new { mensaje });
+                return RedirectToAction("SadFace", "Citas", new { mensaje });
             }
             return View("SolicitarCita", viewModel);
         }
@@ -180,7 +181,7 @@ namespace DoctorWebASP.Controllers
                 CentroMedicoId = cMedico.CentroMedicoId,
 
             };
-            if(especialidadesMedicas.Count() == 0)
+            if (especialidadesMedicas.Count() == 0)
             {
                 string mensaje = "Actualmente no contamos con medicos de ninguna especialidad para generar consultas";
                 return RedirectToAction("SadFace", "Citas", new { mensaje });
@@ -221,7 +222,7 @@ namespace DoctorWebASP.Controllers
             {
                 CentroMedico centroMedico = consulta.ObtenerCentroMedico(centroMedicoId);
                 EspecialidadMedica especialidadMedica = consulta.ObtenerEspecialidadMedica(espMedica);
-                medicos = consulta.ObtenerSelectListMedicosQueTrabajanEnCentroMedico(centroMedicoId,espMedica);
+                medicos = consulta.ObtenerSelectListMedicosQueTrabajanEnCentroMedico(centroMedicoId, espMedica);
             }
             catch (Exception e)
             {
@@ -304,7 +305,7 @@ namespace DoctorWebASP.Controllers
             try
             {
                 var cita = new Cita();
-                string userId = consulta.ObtenerUsuarioLoggedIn(this);               
+                string userId = consulta.ObtenerUsuarioLoggedIn(this);
                 cita.CentroMedico = consulta.ObtenerCentroMedico(centroMedicoId);
                 cita.Paciente = consulta.ObtenerPaciente(userId);
                 var calendario = consulta.ObtenerCalendario(calendarioId);
@@ -313,7 +314,7 @@ namespace DoctorWebASP.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    consulta.GuardarCita(cita,calendario);
+                    consulta.GuardarCita(cita, calendario);
                     return RedirectToAction("Index");
                 }
             }
@@ -325,7 +326,7 @@ namespace DoctorWebASP.Controllers
             }
 
             mensaje = "No ha sido posible almacenar su cita";
-            return View("SadFace","Citas",new { mensaje });
+            return View("SadFace", "Citas", new { mensaje });
         }
 
         // GET: Citas/Consultarcitas
@@ -461,7 +462,7 @@ namespace DoctorWebASP.Controllers
             {
                 Cita cita = consulta.ObtenerCita(id);
                 var calendario = consulta.ObtenerCalendario(cita.Calendario.CalendarioId);
-                consulta.EliminarCita(cita,calendario);
+                consulta.EliminarCita(cita, calendario);
             }
             catch (Exception e)
             {
