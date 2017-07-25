@@ -84,6 +84,7 @@
     <Content Include="Services\ServicioObservacionMedicaE2.svc" />
     <Content Include="Services\ServicioReportes.svc" />
     <Content Include="Services\ServicioCitas.svc" />
+    <Content Include="Services\ServicioResultadoE2.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -126,9 +127,11 @@
     <Compile Include="Models\DAO\IObservacionClinicaE2DAO.cs" />
     <Compile Include="Models\DAO\IObservacionMedicaE2DAO.cs" />
     <Compile Include="Models\DAO\IReporteDAO.cs" />
+    <Compile Include="Models\DAO\IResultadoE2DAO.cs" />
     <Compile Include="Models\DAO\ObservacionClinicaE2DAO.cs" />
     <Compile Include="Models\DAO\ObservacionMedicaE2DAO.cs" />
     <Compile Include="Models\DAO\ReporteDAO.cs" />
+    <Compile Include="Models\DAO\ResultadoE2DAO.cs" />
     <Compile Include="Models\DoctorWebException.cs" />
     <Compile Include="Models\EquipoMedico.cs" />
     <Compile Include="Models\EspecialidadMedica.cs" />
@@ -161,6 +164,7 @@
     <Compile Include="Services\IServicioObservacionMedicaE2.cs" />
     <Compile Include="Services\IServicioReportes.cs" />
     <Compile Include="Services\IServicioCitas.cs" />
+    <Compile Include="Services\IServicioResultadoE2.cs" />
     <Compile Include="Services\ServicioCalendarios.svc.cs">
       <DependentUpon>ServicioCalendarios.svc</DependentUpon>
     </Compile>
@@ -178,6 +182,9 @@
     </Compile>
     <Compile Include="Services\ServicioCitas.svc.cs">
       <DependentUpon>ServicioCitas.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ServicioResultadoE2.svc.cs">
+      <DependentUpon>ServicioResultadoE2.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

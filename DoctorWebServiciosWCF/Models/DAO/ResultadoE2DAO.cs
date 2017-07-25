@@ -8,21 +8,21 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-    using Modelo = ObservacionMedicaE2;
-    public class ObservacionMedicaE2DAO : DAO<Modelo>, IObservacionMedicaE2DAO
+    using Modelo = ResultadoE2;
+    public class ResultadoE2DAO : DAO<Modelo>, IResultadoE2DAO
     {
         /// <summary>
-        /// Metodo del Data Access Object utilizado para eliminar observaciones. 
+        /// Metodo del Data Access Object utilizado para eliminar resultados. 
         /// </summary>
-        /// <param name="observacionMedicaE2">observacion que se desea eliminar</param>
-        public void EliminarObservacionMedicaE2(Modelo observacionMedicaE2)
+        /// <param name="resultadoE2">resultado que se desea eliminar</param>
+        public void EliminarResultadoE2(Modelo resultadoE2)
         {
             var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO();
             try
             {
                 // Obtenemos el resultado a eliminar de la BD usando el comando ObtenerPrimeroQue
-                // luego eliminamos la observacion con el comando borrar
-                var observacionAEliminar = ObtenerPrimeroQue(c => c.ObservacionMedicaId == observacionMedicaE2.ObservacionMedicaId);
+                // luego eliminamos el resultado con el comando borrar
+                var observacionAEliminar = ObtenerPrimeroQue(c => c.ResultadoExamenMedicoID == resultadoE2.ResultadoExamenMedicoID);
                 Borrar(observacionAEliminar);
             }
             catch (DoctorWebException e)
@@ -39,16 +39,16 @@ namespace DoctorWebServiciosWCF.Models.DAO
         }
 
         /// <summary>
-        /// Metodo del DAO para guardar observaciones en la Base de datos
+        /// Metodo del DAO para guardar resultados en la Base de datos
         /// </summary>
-        /// <param name="observacionMedicaE2">observacion que se desea guardar</param>
-        public void GuardarObservacionMedicaE2(Modelo observacionMedicaE2)
+        /// <param name="resultadoE2">resultado que se desea guardar</param>
+        public void GuardarResultadoE2(Modelo resultadoE2)
         {
 
             try
             {
-                // Creamos la observacion utilizando comando Crear
-                Crear(observacionMedicaE2);
+                // Creamos el resultado utilizando comando Crear
+                Crear(resultadoE2);
             }
             catch (DoctorWebException e)
             {
@@ -61,14 +61,13 @@ namespace DoctorWebServiciosWCF.Models.DAO
         }
 
         /// <summary>
-        /// Metodo del DAO para obtener una lista de las observaciones medicas
+        /// Metodo del DAO para obtener una lista de los resultados
         /// </summary>
-        /// <returns>Lista de observaciones medicas</returns>
-        public List<ObservacionMedicaE2> ObtenerSelectListObservacionMedicaE2()
+        /// <returns>Lista de resultados de examenes medicos</returns>
+        public List<ResultadoE2> ObtenerSelectListResultadoE2()
         {
-            var dao = Utilidades.Instancia.Fabrica.CrearDAO<ObservacionMedicaE2>();
+            var dao = Utilidades.Instancia.Fabrica.CrearDAO<ResultadoE2>();
             return dao.ObtenerTodos().ToList();
         }
     }
-
 }
