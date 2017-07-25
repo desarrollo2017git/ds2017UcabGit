@@ -147,11 +147,14 @@ namespace DoctorWebASP.Controllers
                                     return RedirectToAction("Eliminar");
                                 }
                                 else
-                                    return RedirectToAction("ErrorCalendario");
+                                {
+                                    string mensaje = "Id no valido";
+                                    return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                                }
                             }
                             else
                             {
-                                string mensaje = "ID incorrecto";
+                                string mensaje = "No hay nada que eliminar";
                                 return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                             }
 

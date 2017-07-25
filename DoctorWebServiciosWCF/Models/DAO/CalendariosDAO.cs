@@ -14,7 +14,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// Metodo del DAO que se encarga de guardar en la base de datos el objeto calendario recibido
         /// </summary>
         /// <param name="userId"> Objeto Calendario a borrar </param>
-        /// <returns> Objeto calendario borrado, el cual servira para validar que la creación realizada sea exitosa </returns>
+        /// <returns> Objeto calendario borrado, el cual servira para validar que la creación realizada sea exitosa y notificacion </returns>
         public Calendario GuardarCalendario(Calendario calendario)
         {
             calendario.HoraFin = calendario.HoraInicio.AddHours(2); //ponemos la hora fin del bloque de citas
@@ -29,8 +29,9 @@ namespace DoctorWebServiciosWCF.Models.DAO
                     var notificacion = notificacionDAO.Obtener("generarTiempo");
 
                     if (notificacion != null)
-                    {
-                        notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });  // empleo del modulo de notificaciones
+                    {   // mensaje que sera enviado en el campo name del correo de notificacion
+                        String mensaje = " para el día " + calendario.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendario.HoraInicio.ToString("HH:mm") + " hasta las " + calendario.HoraFin.ToString("HH:mm");
+                        notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
                     }
                 }
                 catch (DoctorWebException e)
@@ -47,7 +48,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// Método del DAO que se encarga de borrar de la base de datos el objeto suministrado
         /// </summary>
         /// <param name="calendario"> Objeto calendario a eliminar </param>
-        /// <returns> Objeto calendario eliminado, el cual servira para validar que su eliminación haya sido satisfactoria </returns>
+        /// <returns> Objeto calendario eliminado, el cual servira para validar que su eliminación haya sido satisfactoria y notificacion </returns>
         public Calendario EliminarCalendario(Calendario calendario)
         {
             try
@@ -55,15 +56,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 var calendarioTmp = ObtenerPrimeroQue(c => c.CalendarioId == calendario.CalendarioId);
                 if (calendarioTmp != null)
                 {
+                    Medico medico = ObtenerMedicoCalendario(calendarioTmp.CalendarioId); // objeto medico para obtener el correo y el nombre justo antes de eliminar el calendario
                     Borrar(calendarioTmp);
                     var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO();  // empleo del modulo de notificaciones
                     try
                     {
-                        var notificacion = notificacionDAO.Obtener("EliminarTiempo");
+                        var notificacion = notificacionDAO.Obtener("eliminarTiempo");
 
                         if (notificacion != null)
-                        {
-                            notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });  // empleo del modulo de notificaciones
+                        {   // mensaje que sera enviado en el campo name del correo de notificacion
+                            String mensaje = " para el día " + calendarioTmp.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendarioTmp.HoraInicio.ToString("HH:mm") + " hasta las " + calendarioTmp.HoraFin.ToString("HH:mm");
+                            notificacion.Enviar(medico.Email, new { nombre = medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
                         }
                     }
                     catch (DoctorWebException e)
