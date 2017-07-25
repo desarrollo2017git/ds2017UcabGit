@@ -76,8 +76,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <param name="paciente"></param>
         public void EliminarPaciente(Modelo paciente)
         {
-            var pacienteDAO = Utilidades.Instancia.Fabrica.CrearPacienteDAO();
-
             // Obtenemos la cita a eliminar de la BD usando el comando ObtenerPrimeroQue
             // luego eliminamos dicha cita con el comando Borrar
             var pacienteBuscado = ObtenerPrimeroQue(p => p.PersonaId == paciente.PersonaId);

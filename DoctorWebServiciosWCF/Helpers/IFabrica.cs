@@ -42,8 +42,6 @@ namespace DoctorWebServiciosWCF.Helpers
 
         ICentroMedicoDAO CrearCentroMedicoDAO();
 
-        IPacienteDAO CrearPacienteDAO();
-
         ResultadoServicioPaginado<T> CrearResultadoPaginadoDe<T>()
             where T : class;
 
