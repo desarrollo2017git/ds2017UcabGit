@@ -243,18 +243,28 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MedicosController.cs" />
     <Compile Include="Controllers\NotificacionesController.cs" />
+    <Compile Include="Controllers\ObservacionClinicaE2Controller.cs" />
     <Compile Include="Controllers\ObservacionDeAtencionClinicasController.cs" />
+    <Compile Include="Controllers\ObservacionMedicaE2Controller.cs" />
     <Compile Include="Controllers\ObservacionMedicasController.cs" />
     <Compile Include="Controllers\PacientesController.cs" />
     <Compile Include="Controllers\PersonasController.cs" />
     <Compile Include="Controllers\ReportesController.cs" />
+    <Compile Include="Controllers\ResultadoE2Controller.cs" />
     <Compile Include="Controllers\ResultadoExamenMedicoesController.cs" />
     <Compile Include="Migrations\201707222319156_Init.cs" />
     <Compile Include="Migrations\201707222319156_Init.Designer.cs">
       <DependentUpon>201707222319156_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707251132000_g4e2.cs" />
+    <Compile Include="Migrations\201707251132000_g4e2.Designer.cs">
+      <DependentUpon>201707251132000_g4e2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ObservacionClinicaE2.cs" />
+    <Compile Include="Models\ObservacionMedicaE2.cs" />
     <Compile Include="Models\Reporte.cs" />
+    <Compile Include="Models\ResultadoE2.cs" />
     <Compile Include="Models\Services\IServicioalendarios.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
@@ -1387,6 +1397,21 @@
     <Content Include="Views\HistoriaMedicas\RecipeLista.cshtml" />
     <Content Include="Views\HistoriaMedicas\RecPersona.cshtml" />
     <Content Include="Views\Citas\DeleteFromDoctor.cshtml" />
+    <Content Include="Views\ObservacionMedicaE2\Create.cshtml" />
+    <Content Include="Views\ObservacionMedicaE2\Delete.cshtml" />
+    <Content Include="Views\ObservacionMedicaE2\Details.cshtml" />
+    <Content Include="Views\ObservacionMedicaE2\Edit.cshtml" />
+    <Content Include="Views\ObservacionMedicaE2\Index.cshtml" />
+    <Content Include="Views\ObservacionClinicaE2\Create.cshtml" />
+    <Content Include="Views\ObservacionClinicaE2\Delete.cshtml" />
+    <Content Include="Views\ObservacionClinicaE2\Details.cshtml" />
+    <Content Include="Views\ObservacionClinicaE2\Edit.cshtml" />
+    <Content Include="Views\ObservacionClinicaE2\Index.cshtml" />
+    <Content Include="Views\ResultadoE2\Create.cshtml" />
+    <Content Include="Views\ResultadoE2\Delete.cshtml" />
+    <Content Include="Views\ResultadoE2\Details.cshtml" />
+    <Content Include="Views\ResultadoE2\Edit.cshtml" />
+    <Content Include="Views\ResultadoE2\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1403,6 +1428,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201707222319156_Init.resx">
       <DependentUpon>201707222319156_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707251132000_g4e2.resx">
+      <DependentUpon>201707251132000_g4e2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

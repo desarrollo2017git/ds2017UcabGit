@@ -130,13 +130,16 @@
     <Compile Include="Models\Medico.cs" />
     <Compile Include="Models\Notificacion.cs" />
     <Compile Include="Models\DAO\NotificacionDAO.cs" />
+    <Compile Include="Models\ObservacionClinicaE2.cs" />
     <Compile Include="Models\ObservacionDeAtencionClinica.cs" />
     <Compile Include="Models\ObservacionMedica.cs" />
+    <Compile Include="Models\ObservacionMedicaE2.cs" />
     <Compile Include="Models\ORM\ContextoBD.cs" />
     <Compile Include="Models\Paciente.cs" />
     <Compile Include="Models\Persona.cs" />
     <Compile Include="Models\RecursoHospitalario.cs" />
     <Compile Include="Models\Reporte.cs" />
+    <Compile Include="Models\ResultadoE2.cs" />
     <Compile Include="Models\ResultadoExamenMedico.cs" />
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />

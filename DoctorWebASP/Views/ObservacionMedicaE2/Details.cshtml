@@ -1,0 +1,42 @@
+﻿@model DoctorWebASP.Models.ObservacionMedicaE2
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ObservacionMedicaE2</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnostico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnostico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indicacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indicacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Paciente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Paciente)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ObservacionMedicaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
