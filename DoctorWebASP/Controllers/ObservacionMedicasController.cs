@@ -11,6 +11,10 @@ using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
+
+    /// <summary>
+    /// Clase controladora de Clase ObservacionMedica
+    /// </summary>
     public class ObservacionMedicasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -24,12 +28,11 @@ namespace DoctorWebASP.Controllers
             this.consulta = db;
         }
 
-        // GET: Citas
+        // GET: ObservacionMedica
         /// <summary>
-        /// Metodo que llama a la interfaz de consulta de citas principal, 
-        /// Si el usuario conectado actual es medico se llama a IndexDoctor
+        /// Metodo que llama a la interfaz de consulta de Observaciones. Muestra lista almacenada
         /// </summary>
-        /// <returns> Interfaz de consulta de citas agendadas de paciente </returns>
+        /// <returns> Interfaz para la consulta de Observaciones </returns>
         [Authorize]
         public ActionResult Index()
         {
@@ -44,7 +47,10 @@ namespace DoctorWebASP.Controllers
 
         }
 
-        // GET: ObservacionMedicas/Details/5
+        // GET: ObservacionMedicas/Details/id
+        /// <summary>
+        /// Metodo para consulta del detalle de una Observacion Medica
+        /// </summary>
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -60,21 +66,24 @@ namespace DoctorWebASP.Controllers
         }
 
         // GET: ObservacionMedicas/Create
+        /// <summary>
+        /// Metodo para la agregacion de una Observacion Medica con Base de Datos local
+        /// </summary>
         public ActionResult Create()
         {
             return View();
         }
 
         // POST: ObservacionMedicas/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Metodo para la agregacion de una Observacion Medica en Base de Datos Remota via Web Service
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ObservacionMedicaId,Diagnostico,Indicacion")] ObservacionMedica observacionMedica)
         {
             if (ModelState.IsValid)
             {
-                // db.ObservacionMedicas.Add(observacionMedica);
                 consulta.GuardarObservacionMedica(observacionMedica);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -82,8 +91,10 @@ namespace DoctorWebASP.Controllers
 
             return View(observacionMedica);
         }
-
-        // GET: ObservacionMedicas/Edit/5
+  
+        /// <summary>
+        /// Metodo para editar de una Observacion Medica con Base de Datos local
+        /// </summary>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -98,23 +109,26 @@ namespace DoctorWebASP.Controllers
             return View(observacionMedica);
         }
 
-        // POST: ObservacionMedicas/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        // GET: ObservacionMedicas/Edit/id    
+        /// <summary>
+        /// Metodo para editar de una Observacion Medica con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ObservacionMedicaId,Diagnostico,Indicacion")] ObservacionMedica observacionMedica)
         {
             if (ModelState.IsValid)
             {
-              //  db.Entry(observacionMedica).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(observacionMedica);
         }
 
-        // GET: ObservacionMedicas/Delete/5
+       
+        /// <summary>
+        /// Metodo para eliminar de una Observacion Medica con Base de Datos local
+        /// </summary>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -129,7 +143,10 @@ namespace DoctorWebASP.Controllers
             return View(observacionMedica);
         }
 
-        // POST: ObservacionMedicas/Delete/5
+        // POST: ObservacionMedicas/Delete/id
+        /// <summary>
+        /// Metodo para eliminar de una Observacion Medica con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

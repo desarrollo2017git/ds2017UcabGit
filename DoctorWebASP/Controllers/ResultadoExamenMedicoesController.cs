@@ -11,10 +11,13 @@ using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
+
+    /// <summary>
+    /// Clase controladora de Clase ObservacionMedica
+    /// </summary>
     public class ResultadoExamenMedicoesController : Controller
     {
 
-    
             private ApplicationDbContext db = new ApplicationDbContext();
             public IServicioResultadoExamenMedico consulta { get; set; }
             public ResultadoExamenMedicoesController() : this(new ServicioResultadoExamenMedico())
@@ -26,13 +29,12 @@ namespace DoctorWebASP.Controllers
                 this.consulta = db;
             }
 
-            // GET: Citas
-            /// <summary>
-            /// Metodo que llama a la interfaz de consulta de citas principal, 
-            /// Si el usuario conectado actual es medico se llama a IndexDoctor
-            /// </summary>
-            /// <returns> Interfaz de consulta de citas agendadas de paciente </returns>
-            [Authorize]
+        // GET: ResultadoExamenMedico
+        /// <summary>
+        /// Metodo que llama a la interfaz de consulta de Resultados. Muestra lista almacenada
+        /// </summary>
+        /// <returns> Interfaz para la consulta de resultados </returns>
+        [Authorize]
             public ActionResult Index()
             {
                 if (consulta != null)
@@ -46,8 +48,10 @@ namespace DoctorWebASP.Controllers
 
             }
 
-            // GET: ResultadoExamenMedicoes/Details/5
-            public ActionResult Details(int? id)
+        /// <summary>
+        /// Metodo para consulta del detalle de un resultado
+        /// </summary>
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -61,15 +65,18 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // GET: ResultadoExamenMedicoes/Create
+        /// <summary>
+        /// Metodo para la agregacion de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ResultadoExamenMedicoes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ResultadoExamenMedico/Create
+        /// <summary>
+        /// Metodo para la agregacion de un resultado en Base de Datos Remota via Web Service
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ResultadoExamenMedicoID,Comentario")] ResultadoExamenMedico resultadoExamenMedico)
@@ -85,7 +92,9 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // GET: ResultadoExamenMedicoes/Edit/5
+        /// <summary>
+        /// Metodo para editar de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -100,9 +109,10 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // POST: ResultadoExamenMedicoes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ResultadoExamenMedicoes/Edit/id
+        /// <summary>
+        /// Metodo para editar de un Resultado con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ResultadoExamenMedicoID,Comentario")] ResultadoExamenMedico resultadoExamenMedico)
@@ -115,8 +125,9 @@ namespace DoctorWebASP.Controllers
             }
             return View(resultadoExamenMedico);
         }
-
-        // GET: ResultadoExamenMedicoes/Delete/5
+        /// <summary>
+        /// Metodo para eliminar de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -132,6 +143,9 @@ namespace DoctorWebASP.Controllers
         }
 
         // POST: ResultadoExamenMedicoes/Delete/5
+        /// <summary>
+        /// Metodo para eliminar de un Resultado con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
