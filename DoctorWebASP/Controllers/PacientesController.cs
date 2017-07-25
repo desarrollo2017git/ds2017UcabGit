@@ -35,7 +35,8 @@ namespace DoctorWebASP.Controllers
         // GET: Paciente
         public ActionResult Index()
         {
-            return View(consulta.ObtenerPacientesList());
+            string userId = consulta.ObtenerUsuarioLoggedIn(this);
+            return View(consulta.ObtenerPacientesList(userId));
         }
 
         /// <summary>
