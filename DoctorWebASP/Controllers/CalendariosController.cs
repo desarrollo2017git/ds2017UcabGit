@@ -85,6 +85,12 @@ namespace DoctorWebASP.Controllers
                                 string mensaje = "El bloque de horas solicitado no está disponible";
                                 return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                             }
+                            else
+                            {
+                                //" para el día " + calendario.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendario.HoraInicio.ToString("HH:mm") + " hasta las " + calendario.HoraFin.ToString("HH:mm");
+                                string mensaje = "Se ha creado un tiempo de citas para el: " + calendario.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendario.HoraInicio.ToString("HH:mm") + " hasta las " + calendario.HoraInicio.AddHours(2).ToString("HH:mm");
+                                return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                            }
                         }
                         catch (Exception e)
                         {
@@ -97,7 +103,8 @@ namespace DoctorWebASP.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    return RedirectToAction("ErrorCalendario");
+                    string mensaje = "Su tipo de usuario no esta autorizado para realizar esta operación";
+                    return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                 }
             }
 
@@ -110,9 +117,18 @@ namespace DoctorWebASP.Controllers
         /// <returns> vista de eliminar con la lista cargada</returns>
         public ActionResult listaCalendario()
         {
-            string userID = consulta.ObtenerUsuarioLoggedIn(this); // id del usuario del sistema 
-            var medicos = consulta.ObtenerMedico(userID); // medico que esta logeado
-            return View(consulta.ObtenerTiempoDoctor(medicos.First().PersonaId));
+            try
+            {
+                string userID = consulta.ObtenerUsuarioLoggedIn(this); // id del usuario del sistema 
+                var medicos = consulta.ObtenerMedico(userID); // medico que esta logeado
+                return View(consulta.ObtenerTiempoDoctor(medicos.First().PersonaId));
+            }
+            catch  (Exception e)
+            {
+                Console.WriteLine(e);
+                string mensaje = "No tiene permiso de ver esta página";
+                return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+            }
         }
 
         /// <summary>
@@ -129,6 +145,11 @@ namespace DoctorWebASP.Controllers
                 try
                 {
                     string userID = consulta.ObtenerUsuarioLoggedIn(this); // usuario logeado
+                    if (userID == null)
+                    {
+                        string mensaje = "No tiene autorizacion para eliminar tiempos";
+                        return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                    }
                     var medicos = consulta.ObtenerMedico(userID); // valida que sea medico
                     if (medicos.Count() > 0)
                     {
@@ -144,7 +165,8 @@ namespace DoctorWebASP.Controllers
                                 if (cal2.CalendarioId == calendario.CalendarioId && cal2.Disponible == 1)
                                 {
                                     consulta.EliminarCalendario(cal2); //elimina el tiempo cal2
-                                    return RedirectToAction("Eliminar");
+                                    string mensaje = "Se ha eliminando un tiempo de citas para el: " + cal2.HoraInicio.ToString("dd/MM/yy") + " desde las " + cal2.HoraInicio.ToString("HH:mm") + " hasta las " + cal2.HoraFin.ToString("HH:mm");
+                                    return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                                 }
                                 else
                                 {
@@ -162,19 +184,21 @@ namespace DoctorWebASP.Controllers
                         catch (Exception e)
                         {
                             Console.WriteLine(e);
-                            return RedirectToAction("ErrorCalendario");
+                            string mensaje = "Id no valido";
+                            return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                         }
                     }
                     else
                     {
-                        string mensaje = "Fecha invalida";
+                        string mensaje = "No tiene autorizacion para eliminar ese tiempo";
                         return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    return RedirectToAction("ErrorCalendario");
+                    string mensaje = "Error inesperado";
+                    return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                 }
             }
             return View(calendario);
@@ -227,12 +251,16 @@ namespace DoctorWebASP.Controllers
                     return RedirectToAction("Index");
                 }
                 else
-                    return RedirectToAction("ErrorCalendario");
+                {
+                    string mensaje = "Error inesperado";
+                    return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return RedirectToAction("ErrorCalendario"); 
+                string mensaje = "Error inesperado";
+                return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
             }
         }
 

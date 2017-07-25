@@ -31,7 +31,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                     if (notificacion != null)
                     {   // mensaje que sera enviado en el campo name del correo de notificacion
                         String mensaje = " para el día " + calendario.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendario.HoraInicio.ToString("HH:mm") + " hasta las " + calendario.HoraFin.ToString("HH:mm");
-                        notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
+                        //notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
                     }
                 }
                 catch (DoctorWebException e)
@@ -66,7 +66,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                         if (notificacion != null)
                         {   // mensaje que sera enviado en el campo name del correo de notificacion
                             String mensaje = " para el día " + calendarioTmp.HoraInicio.ToString("dd/MM/yy") + " desde las " + calendarioTmp.HoraInicio.ToString("HH:mm") + " hasta las " + calendarioTmp.HoraFin.ToString("HH:mm");
-                            notificacion.Enviar(medico.Email, new { nombre = medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
+                            //notificacion.Enviar(medico.Email, new { nombre = medico.ConcatUserName + mensaje });  // empleo del modulo de notificaciones
                         }
                     }
                     catch (DoctorWebException e)
