@@ -82,7 +82,7 @@ namespace DoctorWebASP.Controllers
                             Calendario pepe = consulta.GuardarCalendario(calendario); // intenta incertar si no cumple las condiciones devuelve null
                             if (pepe == null)
                             {
-                                string mensaje = "El bloque de horas solicitado no está disponible";
+                                string mensaje = "El bloque de horas solicitado no está disponible"; // cae aqui en caso de que el tiempo a crear este ocupado o sea en el pasado
                                 return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                             }
                             else
@@ -95,7 +95,7 @@ namespace DoctorWebASP.Controllers
                         catch (Exception e)
                         {
                             Console.WriteLine(e);
-                            string mensaje = "Hubo un problema creando su horario de cita";
+                            string mensaje = "Hubo un problema inesperado en la Base de Datos"; // problemas con la base de datos 
                             return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                         }
                     }
@@ -103,7 +103,7 @@ namespace DoctorWebASP.Controllers
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
-                    string mensaje = "Su tipo de usuario no esta autorizado para realizar esta operación";
+                    string mensaje = "Su tipo de usuario no esta autorizado para realizar esta operación"; // usuario paciente o no logeado
                     return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                 }
             }
@@ -126,7 +126,7 @@ namespace DoctorWebASP.Controllers
             catch  (Exception e)
             {
                 Console.WriteLine(e);
-                string mensaje = "No tiene permiso de ver esta página";
+                string mensaje = "No tiene permiso de ver esta página"; // usaurio paciente o no logeado
                 return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
             }
         }
@@ -147,7 +147,7 @@ namespace DoctorWebASP.Controllers
                     string userID = consulta.ObtenerUsuarioLoggedIn(this); // usuario logeado
                     if (userID == null)
                     {
-                        string mensaje = "No tiene autorizacion para eliminar tiempos";
+                        string mensaje = "No tiene autorizacion para eliminar tiempos"; // usaurio paciente o no logeado
                         return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                     }
                     var medicos = consulta.ObtenerMedico(userID); // valida que sea medico
@@ -252,7 +252,13 @@ namespace DoctorWebASP.Controllers
                 }
                 else
                 {
-                    string mensaje = "Error inesperado";
+                    var citVacio = new List<Calendario>();
+                    serializer.MaxJsonLength = Int32.MaxValue;
+                    jsondata = serializer.Serialize(citVacio);
+                    path = Server.MapPath("~/Content/");
+                    System.IO.File.WriteAllText(path + "calendario.json", jsondata);  // contruye el json vacio
+                    TempData["msg"] = "Json file Generated! check this in your App_Data folder";
+                    string mensaje = "Error login";
                     return RedirectToAction("ErrorCalendario", "Calendarios", new { mensaje });
                 }
             }
