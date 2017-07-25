@@ -17,12 +17,26 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns> Objeto calendario borrado, el cual servira para validar que la creación realizada sea exitosa </returns>
         public Calendario GuardarCalendario(Calendario calendario)
         {
-            calendario.HoraFin = calendario.HoraInicio.AddHours(2);
-            calendario.Cancelada = false;
+            calendario.HoraFin = calendario.HoraInicio.AddHours(2); //ponemos la hora fin del bloque de citas
+            calendario.Cancelada = false; 
             calendario.Disponible = 1;
             if (HorarioValidoCalendario(calendario))
             {
                 Crear(calendario);
+                var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO(); // empleo del modulo de notificaciones
+                try
+                {
+                    var notificacion = notificacionDAO.Obtener("generarTiempo");
+
+                    if (notificacion != null)
+                    {
+                        notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });  // empleo del modulo de notificaciones
+                    }
+                }
+                catch (DoctorWebException e)
+                {
+                    throw e;
+                }
                 return calendario;
             }
             else
@@ -42,6 +56,21 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (calendarioTmp != null)
                 {
                     Borrar(calendarioTmp);
+                    var notificacionDAO = Utilidades.Instancia.Fabrica.CrearNotificacionDAO();  // empleo del modulo de notificaciones
+                    try
+                    {
+                        var notificacion = notificacionDAO.Obtener("EliminarTiempo");
+
+                        if (notificacion != null)
+                        {
+                            notificacion.Enviar(calendario.Medico.Email, new { nombre = calendario.Medico.ConcatUserName });  // empleo del modulo de notificaciones
+                        }
+                    }
+                    catch (DoctorWebException e)
+                    {
+                        throw e;
+                    }
+
                     return calendarioTmp;
                 }
                 else
