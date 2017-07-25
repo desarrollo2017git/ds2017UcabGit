@@ -1,23 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
     public class ObservacionMedicaE2Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public IServicioObservacionMedicaE2 consulta { get; set; }
+        public ObservacionMedicaE2Controller(): this(new ServicioObservacionMedicaE2()) {
+        }
+
+        public ObservacionMedicaE2Controller(IServicioObservacionMedicaE2 db)
+        {
+            this.consulta = db;
+        }
 
         // GET: ObservacionMedicaE2
+        /// <summary>
+        /// Metodo que llama a la interfaz de consulta de observaciones medica
+        /// </summary>
+        /// <returns> Interfaz de consulta de observaciones medicas </returns>
+        [Authorize]
         public ActionResult Index()
         {
+            if (consulta != null)
+            {
+
+
+                return View(consulta.ObtenerSelectListObservacionMedicaE2());
+            }
             return View(db.ObservacionMedicaE2.ToList());
+
+
         }
 
         // GET: ObservacionMedicaE2/Details/5
@@ -82,7 +104,7 @@ namespace DoctorWebASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(observacionMedicaE2).State = EntityState.Modified;
+                //db.Entry(observacionMedicaE2).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -110,7 +132,8 @@ namespace DoctorWebASP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ObservacionMedicaE2 observacionMedicaE2 = db.ObservacionMedicaE2.Find(id);
-            db.ObservacionMedicaE2.Remove(observacionMedicaE2);
+            //db.ObservacionMedicas.Remove(observacionMedica);
+            consulta.EliminarObservacionMedicaE2(observacionMedicaE2);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
