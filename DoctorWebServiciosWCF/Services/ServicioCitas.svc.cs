@@ -10,7 +10,7 @@ namespace DoctorWebServiciosWCF.Services
     // NOTE: In order to launch WCF Test Client for testing this service, please select ServicioCitas.svc or ServicioCitas.svc.cs at the Solution Explorer and start debugging.
     public class ServicioCitas : IServicioCitas
     {
-        public ICitasDAO Dao = new CitasDAO();
+        ICitasDAO Dao = new CitasDAO();
         public void DoWork()
         {
         }

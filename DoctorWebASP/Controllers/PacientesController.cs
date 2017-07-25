@@ -1,18 +1,50 @@
-﻿using DoctorWebASP.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System;
+using System.Data;
 using System.Linq;
-using System.Web;
+using System.Net;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
+using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
     public class PacienteController : Controller
     {
+
+        private ApplicationDbContext db = new ApplicationDbContext();
+        public IServicioPaciente consulta { get; set; }
+        public CitasController(): this(new ServicioCitas()) {
+        }
+
+        public CitasController(IServicioCitas db)
+        {
+            this.consulta = db;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Paciente
         public ActionResult Index()
@@ -196,5 +228,5 @@ namespace DoctorWebASP.Controllers
             }
             return RedirectToAction("Index");
         }
+    }*/
     }
-}

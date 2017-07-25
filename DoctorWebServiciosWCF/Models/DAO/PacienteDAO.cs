@@ -84,21 +84,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         }
 
-        /// <summary>
-        /// Metodo del DAO para obtener una lista de los seguros
-        /// </summary>
-        /// <returns>Lista de seguros</returns>
-        public List<Seguro> ObtenerSelectListSeguros()
-        {
-            var dao = Utilidades.Instancia.Fabrica.CrearDAO<Seguro>();
-            return dao.ObtenerTodos().ToList();
-        }
-
-
-
-
-
-
 
 
 

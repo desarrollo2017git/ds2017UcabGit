@@ -8,7 +8,7 @@ namespace DoctorWebServiciosWCF.Services
 {
     public class ServicioPacientes : IServicioPacientes
     {
-        public IPacienteDAO dao = new PacienteDAO();
+        IPacienteDAO dao = new PacienteDAO();
 
         public void DoWork()
         {
@@ -78,12 +78,12 @@ namespace DoctorWebServiciosWCF.Services
         /// Metodo del servicio web para obtener la lista de los seguros
         /// </summary>
         /// <returns>Resultado servicio lista de centros medicos</returns>
-        public ResultadoServicio<List<Seguro>> ObtenerSelectListSeguros()
+        public ResultadoServicio<List<Seguro>> ObtenerSeguros()
         {
             var resultado = new ResultadoServicio<List<Seguro>>();
             try
             {
-                resultado.Inicializar(dao.ObtenerSelectListSeguros());
+                resultado.Inicializar(dao.ObtenerSeguros());
             }
             catch (Exception ex)
             {
