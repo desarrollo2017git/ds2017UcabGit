@@ -251,6 +251,14 @@ namespace DoctorWebASP.Controllers
             return Json(new { answer = resultado.Contenido });
         }
         #endregion
+
+        #region PASO #3: Obtener reportes según la selección del usuario.
+        [HttpPost]
+        public JsonResult getReport(Dictionary<string, Dictionary<string,Dictionary<string,string>>> queryObj)
+        {
+            return Json(new { answer = queryObj });
+        }
+        #endregion
         #endregion
     }
 }

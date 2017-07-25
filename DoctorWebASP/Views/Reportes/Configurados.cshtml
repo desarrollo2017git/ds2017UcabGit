@@ -94,30 +94,13 @@
                                 <div class="col-xs-12">
                                     <div class="form-group">
                                         @*<select class="form-control select" data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled></select>*@
-                                        <table class="table table-condensed">
+                                        <table class="table table-condensed" id="contidions">
                                             <thead>
                                                 <th>Atributo</th>
                                                 <th>Condición</th>
                                                 <th>Valor</th>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Nombre</td>
-                                                    <td>
-                                                        <select class="form-control select2" data-placeholder="Condición" style="width: 100%;">
-                                                            <option value="Igual">Igual ( = )</option>
-                                                            <option value="Distinto">Distinto ( != )</option>
-                                                            <option value="Mayor que">Mayor que ( > )</option>
-                                                            <option value="Menor que">Menor que ( < )</option>
-                                                            <option value="Mayor o igual que">Mayor o igual que ( >= )</option>
-                                                            <option value="Menor o igual que">Menor o igual que ( <= )</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <input type="text" class="form-control" placeholder="Valor" />
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+
                                         </table>
                                     </div>
                                 </div>
@@ -181,9 +164,9 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
+                        //console.log(result);
                         object = jQuery.parseJSON(result.answer);
-                        console.log(object);
+                        //console.log(object);
                         var selectAttr = $("#select-attributes");
                         var submitAttr = $("#submit-attributes");
 
@@ -191,7 +174,7 @@
                         Object.keys(object).forEach(function (entidad, index) {
                             console.log(entidad);
                             for (var atributo in object[entidad]) {
-                                console.log(atributo);
+                                //console.log(atributo);
                                 var opcion = entidad + '.' + atributo;
                                 var newOption = new Option(opcion, opcion, true, false);
                                 selectAttr.append(newOption).trigger('change');
@@ -209,53 +192,92 @@
             });
 
             $("#submit-attributes").click(function () {
-                var selections = $('#select-entities option:selected');
-                var selectedEntities = [];
-                var selections2 = $('#select-attributes option:selected');
+                var selections = $('#select-attributes option:selected');
                 var selectedAttributes = [];
-                var parameters = { };
-
+                
                 $(selections).each(function (index) {
-                    selectedEntities.push($(this).val())
-                });
-
-                $(selections2).each(function (index) {
                     selectedAttributes.push($(this).val())
                 });
 
-                parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
+                var tableConditions = $("#contidions");
+                var generateReport = $("#generate-report");
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
-                    url: "@Url.Action(actionName: "getMetrics", controllerName: "Reportes")",
-                    data: JSON.stringify(parameters),
-                    datatype: "application/json",
-                    success: function (result) {
-                        console.log(result);
-                        var selectMet = $("#select-metrics");
-                        var submitMet = $("#generate-report");
+                $(tableConditions).empty();
 
-                        $(selectMet).empty();
+                var selections = $('#select-attributes option:selected');
+                var tBodyContent = '';
+                var element = '';
 
-                        for (var i in result.metricas) {
-                            var newOption = new Option(result.metricas[i], result.metricas[i], true, false);
-                            selectMet.append(newOption).trigger('change');
-                        }
+                tBodyContent += '<tbody>';
 
-                        $(selectMet).prop('disabled', false);
-                        $(submitMet).prop('disabled', false);
-                    },
-                    error: function (xmlhttprequest, textstatus, errorthrown) {
-                        alert(" Debe seleccionar al menos un atributo para continuar. ");
-                        console.log("error: " + errorthrown);
-                    }
+                $(selections).each(function (index) {
+                    console.log(selections[index]);
+                    element = '<tr>' +
+                                '<td>' + $(this).val() + '</td>' +
+                                '<td>' +
+                                    '<select class="form-control select2" data-type="' + $(this).val() + '" data-placeholder="Condición" style="width: 100%;">' +
+                                        '<option value="=">Igual ( = )</option>' +
+                                        '<option value="!=">Distinto ( != )</option>' +
+                                        '<option value=">">Mayor que ( > )</option>' +
+                                        '<option value="<">Menor que ( < )</option>' +
+                                        '<option value=">=">Mayor o igual que ( >= )</option>' +
+                                        '<option value="<=">Menor o igual que ( <= )</option>' +
+                                    '</select>' +
+                                '</td>' +
+                                '<td>' +
+                                    '<input type="text" data-type="' + $(this).val() + '" class="form-control" placeholder="Valor" />' +
+                                '</td>';
+                    tBodyContent += element;
                 });
+
+                $(tableConditions).append('</tbody>' + tBodyContent);
+                $(generateReport).prop('disabled', false);
             });
 
             $("#generate-report").click(function () {
-                var selectedMetric = $('#select-metrics option:selected');
-                var parameters = { selectedMetric: selectedMetric.val() };
+                var parameters = {};
+                var selectionsEntities = $('#select-entities option:selected');
+                var selectedEntities = []
+
+                $(selectionsEntities).each(function (index) {
+                    selectedEntities.push($(this).val())
+                });
+
+                var selectionsAttributes = $('#select-attributes option:selected');
+                var selectedAttributes = [];
+
+                $(selectionsAttributes).each(function (index) {
+                    selectedAttributes.push($(this).val())
+                });
+
+                var parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
+                var json = JSON.stringify(parameters);
+                console.log("json");
+                console.log(json);
+
+                var generalObj = {};
+                var entidadActual = ""; var entidadAnterior = "";
+
+                for (i = 0; i < selectedEntities.length; ++i) {
+                    entidadActual = selectedEntities[i];
+                    var attributeObj = {};
+                    for (j = 0; j < selectedAttributes.length; ++j) {
+                        var selectedCondition = $('select[data-type="' + selectedAttributes[j] + '"] option:selected');
+                        var selectedConditionValue = $('input[data-type="' + selectedAttributes[j] + '"]');
+                        var splitString = selectedAttributes[j].split(".");
+                        var entidad = splitString[0];
+                        var atributo = splitString[1];
+                        if (entidad == entidadActual) {
+                            attributeObj[atributo] = { "condicional": $(selectedCondition).val(), "valor": $(selectedConditionValue).val() };
+                        }
+                    }
+                    generalObj[entidadActual] = attributeObj;
+
+                }
+                console.log("generalObj");
+                console.log(generalObj);
+
+                parameters = { queryObj: generalObj };
 
                 $.ajax({
                     type: "POST",
@@ -264,36 +286,37 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
+                        console.log("ajax");
                         console.log(result);
-                        var tableRep = $("#report");
-                        var finish = $("#finish");
+                        //var tableRep = $("#report");
+                        //var finish = $("#finish");
 
-                        $(tableRep).empty();
+                        //$(tableRep).empty();
 
-                        var selections = $('#select-entities option:selected');
-                        var tBodyContent = '';
-                        var element = '';
+                        //var selections = $('#select-entities option:selected');
+                        //var tBodyContent = '';
+                        //var element = '';
 
-                        tBodyContent += '<thead><tr>';
+                        //tBodyContent += '<thead><tr>';
 
-                        $(selections).each(function (index) {
-                            element = '<th>' + $(this).val() + '</th>';
-                            tBodyContent += element;
-                        });
+                        //$(selections).each(function (index) {
+                        //    element = '<th>' + $(this).val() + '</th>';
+                        //    tBodyContent += element;
+                        //});
 
-                        tBodyContent += '</tr></thead><tbody>';
+                        //tBodyContent += '</tr></thead><tbody>';
 
-                        $.each(JSON.parse(result), function (key, value) {
-                            element =
-                                '<tr>' +
-                                    '<td>' + value.Medico + '</td>' +
-                                    '<td>' + value.Paciente + '</td>' +
-                                '</tr>';
-                            tBodyContent += element;
-                        });
+                        //$.each(JSON.parse(result), function (key, value) {
+                        //    element =
+                        //        '<tr>' +
+                        //            '<td>' + value.Medico + '</td>' +
+                        //            '<td>' + value.Paciente + '</td>' +
+                        //        '</tr>';
+                        //    tBodyContent += element;
+                        //});
 
-                        $(tableRep).append('</tbody>' + tBodyContent);
-                        $(finish).prop('disabled', false);
+                        //$(tableRep).append('</tbody>' + tBodyContent);
+                        //$(finish).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" Ha habido un error de conexión, vuelva a intentarlo. ");
