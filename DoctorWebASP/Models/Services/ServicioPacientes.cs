@@ -144,7 +144,7 @@ namespace DoctorWebASP.Models.Services
         /// Metodo en el cliente utilizado para obtener una lista de todos los pacientes
         /// </summary>
         /// <returns>SelectList</returns>
-        public SelectList ObtenerPacientesList()
+        public SelectList ObtenerPacientesList(String tCedula)
         {
             try
             {
@@ -153,7 +153,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerPacienteList";
                 var request = new RestRequest(resource: action, method: Method.GET);
-
+                request.AddQueryParameter("tCedula", tCedula);
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -184,9 +184,9 @@ namespace DoctorWebASP.Models.Services
         /// <summary>
         /// Metodo en el cliente utilizado para obtener un paciente
         /// </summary>
-        /// <param name="userId">Identificador de usuario del paciente</param>
+        /// <param name="PersonaId">Identificador de usuario del paciente</param>
         /// <returns>Paciente</returns>
-        public Paciente ObtenerPaciente(string userId)
+        public Paciente ObtenerPaciente(string PersonaId)
         {
             try
             {
@@ -194,7 +194,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerPaciente";
                 var request = new RestRequest(resource: action, method: Method.GET);
-                request.AddQueryParameter("userId", userId);
+                request.AddQueryParameter("PersonaId", PersonaId);
 
                 var response = client.Execute(request);
 

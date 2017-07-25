@@ -52,10 +52,10 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// Metodo para obtener la lista de pacientes
         /// </summary>
         /// <returns>Lista de Pacientes</returns>
-        public List<Paciente> ObtenerPacientesList()
+        public List<Paciente> ObtenerPacientesList(String id)
         {
             var daoPacientes = Utilidades.Instancia.Fabrica.CrearDAO<Paciente>();
-            return daoPacientes.ObtenerTodos().ToList();
+            return daoPacientes.ObtenerTodosLosQue(registro => registro.Cedula == id).ToList();
         }
 
         /// <summary>

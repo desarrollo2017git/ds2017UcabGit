@@ -31,8 +31,8 @@ namespace DoctorWebServiciosWCF.Services
 
         // Contrato del servicio medico para obtener un paciente especifico
         [OperationContract]
-        [WebGet(UriTemplate = "/ObtenerPaciente?userId={userId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoServicio<Paciente> ObtenerPaciente(string userId);
+        [WebGet(UriTemplate = "/ObtenerPaciente?PersonaId={PersonaId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<Paciente> ObtenerPaciente(string PersonaId);
 
         // Contrato del servicio web para obtener la lista de seguros
         [OperationContract]
@@ -41,7 +41,7 @@ namespace DoctorWebServiciosWCF.Services
 
         // Contrato del servicio web para obtener la lista de pacientes
         [OperationContract]
-        [WebGet(UriTemplate = "/ObtenerPacientesList", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoServicio<List<Paciente>> ObtenerPacientesList();
+        [WebGet(UriTemplate = "/ObtenerPacientesList?PersonaId={PersonaId}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoServicio<List<Paciente>> ObtenerPacientesList(string PersonaId);
     }
 }

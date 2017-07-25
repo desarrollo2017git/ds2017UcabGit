@@ -20,9 +20,9 @@ namespace DoctorWebASP.Models.Services
         //Metodo para obtener lista de los seguros
         SelectList ObtenerSeguros();
         //Metodo para obtener todos los pacientes
-        SelectList ObtenerPacientesList();
+        SelectList ObtenerPacientesList(string PersonaId);
         //Metodo para obtener un paciente
-        Paciente ObtenerPaciente(string userId);
+        Paciente ObtenerPaciente(string PersonaId);
         //Obtiene el usuario loggeado
         string ObtenerUsuarioLoggedIn(PacientesController pacientesController);
     }

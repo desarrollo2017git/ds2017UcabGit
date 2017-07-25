@@ -46,8 +46,8 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public ActionResult Index(string userId)
         {
-
-            var paciente = consulta.ObtenerPacientesList();
+            string cedula = Request.Form["tCedula"].ToString();
+            var paciente = consulta.ObtenerPacientesList(cedula);
             if (paciente == null)
             {
                 string mensaje = "No existe Paciente con esa Cedula";
