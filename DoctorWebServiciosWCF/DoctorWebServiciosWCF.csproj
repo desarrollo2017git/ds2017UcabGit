@@ -80,8 +80,11 @@
   <ItemGroup>
     <Content Include="Services\ServicioCalendarios.svc" />
     <Content Include="Services\ServicioNotificaciones.svc" />
+    <Content Include="Services\ServicioObservacionDeAtencionClinica.svc" />
+    <Content Include="Services\ServicioObservacionMedica.svc" />
     <Content Include="Services\ServicioReportes.svc" />
     <Content Include="Services\ServicioCitas.svc" />
+    <Content Include="Services\ServicioResultadoExamenMedico.svc" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -121,8 +124,14 @@
     <Compile Include="Models\DAO\ICitasDAO.cs" />
     <Compile Include="Models\DAO\IDAO.cs" />
     <Compile Include="Models\DAO\INotificacionDAO.cs" />
+    <Compile Include="Models\DAO\IObservacionDeAtencionClinicaDAO.cs" />
+    <Compile Include="Models\DAO\IObservacionMedicaDAO.cs" />
     <Compile Include="Models\DAO\IReporteDAO.cs" />
+    <Compile Include="Models\DAO\IResultadoExamenMedicoDAO.cs" />
+    <Compile Include="Models\DAO\ObservacionDeAtencionClinicaDAO.cs" />
+    <Compile Include="Models\DAO\ObservacionMedicaDAO.cs" />
     <Compile Include="Models\DAO\ReporteDAO.cs" />
+    <Compile Include="Models\DAO\ResultadoExamenMedicoDAO.cs" />
     <Compile Include="Models\DoctorWebException.cs" />
     <Compile Include="Models\EquipoMedico.cs" />
     <Compile Include="Models\EspecialidadMedica.cs" />
@@ -148,19 +157,31 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IServicioCalendarios.cs" />
     <Compile Include="Services\IServicioNotificaciones.cs" />
+    <Compile Include="Services\IServicioObservacionDeAtencionClinica.cs" />
+    <Compile Include="Services\IServicioObservacionMedica.cs" />
     <Compile Include="Services\IServicioReportes.cs" />
     <Compile Include="Services\IServicioCitas.cs" />
+    <Compile Include="Services\IServicioResultadoExamenMedico.cs" />
     <Compile Include="Services\ServicioCalendarios.svc.cs">
       <DependentUpon>ServicioCalendarios.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\ServicioNotificaciones.svc.cs">
       <DependentUpon>ServicioNotificaciones.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\ServicioObservacionDeAtencionClinica.svc.cs">
+      <DependentUpon>ServicioObservacionDeAtencionClinica.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ServicioObservacionMedica.svc.cs">
+      <DependentUpon>ServicioObservacionMedica.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\ServicioReportes.svc.cs">
       <DependentUpon>ServicioReportes.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\ServicioCitas.svc.cs">
       <DependentUpon>ServicioCitas.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ServicioResultadoExamenMedico.svc.cs">
+      <DependentUpon>ServicioResultadoExamenMedico.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
