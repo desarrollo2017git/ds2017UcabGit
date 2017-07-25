@@ -260,6 +260,10 @@
     <Compile Include="Migrations\201707251132000_g4e2.Designer.cs">
       <DependentUpon>201707251132000_g4e2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707251439217_migracionfinal.cs" />
+    <Compile Include="Migrations\201707251439217_migracionfinal.Designer.cs">
+      <DependentUpon>201707251439217_migracionfinal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ObservacionClinicaE2.cs" />
     <Compile Include="Models\ObservacionMedicaE2.cs" />
@@ -271,6 +275,7 @@
     <Compile Include="Models\Services\IServicioObservacionClinicaE2.cs" />
     <Compile Include="Models\Services\IServicioObservacionMedicaE2.cs" />
     <Compile Include="Models\Services\IServicioReportes.cs" />
+    <Compile Include="Models\Services\IServicioResultadoE2.cs" />
     <Compile Include="Models\Services\ServicioCalendarios.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
@@ -303,6 +308,7 @@
     <Compile Include="Models\Services\ServicioObservacionClinicaE2.cs" />
     <Compile Include="Models\Services\ServicioObservacionMedicaE2.cs" />
     <Compile Include="Models\Services\ServicioReportes.cs" />
+    <Compile Include="Models\Services\ServicioResultadoE2.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1435,6 +1441,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707251132000_g4e2.resx">
       <DependentUpon>201707251132000_g4e2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707251439217_migracionfinal.resx">
+      <DependentUpon>201707251439217_migracionfinal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

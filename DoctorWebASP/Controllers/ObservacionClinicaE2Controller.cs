@@ -104,7 +104,7 @@ namespace DoctorWebASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(observacionClinicaE2).State = EntityState.Modified;
+                //db.Entry(observacionClinicaE2).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

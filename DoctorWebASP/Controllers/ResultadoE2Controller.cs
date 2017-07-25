@@ -1,23 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
     public class ResultadoE2Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public IServicioResultadoE2 consulta { get; set; }
+        public ResultadoE2Controller(): this(new ServicioResultadoE2()) {
+        }
+
+        public ResultadoE2Controller(IServicioResultadoE2 db)
+        {
+            this.consulta = db;
+        }
 
         // GET: ResultadoE2
+        /// <summary>
+        /// Metodo que llama a la interfaz de consulta de resultados
+        /// </summary>
+        /// <returns> Interfaz de consulta de resultados de examenes </returns>
+        [Authorize]
         public ActionResult Index()
         {
+            if (consulta != null)
+            {
+
+
+                return View(consulta.ObtenerSelectListResultadoE2());
+            }
             return View(db.ResultadoE2.ToList());
+
+
         }
 
         // GET: ResultadoE2/Details/5
@@ -82,7 +104,7 @@ namespace DoctorWebASP.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(resultadoE2).State = EntityState.Modified;
+                //db.Entry(resultadoE2).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -110,7 +132,8 @@ namespace DoctorWebASP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ResultadoE2 resultadoE2 = db.ResultadoE2.Find(id);
-            db.ResultadoE2.Remove(resultadoE2);
+            //db.ObservacionMedicas.Remove(observacionMedica);
+            consulta.EliminarResultadoE2(resultadoE2);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

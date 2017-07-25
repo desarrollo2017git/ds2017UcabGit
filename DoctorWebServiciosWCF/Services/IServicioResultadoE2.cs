@@ -35,4 +35,4 @@ namespace DoctorWebServiciosWCF.Services
         ResultadoProceso EliminarResultadoE2(ResultadoE2 resultadoE2);
     }
 }
-}
+
