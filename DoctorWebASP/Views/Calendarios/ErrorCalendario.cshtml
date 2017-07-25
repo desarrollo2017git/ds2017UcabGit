@@ -7,12 +7,12 @@
 <section class="content-header">
     <h1>
         Calendario
-        <small>Oh no!</small>
+        <small>Nuevo mensaje</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Calendario</a></li>
-        <li class="active">Algo falló!</li>
+        <li class="active">Mensaje</li>
     </ol>
 </section>
 
@@ -20,14 +20,14 @@
     <div class="box box-danger">
         <div class="box-body">
             <div class="box-header with-border">
-                <h3 class="box-title">Oh no!</h3>
+                <h3 class="box-title">Mensaje</h3>
             </div>
             <div class="row"></div>
             <div class="col-md-4"></div>
             <div class="col-md-4" align="center">
-                <h1><i class="fa fa-frown-o fa-5x" aria-hidden="true"></i></h1>
-                <h2>Ha ocurrido un error</h2>
+                <h2>Mensaje: </h2>
                 <h1>@Html.DisplayFor(m => m.Mensaje)</h1>
+                <input type="button" class="btn btn-primary col-md-offset-1" onclick='history.back();' value='Regresar' />
             </div>
             <div class="col-md-4"></div>
         </div>
