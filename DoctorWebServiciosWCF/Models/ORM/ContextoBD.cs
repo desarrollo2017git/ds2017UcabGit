@@ -29,6 +29,8 @@ namespace DoctorWebServiciosWCF.Models.ORM
         public DbSet<ObservacionMedica> ObservacionMedicas { get; set; }
         public DbSet<ResultadoExamenMedico> ResultadoExamenMedicos { get; set; }
         public DbSet<ObservacionDeAtencionClinica> ObservacionDeAtencionClincas { get; set; }
+        public DbSet<Paciente> Paciente { get; set; }
+        public DbSet<Seguro> Seguro { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
