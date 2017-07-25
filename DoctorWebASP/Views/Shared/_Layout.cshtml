@@ -137,7 +137,7 @@
                     </li>
                     <!--Modulo de pacientes -->
                     <li class="treeviw @Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.VerPacientes) || ViewData.EsPaginaActual(EnumDoctorWebPagina.CrearPaciente), "active")">
-                        <a href="@Url.Action(actionName: "Index", controllerName: "Paciente")">
+                        <a href="@Url.Action(actionName: "Index", controllerName: "Pacientes")">
                             <i class="fa fa-user-circle"></i> <span>Pacientes</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -145,10 +145,10 @@
                         </a>
                         <ul class="treeview-menu">
                             <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.VerPacientes), "active")">
-                                <a href="@Url.Action(actionName: "Index", controllerName: "Paciente")"><i class="fa fa-bars"></i> Ver Pacientes</a>
+                                <a href="@Url.Action(actionName: "Index", controllerName: "Pacientes")"><i class="fa fa-bars"></i> Ver Pacientes</a>
                             </li>
                             <li class="@Html.AgregarClaseSi(ViewData.EsPaginaActual(EnumDoctorWebPagina.CrearPaciente), "active")">
-                                <a href="@Url.Action(actionName: "Create", controllerName: "Paciente")"><i class="fa fa-user-plus"></i> Crear Paciente</a>
+                                <a href="@Url.Action(actionName: "Create", controllerName: "Pacientes")"><i class="fa fa-user-plus"></i> Crear Paciente</a>
                             </li>
                         </ul>
                     </li>
