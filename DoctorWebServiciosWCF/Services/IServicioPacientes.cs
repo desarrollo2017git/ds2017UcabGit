@@ -42,6 +42,6 @@ namespace DoctorWebServiciosWCF.Services
         // Contrato del servicio web para obtener la lista de pacientes
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerPacientesList", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoServicio<List<Seguro>> ObtenerPacientesList();
+        ResultadoServicio<List<Paciente>> ObtenerPacientesList();
     }
 }

@@ -33,7 +33,6 @@ namespace DoctorWebASP.Controllers
         /// </summary>
         /// <returns></returns>
         // GET: Paciente
-        [Authorize]
         public ActionResult Index()
         {
             return View(consulta.ObtenerPacientesList());
@@ -45,7 +44,6 @@ namespace DoctorWebASP.Controllers
         /// <param name="userId"></param>
         /// <returns>Index</returns>
         [HttpPost]
-        [Authorize]
         public ActionResult Index(string userId)
         {
 
@@ -70,7 +68,6 @@ namespace DoctorWebASP.Controllers
         /// Metodo para desplegar la ventana de crear
         /// </summary>
         /// <returns></returns>
-        [Authorize]
         public ActionResult Create()
         {
             //Se crea el paciente
@@ -146,23 +143,31 @@ namespace DoctorWebASP.Controllers
             }
 
         }
-
+        
         public ActionResult Delete(int id)
         {
-            Paciente db_paciente = db.Pacientes.FirstOrDefault(g => g.PersonaId == id);
-            if (db_paciente != null)
-            {
-                foreach (Seguro Paciente_Seguro in db_paciente.Seguros.ToList())
-                {
-                    db_paciente.Seguros.Remove(Paciente_Seguro);
-                }
-                db.SaveChanges();
-                db.Pacientes.Remove(db_paciente);
-                db.SaveChanges();
-            }
-            return RedirectToAction("Index");
-        }
 
+            var model = Fabrica.CrearPaciente();
+
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            try
+            {
+                model = consulta.ObtenerPaciente(id.ToString());
+                consulta.EliminarPaciente(model);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                string mensaje = "Ha ocurrido un error con la base de datos de la aplicacion";
+                return RedirectToAction("SadFace", "Pacientes", new { mensaje });
+
+            }
+        }
 
 
 
