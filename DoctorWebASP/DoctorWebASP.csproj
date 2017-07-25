@@ -264,6 +264,14 @@
     <Compile Include="Migrations\201707251439217_migracionfinal.Designer.cs">
       <DependentUpon>201707251439217_migracionfinal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707251445274_correccionpk.cs" />
+    <Compile Include="Migrations\201707251445274_correccionpk.Designer.cs">
+      <DependentUpon>201707251445274_correccionpk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707251452461_correccionpkresultado.cs" />
+    <Compile Include="Migrations\201707251452461_correccionpkresultado.Designer.cs">
+      <DependentUpon>201707251452461_correccionpkresultado.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ObservacionClinicaE2.cs" />
     <Compile Include="Models\ObservacionMedicaE2.cs" />
@@ -1444,6 +1452,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201707251439217_migracionfinal.resx">
       <DependentUpon>201707251439217_migracionfinal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707251445274_correccionpk.resx">
+      <DependentUpon>201707251445274_correccionpk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707251452461_correccionpkresultado.resx">
+      <DependentUpon>201707251452461_correccionpkresultado.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

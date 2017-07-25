@@ -150,7 +150,54 @@ namespace DoctorWebServiciosWCF.Migrations
                 .PrimaryKey(t => t.ResultadoExamenMedicoID)
                 .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
                 .Index(t => t.Paciente_PersonaId);
-            
+
+            CreateTable(
+               "dbo.ObservacionDeAtencionClinicas",
+               c => new
+               {
+                   ObservacionDeAtencionMedicaId = c.Int(nullable: false, identity: true),
+                   Observacion = c.String(nullable: false),
+                   Comentario = c.String(nullable: false),
+                   tipo = c.Int(nullable: false),
+                   Paciente_PersonaId = c.Int(),
+               })
+               .PrimaryKey(t => t.ObservacionDeAtencionMedicaId)
+               .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+               .Index(t => t.Paciente_PersonaId);
+
+            CreateTable(
+                "dbo.ObservacionClinicaE2",
+                c => new
+                {
+                    ObservacionDeAtencionMedicaId = c.Int(nullable: false, identity: true),
+                    Observacion = c.String(nullable: false),
+                    Comentario = c.String(nullable: false),
+                    Tipo = c.String(nullable: false),
+                    Paciente = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => t.ObservacionDeAtencionMedicaId);
+
+            CreateTable(
+                "dbo.ObservacionMedicaE2",
+                c => new
+                {
+                    ObservacionMedicaId = c.Int(nullable: false, identity: true),
+                    Diagnostico = c.String(nullable: false),
+                    Indicacion = c.String(nullable: false),
+                    Paciente = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => t.ObservacionMedicaId);
+
+            CreateTable(
+                "dbo.ResultadoE2",
+                c => new
+                {
+                    ResultadoExamenMedicoID = c.Int(nullable: false, identity: true),
+                    Comentario = c.String(nullable: false),
+                    Paciente = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => t.ResultadoExamenMedicoID);
+
             CreateTable(
                 "dbo.Tratamientoes",
                 c => new
@@ -265,6 +312,9 @@ namespace DoctorWebServiciosWCF.Migrations
             DropTable("dbo.Citas");
             DropTable("dbo.CentroMedicoes");
             DropTable("dbo.Almacens");
+            DropTable("dbo.ResultadoE2");
+            DropTable("dbo.ObservacionMedicaE2");
+            DropTable("dbo.ObservacionClinicaE2");
         }
     }
 }

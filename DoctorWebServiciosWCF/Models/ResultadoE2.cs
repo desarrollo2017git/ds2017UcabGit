@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
+
 
 namespace DoctorWebServiciosWCF.Models
 {
@@ -15,6 +17,7 @@ namespace DoctorWebServiciosWCF.Models
 	public class ResultadoE2
 	{
         [DataMember]
+        [Key]
         //ID de la clase
         public int ResultadoExamenMedicoID { get; set; }
         [DataMember]
