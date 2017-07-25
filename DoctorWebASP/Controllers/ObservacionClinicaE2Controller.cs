@@ -1,23 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
     public class ObservacionClinicaE2Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        public IServicioObservacionClinicaE2 consulta { get; set; }
+        public ObservacionClinicaE2Controller(): this(new ServicioObservacionClinicaE2()) {
+        }
+
+        public ObservacionClinicaE2Controller(IServicioObservacionClinicaE2 db)
+        {
+            this.consulta = db;
+        }
 
         // GET: ObservacionClinicaE2
+        /// <summary>
+        /// Metodo que llama a la interfaz de consulta de observaciones clinicas
+        /// </summary>
+        /// <returns> Interfaz de consulta de observaciones clinicas </returns>
+        [Authorize]
         public ActionResult Index()
         {
+            if (consulta != null)
+            {
+
+
+                return View(consulta.ObtenerSelectListObservacionClinicaE2());
+            }
             return View(db.ObservacionClinicaE2.ToList());
+
+
         }
 
         // GET: ObservacionClinicaE2/Details/5
@@ -110,7 +132,8 @@ namespace DoctorWebASP.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             ObservacionClinicaE2 observacionClinicaE2 = db.ObservacionClinicaE2.Find(id);
-            db.ObservacionClinicaE2.Remove(observacionClinicaE2);
+            //db.ObservacionMedicas.Remove(observacionMedica);
+            consulta.EliminarObservacionClinicaE2(observacionClinicaE2);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
