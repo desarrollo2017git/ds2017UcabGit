@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
@@ -11,7 +10,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
     /// <summary>
     /// Interface para DAO Pacientes
     /// </summary>
-    interface IPacienteDAO
+    public interface IPacienteDAO
     {
         //Metodo para guardar paciente
         bool GuardarPaciente(Paciente paciente);

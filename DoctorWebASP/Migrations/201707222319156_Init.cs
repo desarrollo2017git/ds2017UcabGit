@@ -272,7 +272,19 @@ namespace DoctorWebASP.Migrations
                 .ForeignKey("dbo.RecursoHospitalarios", t => t.RecursoHospitalario_RecursoHospitalarioId)
                 .Index(t => t.Cita_CitaId)
                 .Index(t => t.RecursoHospitalario_RecursoHospitalarioId);
-            
+
+            CreateTable(
+                "dbo.Seguros",
+                c => new
+                {
+                    seguroId = c.Int(nullable: false, identity: true),
+                    Nombre = c.String(nullable: false),
+                    Paciente_PersonaId = c.Int(),
+                })
+                .PrimaryKey(t => t.seguroId)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+                .Index(t => t.Paciente_PersonaId);
+
         }
         
         public override void Down()
@@ -297,6 +309,7 @@ namespace DoctorWebASP.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.Citas", "CitaId", "dbo.Calendarios");
+            DropForeignKey("dbo.Seguros", "Paciente_PersonaId", "dbo.Personas");
             DropIndex("dbo.UsoRecursoes", new[] { "RecursoHospitalario_RecursoHospitalarioId" });
             DropIndex("dbo.UsoRecursoes", new[] { "Cita_CitaId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
@@ -338,6 +351,7 @@ namespace DoctorWebASP.Migrations
             DropTable("dbo.Citas");
             DropTable("dbo.CentroMedicoes");
             DropTable("dbo.Almacens");
+            DropTable("dbo.Seguros");
         }
     }
 }

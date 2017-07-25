@@ -1,12 +1,9 @@
-﻿using DoctorWebServiciosWCF.Helpers;
-using DoctorWebServiciosWCF.Models;
+﻿using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace DoctorWebServiciosWCF.Helpers
 {
@@ -74,6 +71,11 @@ namespace DoctorWebServiciosWCF.Helpers
             return new ReporteDAO();
         }
 
+        public IPacienteDAO CrearPacienteDAO()
+        {
+            return new CrearPacienteDAO();
+        }
+
         /// <summary>
         /// Utilidad para crear excepciones
         /// </summary>
@@ -132,8 +134,6 @@ namespace DoctorWebServiciosWCF.Helpers
         {
             return new CentroMedicoDAO();
         }
-
-
 
         /// <summary>
         /// Permite crear una instancia resultado paginado del servicio.

@@ -215,7 +215,18 @@ namespace DoctorWebServiciosWCF.Migrations
                 .ForeignKey("dbo.RecursoHospitalarios", t => t.RecursoHospitalario_RecursoHospitalarioId)
                 .Index(t => t.Cita_CitaId)
                 .Index(t => t.RecursoHospitalario_RecursoHospitalarioId);
-            
+
+            CreateTable(
+                "dbo.Seguros",
+                c => new
+                {
+                    seguroId = c.Int(nullable: false, identity: true),
+                    Nombre = c.String(nullable: false),
+                    Paciente_PersonaId = c.Int(),
+                })
+                .PrimaryKey(t => t.seguroId)
+                .ForeignKey("dbo.Personas", t => t.Paciente_PersonaId)
+                .Index(t => t.Paciente_PersonaId);
         }
         
         public override void Down()
@@ -235,6 +246,7 @@ namespace DoctorWebServiciosWCF.Migrations
             DropForeignKey("dbo.Personas", "EspecialidadMedica_EspecialidadMedicaId", "dbo.EspecialidadMedicas");
             DropForeignKey("dbo.Personas", "CentroMedico_CentroMedicoId", "dbo.CentroMedicoes");
             DropForeignKey("dbo.Citas", "CitaId", "dbo.Calendarios");
+            DropForeignKey("dbo.Seguros", "Paciente_PersonaId", "dbo.Personas");
             DropIndex("dbo.UsoRecursoes", new[] { "RecursoHospitalario_RecursoHospitalarioId" });
             DropIndex("dbo.UsoRecursoes", new[] { "Cita_CitaId" });
             DropIndex("dbo.Tratamientoes", new[] { "Cita_CitaId" });
@@ -265,6 +277,7 @@ namespace DoctorWebServiciosWCF.Migrations
             DropTable("dbo.Citas");
             DropTable("dbo.CentroMedicoes");
             DropTable("dbo.Almacens");
+            DropTable("dbo.Seguros");
         }
     }
 }
