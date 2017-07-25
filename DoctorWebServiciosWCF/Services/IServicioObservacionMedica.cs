@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DoctorWebServiciosWCF.Services
 {
-    // Interface de los contratos para los servicios web.
+    // Se establece interface IServicioObservacionMedica como Contrato de servico Web
     [ServiceContract]
     public interface IServicioObservacionMedica
     {

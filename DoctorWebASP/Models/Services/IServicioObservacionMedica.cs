@@ -9,10 +9,11 @@ using System.Web.Mvc;
 
 namespace DoctorWebASP.Models.Services
 {
+
+    // Interface de Metodos para la invocacion del servicio Web
     public interface IServicioObservacionMedica
     {
  
-
         // Metodo del cliente que realiza el llamado para Guardar una Observacion Medica
         void GuardarObservacionMedica(ObservacionMedica observacionMedica);
 
@@ -22,7 +23,7 @@ namespace DoctorWebASP.Models.Services
         List<ObservacionMedica> ObtenerSelectListObservacionMedica();
 
  
-        // Metodo del cliente que realiza el llamado para eliminar una Cita
+        // Metodo del cliente que realiza el llamado para eliminar una Observacion Medica
         void EliminarObservacionMedica(ObservacionMedica observacionMedica);
 
     }

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DoctorWebServiciosWCF.Services
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de interfaz "IServicioObservacionDeAtencionClinica" en el código y en el archivo de configuración a la vez.
+    // Se establece interface IServicioObservacionDeAtencionClinica como Contrato de servico Web
     [ServiceContract]
     public interface IServicioObservacionDeAtencionClinica
     {
@@ -22,16 +22,16 @@ namespace DoctorWebServiciosWCF.Services
 
         void DoWork();
 
-        // Contrato del servicio web para guardar una observacion DeAtencionClinica
+        // Contrato del servicio web para guardar una observacion De Atencion Clinica
         [OperationContract]
         [WebInvoke(UriTemplate = "/GuardarObservacionDeAtencionClinica", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso GuardarObservacionDeAtencionClinica(ObservacionDeAtencionClinica observacionDeAtencionClinica);
 
-        // Contrato del servicio web para obtener la lista de observaciones DeAtencionClinicas
+        // Contrato del servicio web para obtener la lista de observaciones De Atencion Clinica
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerSelectListObservacionDeAtencionClinica", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<List<ObservacionDeAtencionClinica>> ObtenerSelectListObservacionDeAtencionClinica();
-        // Contrato del servicio web para eliminar una observacion DeAtencionClinica
+        // Contrato del servicio web para eliminar una observacion De Atencion Clinica
         [OperationContract]
         [WebInvoke(UriTemplate = "/EliminarObservacionDeAtencionClinica", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso EliminarObservacionDeAtencionClinica(ObservacionDeAtencionClinica observacionDeAtencionClinica);

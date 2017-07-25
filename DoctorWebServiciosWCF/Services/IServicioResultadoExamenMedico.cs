@@ -10,7 +10,7 @@ using System.Text;
 
 namespace DoctorWebServiciosWCF.Services
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de interfaz "IServicioResultadoExamenMedico" en el código y en el archivo de configuración a la vez.
+    // Se establece interface IServicioResultadoExamenMedico como Contrato de servico Web
     [ServiceContract]
     public interface IServicioResultadoExamenMedico
     {
@@ -20,16 +20,16 @@ namespace DoctorWebServiciosWCF.Services
 
         void DoWork();
 
-        // Contrato del servicio web para guardar una observacion medica
+        // Contrato del servicio web para guardar un resultado de examen medico
         [OperationContract]
         [WebInvoke(UriTemplate = "/GuardarResultadoExamenMedico", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso GuardarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico);
 
-        // Contrato del servicio web para obtener la lista de observaciones medicas
+        // Contrato del servicio web para obtener la lista de resultados de examenes medicos
         [OperationContract]
         [WebGet(UriTemplate = "/ObtenerSelectListResultadoExamenMedico", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<List<ResultadoExamenMedico>> ObtenerSelectListResultadoExamenMedico();
-        // Contrato del servicio web para eliminar una observacion medica
+        // Contrato del servicio web para eliminar un resultado de examen medico
         [OperationContract]
         [WebInvoke(UriTemplate = "/EliminarResultadoExamenMedico", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "DELETE", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoProceso EliminarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico);

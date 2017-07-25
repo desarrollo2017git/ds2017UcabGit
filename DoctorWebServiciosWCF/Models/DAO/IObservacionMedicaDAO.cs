@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
-{
+{     // Interface DAO para Observaciones Medicas
     public interface IObservacionMedicaDAO
     {
         // Metodo del DAO para guardar Observaciones Medias en la Base de datos

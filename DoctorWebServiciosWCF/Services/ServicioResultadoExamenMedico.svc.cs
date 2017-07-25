@@ -8,8 +8,7 @@ using System.Linq;
 
 namespace DoctorWebServiciosWCF.Services
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "ServicioResultadoExamenMedico" en el código, en svc y en el archivo de configuración a la vez.
-    // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione ServicioResultadoExamenMedico.svc o ServicioResultadoExamenMedico.svc.cs en el Explorador de soluciones e inicie la depuración.
+   
     public class ServicioResultadoExamenMedico : IServicioResultadoExamenMedico
     {
         public IResultadoExamenMedicoDAO Dao = new ResultadoExamenMedicoDAO();
@@ -18,9 +17,9 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para eliminar una observacion medica
+        /// Metodo del servicio web para eliminar un resultado de examen medico
         /// </summary>
-        /// <param name="observacionMedica">observacion a eliminar</param>
+        /// <param name="resultadoExamenMedico">observacion a eliminar</param>
         /// <returns>Resultado del proceso</returns>
         public ResultadoProceso EliminarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
@@ -38,9 +37,9 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para guardar una observacion
+        /// Metodo del servicio web para guardar un resultado medico
         /// </summary>
-        /// <param name="observacionMedica">observacion a guardar</param>
+        /// <param name="resultadoExamenMedico">observacion a guardar</param>
         /// <returns>Resultado proceso</returns>
         public ResultadoProceso GuardarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
@@ -58,7 +57,7 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para obtener la lista de observaciones
+        /// Metodo del servicio web para obtener la lista de resultados de examen medico
         /// </summary>
         /// <returns>Resultado servicio lista de observaciones</returns>
         public ResultadoServicio<List<ResultadoExamenMedico>> ObtenerSelectListResultadoExamenMedico()

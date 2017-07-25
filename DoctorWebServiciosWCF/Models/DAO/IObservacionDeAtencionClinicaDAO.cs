@@ -5,15 +5,16 @@ using System.Web;
 
 namespace DoctorWebServiciosWCF.Models.DAO
 {
-	public interface IObservacionDeAtencionClinicaDAO
+    // Interface de DAO para Clase ObservacionDeAtencionClinica
+    public interface IObservacionDeAtencionClinicaDAO
     {
-    // Metodo del DAO para guardar Observaciones Medias en la Base de datos
+    // Metodo del DAO para guardar Observaciones de Atencion Clinica en la Base de datos
     void GuardarObservacionDeAtencionClinica(ObservacionDeAtencionClinica observacionDeAtencionClinica);
 
-    // Metodo del DAO para obtener una lista de las observaciones DeAtencionClinicas
+    // Metodo del DAO para obtener una lista de las observaciones De Atencion Clinica
     List<ObservacionDeAtencionClinica> ObtenerSelectListObservacionDeAtencionClinica();
 
-    // Metodo del Data Access Object utilizado para eliminar observaciones DeAtencionClinicas. 
+    // Metodo del Data Access Object utilizado para eliminar observaciones De Atencion Clinica. 
     void EliminarObservacionDeAtencionClinica(ObservacionDeAtencionClinica observacionDeAtencionClinica);
 	
 	}

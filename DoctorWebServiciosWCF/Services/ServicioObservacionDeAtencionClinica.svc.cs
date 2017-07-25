@@ -18,7 +18,7 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para eliminar una observacion DeAtencionClinica
+        /// Metodo del servicio web para eliminar una observacion De Atencion Clinica
         /// </summary>
         /// <param name="observacionDeAtencionClinica">observacion a eliminar</param>
         /// <returns>Resultado del proceso</returns>
@@ -38,7 +38,7 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para guardar una observacion
+        /// Metodo del servicio web para guardar una observacion de Atencion Clinica
         /// </summary>
         /// <param name="observacionDeAtencionClinica">observacion a guardar</param>
         /// <returns>Resultado proceso</returns>
@@ -58,7 +58,7 @@ namespace DoctorWebServiciosWCF.Services
         }
 
         /// <summary>
-        /// Metodo del servicio web para obtener la lista de observaciones
+        /// Metodo del servicio web para obtener la lista de observaciones de atencion Clinica
         /// </summary>
         /// <returns>Resultado servicio lista de observaciones</returns>
         public ResultadoServicio<List<ObservacionDeAtencionClinica>> ObtenerSelectListObservacionDeAtencionClinica()
