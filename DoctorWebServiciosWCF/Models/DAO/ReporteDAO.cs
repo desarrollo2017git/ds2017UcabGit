@@ -420,51 +420,91 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Contenido del query.</returns>
         public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
         {
+            // MEDICO - PACIENTE
+            var WHEREMEDPAC = "";
+
             var SELECT = "";
             var FROM = "";
             var WHERE = "";
             var firstSelect = true;
             var firstFrom = true;
             var firstWhere = true;
-            List<string> entidades = new List<string>();
+            var addFromPaciente = true;
+            var addFromMedico = true;
+            var addFromCentroMedico = true;
+            var addFromRecursoHospitalario = true;
             foreach (var datos in datosConfigurados)
             {
                 var instancia = "";
-                var discriminador = "";
-                if (datos.Instancia == "Medico" || datos.Instancia == "Paciente")
+                if (datos.Instancia == "Medico")
                 {
                     instancia = "Personas";
-                    if (!entidades.Any(instancia.Contains))
+                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                    if (addFromMedico)
                     {
-                        discriminador = (datos.Instancia == "Medico") ? (instancia + ".Discriminator" + " = 'Medico'") : (instancia + ".Discriminator" + " = 'Paciente'");
-                        if (firstWhere)
-                        {
-                            WHERE = WHERE + discriminador;
-                            firstWhere = false;
-                        }
-                        else
-                        {
-                            WHERE = WHERE + " and " + discriminador;
-                        }
+                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                        agregarWhere(ref WHERE, "Discriminator", "=", "Medico", datos.Instancia, ref firstWhere);
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        addFromMedico = false;
+                    }
+                    else
+                    {
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                    }
+                }
+                if (datos.Instancia == "Paciente")
+                {
+                    instancia = "Personas";
+                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                    if (addFromPaciente)
+                    {
+                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                        agregarWhere(ref WHERE, "Discriminator", "=", "Paciente", datos.Instancia, ref firstWhere);
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        addFromPaciente = false;
+                    }
+                    else
+                    {
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
                     }
                 }
                 if (datos.Instancia == "CentroMedico")
-                    instancia = "CentroMedicoes";
-                if (datos.Instancia == "RecursosMedicos")
-                    instancia = "RecursosMedicoes";
-
-                var atributo = instancia + "." + datos.Atributo;
-                SELECT = (firstSelect) ? (SELECT + atributo) : (SELECT + ", " + atributo);
-                if (!entidades.Any(instancia.Contains))
                 {
-                    FROM = (firstFrom) ? (FROM + instancia) : (FROM + ", " + instancia);
-                    entidades.Add(instancia);
+                    instancia = "CentroMedicoes";
+                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                    if (addFromCentroMedico)
+                    {
+                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        addFromCentroMedico = false;
+                    }
+                    else
+                    {
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                    }
                 }
-                if (!String.IsNullOrEmpty(datos.Valor))
-                    WHERE = (firstWhere) ? (WHERE + atributo + " " + datos.Condicional + " '" + datos.Valor + "'") : (WHERE + " and " + atributo + " " + datos.Condicional + " '" + datos.Valor + "'");
-                firstSelect = firstFrom = firstWhere = false;
+                if (datos.Instancia == "RecursoHospitalario")
+                {
+                    instancia = "RecursoHospitalarios";
+                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                    if (addFromRecursoHospitalario)
+                    {
+                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        addFromRecursoHospitalario = false;
+                    }
+                    else
+                    {
+                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                    }
+                }
+
             }
-            var query = "SELECT " + SELECT + " FROM " + FROM + " WHERE " + WHERE;
+            var query = "";
+            if (String.IsNullOrEmpty(WHERE))
+                query = "SELECT " + SELECT + " FROM " + FROM;
+            else
+                query = "SELECT " + SELECT + " FROM " + FROM + " WHERE " + WHERE;
             Utilidades.Instancia.Debug($"{query}.");
             DataTable dt = new DataTable();
             var context = db;
@@ -506,5 +546,49 @@ namespace DoctorWebServiciosWCF.Models.DAO
             return (Newtonsoft.Json.JsonConvert.SerializeObject(dt));
         }
         #endregion
+
+        private void agregarAtributo(ref string SELECT, string ATRIBUTO, string ALIAS, ref bool firstSelect)
+        {
+            if (firstSelect)
+            {
+                SELECT = SELECT + ALIAS + "." + ATRIBUTO;
+                firstSelect = false;
+            }
+            else
+            {
+                SELECT = SELECT + ", " + ALIAS + "." + ATRIBUTO;
+            }
+
+        }
+
+        private void agregarFrom(ref string FROM, string ENTIDAD, string  ALIAS, ref bool firstFrom)
+        {
+            if (firstFrom)
+            {
+                FROM = FROM + ENTIDAD + " as " + ALIAS;
+                firstFrom = false;
+            }
+            else
+            {
+                FROM = FROM + ", " + ENTIDAD + " as " + ALIAS;
+            }
+        }
+
+        private void agregarWhere(ref string WHERE, string ATRIBUTO, string CONDICIONAL, string VALOR, string ALIAS, ref bool firstWhere)
+        {
+            if (!String.IsNullOrEmpty(VALOR))
+            {
+                if (firstWhere)
+                {
+                    WHERE = WHERE + ALIAS + "." + ATRIBUTO + " " + CONDICIONAL + " '" + VALOR + "'";
+                    firstWhere = false;
+                }
+                else
+                {
+                    WHERE = WHERE + " and " + ALIAS + "." + ATRIBUTO + " " + CONDICIONAL + " '" + VALOR + "'";
+                }
+
+            }
+        }
     }
 }
