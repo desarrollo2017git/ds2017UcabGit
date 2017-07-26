@@ -539,6 +539,9 @@ namespace DoctorWebServiciosWCF.Models.DAO
                             using (var reader = cmd.ExecuteReader())
                             {
                                 dt.Load(reader);
+                                if (dt.Rows.Count == 0)
+                                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se encontró ningún dato asociado a su busqueda.");
+
                                 Utilidades.Instancia.Debug($"Obteniendo Reporte | App: Servicio | Tipo: Configurado | Descripción: generarReporteConfigurado | Resultado: {dt.Columns.ToString()}.");
                             }
                         }

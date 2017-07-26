@@ -249,7 +249,7 @@ namespace DoctorWebASP.Controllers
             {
                 resultado.Mensaje = ex.Message;
             }
-            return Json(new { answer = resultado.Contenido });
+            return Json(new { answer = resultado });
         }
         #endregion
 
@@ -271,7 +271,7 @@ namespace DoctorWebASP.Controllers
             {
                 resultado.Mensaje = ex.Message;
             }
-            return Json(new { answer = resultado.Contenido });
+            return Json(new { answer = resultado });
         }
         #endregion
         #endregion
