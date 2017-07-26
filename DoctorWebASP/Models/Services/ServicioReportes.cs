@@ -337,6 +337,45 @@ namespace DoctorWebASP.Models.Services
             }
         }
         #endregion
+
+        public ResultadoServicio<List<DatosConfigurados>> procesarQuery(List<DatosConfigurados> datosConfigurados)
+        {
+            try
+            {
+                var cliente = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioReportes"));
+
+                var accion = "ReportesConfigurados";
+                var requestUrl = "reportes/configurados";
+                var solicitud = new RestRequest(resource: requestUrl, method: Method.POST);
+                var cuerpo = new { datosConfigurados = datosConfigurados };
+
+                solicitud.AddHeader("Content-Type", "application/json");
+                solicitud.AddJsonBody(cuerpo);
+
+                var respuesta = cliente.Execute(solicitud);
+
+                if (respuesta != null && respuesta.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var datos = (JObject)JsonConvert.DeserializeObject(respuesta.Content);
+                    var resultado = datos[$"{accion}Result"].ToObject<ResultadoServicio<List<DatosConfigurados>>>();
+                    if (resultado != null && resultado.SinProblemas)
+                    {
+                        return resultado;
+                    }
+                    else
+                        throw Fabrica.CrearExcepcion(mensaje: resultado.Mensaje);
+                }
+                throw Fabrica.CrearExcepcion(mensaje: "No finalizo correctamente");
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Fabrica.CrearExcepcion(interna: e);
+            }
+        }
         #endregion
 
         /// <summary>
@@ -348,6 +387,6 @@ namespace DoctorWebASP.Models.Services
         {
             if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
                 throw Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
-        }
+        }       
     }
 }

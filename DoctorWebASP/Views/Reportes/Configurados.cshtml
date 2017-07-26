@@ -250,34 +250,37 @@
                     selectedAttributes.push($(this).val())
                 });
 
-                var parameters = { selectedEntities: selectedEntities, selectedAttributes: selectedAttributes };
-                var json = JSON.stringify(parameters);
-                console.log("json");
-                console.log(json);
-
-                var generalObj = {};
-                var entidadActual = ""; var entidadAnterior = "";
+                var generalObj = [];
+                var entidadActual = "";
+                var entidadAnterior = "";
 
                 for (i = 0; i < selectedEntities.length; ++i) {
                     entidadActual = selectedEntities[i];
-                    var attributeObj = {};
+
                     for (j = 0; j < selectedAttributes.length; ++j) {
                         var selectedCondition = $('select[data-type="' + selectedAttributes[j] + '"] option:selected');
                         var selectedConditionValue = $('input[data-type="' + selectedAttributes[j] + '"]');
+
                         var splitString = selectedAttributes[j].split(".");
                         var entidad = splitString[0];
                         var atributo = splitString[1];
+
+                        var innerObj = {};
+
                         if (entidad == entidadActual) {
-                            attributeObj[atributo] = { "condicional": $(selectedCondition).val(), "valor": $(selectedConditionValue).val() };
+                            innerObj.Instancia = entidad;
+                            innerObj.Atributo = atributo;
+                            innerObj.Condicional = $(selectedCondition).val();
+                            innerObj.Valor = $(selectedConditionValue).val();
+
+                            generalObj.push(innerObj);
                         }
                     }
-                    generalObj[entidadActual] = attributeObj;
-
                 }
                 console.log("generalObj");
                 console.log(generalObj);
 
-                parameters = { queryObj: generalObj };
+                var parameters = { datosConfigurados: generalObj };
 
                 $.ajax({
                     type: "POST",

@@ -123,6 +123,7 @@
     <Compile Include="Models\DAO\INotificacionDAO.cs" />
     <Compile Include="Models\DAO\IReporteDAO.cs" />
     <Compile Include="Models\DAO\ReporteDAO.cs" />
+    <Compile Include="Models\DatosConfigurados.cs" />
     <Compile Include="Models\DoctorWebException.cs" />
     <Compile Include="Models\EquipoMedico.cs" />
     <Compile Include="Models\EspecialidadMedica.cs" />

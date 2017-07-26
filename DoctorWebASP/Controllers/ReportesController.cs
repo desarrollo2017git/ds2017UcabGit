@@ -1,4 +1,5 @@
 ﻿using DoctorWebASP.Controllers.Helpers;
+using DoctorWebASP.Models;
 using DoctorWebASP.Models.Results;
 using DoctorWebASP.Models.Services;
 using DoctorWebASP.ViewModels;
@@ -254,9 +255,18 @@ namespace DoctorWebASP.Controllers
 
         #region PASO #3: Obtener reportes según la selección del usuario.
         [HttpPost]
-        public JsonResult getReport(Dictionary<string, Dictionary<string,Dictionary<string,string>>> queryObj)
+        public JsonResult getReport(List<DatosConfigurados> datosConfigurados)
         {
-            return Json(new { answer = queryObj });
+            ResultadoServicio<List<DatosConfigurados>> resultado = Fabrica.CrearResultadoDe<List<DatosConfigurados>>();
+            try
+            {
+                resultado = Servicio.procesarQuery(datosConfigurados);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+            return Json(new { answer = resultado.Contenido });
         }
         #endregion
         #endregion

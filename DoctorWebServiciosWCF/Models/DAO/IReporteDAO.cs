@@ -50,5 +50,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
         double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
 		#endregion
         Dictionary<string, object> obtenerAtributos(List<String> entidades);
+        string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados);
     }
 }

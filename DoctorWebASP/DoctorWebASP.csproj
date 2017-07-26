@@ -254,6 +254,7 @@
       <DependentUpon>201707222319156_Init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DatosConfigurados.cs" />
     <Compile Include="Models\Reporte.cs" />
     <Compile Include="Models\Services\IServicioalendarios.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />

@@ -59,6 +59,13 @@ namespace DoctorWebASP.Models.Services
         /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
         /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
         ResultadoServicio<String> obtenerAtributos(List<string> selectedEntities);
+
+        /// <summary>
+        /// Método utilizado para obtener los atributos de la(s) entidad(es) seleccionada(s) por el usuario.
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
+        ResultadoServicio<List<DatosConfigurados>> procesarQuery(List<DatosConfigurados> datosConfigurados);
         #endregion
     }
 }

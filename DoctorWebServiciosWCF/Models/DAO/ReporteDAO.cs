@@ -402,5 +402,27 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
+
+        public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
+        {
+            dynamic query = null;
+
+            query = from m in db.Personas
+                    where m is Medico
+                    join ca in db.Calendarios
+                    on m equals ca.Medico
+                    join ci in db.Citas
+                    on ca equals ci.Calendario
+                    join pa in db.Personas
+                    on ci.Paciente equals pa
+                    where pa is Paciente
+                    select new
+                    {
+                        Medico = m.Nombre + " " + m.Apellido,
+                        Paciente = pa.Nombre + " " + pa.Apellido
+                    };
+
+            return (Newtonsoft.Json.JsonConvert.SerializeObject(query));
+        }
     }
 }
