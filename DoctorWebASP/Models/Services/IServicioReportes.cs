@@ -65,7 +65,7 @@ namespace DoctorWebASP.Models.Services
         /// </summary>
         /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
         /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
-        ResultadoServicio<List<DatosConfigurados>> procesarQuery(List<DatosConfigurados> datosConfigurados);
+        ResultadoServicio<string> procesarQuery(List<DatosConfigurados> datosConfigurados);
         #endregion
     }
 }

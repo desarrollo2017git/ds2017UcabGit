@@ -257,7 +257,7 @@ namespace DoctorWebASP.Controllers
         [HttpPost]
         public JsonResult getReport(List<DatosConfigurados> datosConfigurados)
         {
-            ResultadoServicio<List<DatosConfigurados>> resultado = Fabrica.CrearResultadoDe<List<DatosConfigurados>>();
+            ResultadoServicio<string> resultado = Fabrica.CrearResultadoDe<string>();
             try
             {
                 resultado = Servicio.procesarQuery(datosConfigurados);

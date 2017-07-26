@@ -291,6 +291,11 @@
                     success: function (result) {
                         console.log("ajax");
                         console.log(result);
+                        var queryObj = JSON.parse(result);
+                        console.log(Object.keys(queryObj));
+                        //$.each(JSON.parse(result), function (key, value) {
+                        //    console.log(value);
+                        //});
                         //var tableRep = $("#report");
                         //var finish = $("#finish");
 

@@ -1,6 +1,8 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 
@@ -405,24 +407,42 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
         {
-            dynamic query = null;
-
-            query = from m in db.Personas
-                    where m is Medico
-                    join ca in db.Calendarios
-                    on m equals ca.Medico
-                    join ci in db.Citas
-                    on ca equals ci.Calendario
-                    join pa in db.Personas
-                    on ci.Paciente equals pa
-                    where pa is Paciente
-                    select new
+            DataTable dt = new DataTable();
+            var context = db;
+            var conn = context.Database.Connection;
+            var connectionState = conn.State;
+            try
+            {
+                using (context)
+                {
+                    if (connectionState != ConnectionState.Open)
+                        conn.Open();
+                    using (var cmd = conn.CreateCommand())
                     {
-                        Medico = m.Nombre + " " + m.Apellido,
-                        Paciente = pa.Nombre + " " + pa.Apellido
-                    };
+                        cmd.CommandText = "SELECT * FROM Personas";
+                        //cmd.CommandType = CommandType.StoredProcedure;
+                        //cmd.Parameters.Add(new SqlParameter("jobCardId", 100525));
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            dt.Load(reader);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (connectionState != ConnectionState.Open)
+                    conn.Close();
+            }
+            //return dt;
 
-            return (Newtonsoft.Json.JsonConvert.SerializeObject(query));
+            //var query = db.Database.SqlQuery<dynamic>("SELECT * FROM Personas").ToList();
+
+            return (Newtonsoft.Json.JsonConvert.SerializeObject(dt));
         }
     }
 }

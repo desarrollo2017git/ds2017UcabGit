@@ -338,7 +338,7 @@ namespace DoctorWebASP.Models.Services
         }
         #endregion
 
-        public ResultadoServicio<List<DatosConfigurados>> procesarQuery(List<DatosConfigurados> datosConfigurados)
+        public ResultadoServicio<string> procesarQuery(List<DatosConfigurados> datosConfigurados)
         {
             try
             {
@@ -357,7 +357,7 @@ namespace DoctorWebASP.Models.Services
                 if (respuesta != null && respuesta.StatusCode == System.Net.HttpStatusCode.OK)
                 {
                     var datos = (JObject)JsonConvert.DeserializeObject(respuesta.Content);
-                    var resultado = datos[$"{accion}Result"].ToObject<ResultadoServicio<List<DatosConfigurados>>>();
+                    var resultado = datos[$"{accion}Result"].ToObject<ResultadoServicio<string>>();
                     if (resultado != null && resultado.SinProblemas)
                     {
                         return resultado;
