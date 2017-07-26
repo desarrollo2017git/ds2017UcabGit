@@ -165,24 +165,32 @@
                     datatype: "application/json",
                     success: function (result) {
                         //console.log(result);
-                        object = jQuery.parseJSON(result.answer);
-                        //console.log(object);
-                        var selectAttr = $("#select-attributes");
-                        var submitAttr = $("#submit-attributes");
+                        object = jQuery.parseJSON(result.answer.Contenido);
 
-                        $(selectAttr).empty();
-                        Object.keys(object).forEach(function (entidad, index) {
-                            console.log(entidad);
-                            for (var atributo in object[entidad]) {
-                                //console.log(atributo);
-                                var opcion = entidad + '.' + atributo;
-                                var newOption = new Option(opcion, opcion, true, false);
-                                selectAttr.append(newOption).trigger('change');
-                            }
-                        });
+                        if (result.answer.SinProblemas == false)
+                        {
+                            alert(result.answer.Mensaje);
+                        }
+                        else
+                        {
+                            //console.log(object);
+                            var selectAttr = $("#select-attributes");
+                            var submitAttr = $("#submit-attributes");
 
-                        $(selectAttr).prop('disabled', false);
-                        $(submitAttr).prop('disabled', false);
+                            $(selectAttr).empty();
+                            Object.keys(object).forEach(function (entidad, index) {
+                                console.log(entidad);
+                                for (var atributo in object[entidad]) {
+                                    //console.log(atributo);
+                                    var opcion = entidad + '.' + atributo;
+                                    var newOption = new Option(opcion, opcion, true, false);
+                                    selectAttr.append(newOption).trigger('change');
+                                }
+                            });
+
+                            $(selectAttr).prop('disabled', false);
+                            $(submitAttr).prop('disabled', false);
+                        }
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert("Debe seleccionar al menos una entidad para poder continuar.");
@@ -284,7 +292,6 @@
                         }
                     }
                 }
-                console.log("generalObj");
                 console.log(generalObj);
 
                 var parameters = { datosConfigurados: generalObj };
@@ -296,46 +303,55 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log(result);
 
-                        var queryObj = JSON.parse(result.answer);
-                        console.log(Object.keys(queryObj[0]));
-
-                        var tableReport = $("#report");
-                        var finish = $("#finish");
-
-                        $(tableReport).empty();
-
-                        var tBodyContent = '';
-                        var element = '';
-                        var keys = Object.keys(queryObj[0]);
-
-                        tBodyContent += '<thead><tr>';
-
-                        for (i = 0; i < keys.length; ++i) {                            
-                            element += '<th>' + keys[i].toString() + '</th>';
+                        if (result.answer.SinProblemas == false)
+                        {
+                            alert(result.answer.Mensaje);
                         }
+                        else
+                        {
+                            console.log(result);
 
-                        tBodyContent += element;
-                        tBodyContent += '</tr></thead><tbody>';
+                            var queryObj = JSON.parse(result.answer.Contenido);
+                            console.log(Object.keys(queryObj[0]));
 
-                        element = "";
+                            var tableReport = $("#report");
+                            var finish = $("#finish");
 
-                        for (i = 0; i < queryObj.length; ++i) {
-                            element += '<tr>';
-                            for (j = 0; j < keys.length; ++j) {
-                                if ([keys[j]] != null) {
-                                    element += '<td>' + queryObj[i][keys[j]] + '</td>';
-                                } else {
-                                    element += '<td> NA </td>';
-                                }
+                            $(tableReport).empty();
+
+                            var tBodyContent = '';
+                            var element = '';
+                            var keys = Object.keys(queryObj[0]);
+
+                            tBodyContent += '<thead><tr>';
+
+                            for (i = 0; i < keys.length; ++i) {
+                                element += '<th>' + keys[i].toString() + '</th>';
                             }
-                            element += '</tr>';
-                        }
-                        tBodyContent += element;
 
-                        $(tableReport).append('</tbody>' + tBodyContent);
-                        $(finish).prop('disabled', false);
+                            tBodyContent += element;
+                            tBodyContent += '</tr></thead><tbody>';
+
+                            element = "";
+
+                            for (i = 0; i < queryObj.length; ++i) {
+                                element += '<tr>';
+                                for (j = 0; j < keys.length; ++j) {
+                                    if ([keys[j]] != null) {
+                                        element += '<td>' + queryObj[i][keys[j]] + '</td>';
+                                    } else {
+                                        element += '<td> NA </td>';
+                                    }
+                                }
+                                element += '</tr>';
+                            }
+                            tBodyContent += element;
+
+                            $(tableReport).append('</tbody>' + tBodyContent);
+                            $(finish).prop('disabled', false);
+                        }
+                        
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" Ha habido un error de conexión, vuelva a intentarlo. ");
