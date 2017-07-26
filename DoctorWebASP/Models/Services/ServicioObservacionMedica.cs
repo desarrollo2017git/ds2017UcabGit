@@ -12,13 +12,14 @@ using Microsoft.AspNet.Identity;
 
 namespace DoctorWebASP.Models.Services
 {
+    // Clase de Observacion Medica para la Conexion con servicio Web
     public class ServicioObservacionMedica : IServicioObservacionMedica
     {
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para eliminar una Cita
+        /// Metodo del cliente que realiza el llamado para eliminar una Observacion Medica
         /// </summary>
-        /// <param name="cita">Cita a Eliminar</param>
-        /// <param name="calendario">Calendario para devolver su disponibilidad</param>
+        /// <param name="observacionMedica">Observacion a Eliminar</param>
+       
         public void EliminarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
@@ -59,10 +60,10 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para Guardar una Cita
+        /// Metodo del cliente que realiza el llamado para Guardar una Observacion Medica
         /// </summary>
-        /// <param name="cita">Cita que se guardará</param>
-        /// <param name="calendario">Calendario al que se le quita la disponibilidad</param>
+        /// <param name="observacionMedica">Observacion que se guardará</param>
+     
         public void GuardarObservacionMedica(ObservacionMedica observacionMedica)
         {
             try
@@ -77,11 +78,6 @@ namespace DoctorWebASP.Models.Services
                 var json = JsonConvert.SerializeObject(body, settings);
                 request.AddParameter("application/json", json, null, ParameterType.RequestBody);
 
-                //var json = JsonConvert.SerializeObject(body);
-
-
-                //request.AddHeader("Content-Type", "application/json");
-                //request.AddJsonBody(body);
                 var response = client.Execute(request);
 
                 if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
@@ -109,13 +105,12 @@ namespace DoctorWebASP.Models.Services
 
 
         /// <summary>
-        /// Metodo del cliente para obtener la lista de citas de un doctor especifico
+        /// Metodo del cliente para obtener la lista de Observaciones Medicas
         /// </summary>
-        /// <param name="userId">Identificador de usuario del doctor</param>
-        /// <returns>Lista de citas</returns>
+        /// <returns>Lista de Observaciones</returns>
         public List<ObservacionMedica> ObtenerSelectListObservacionMedica()
         {
-            //return db.Citas.Where(c => c.Calendario.Medico.ApplicationUser.Id == userId).ToList();
+           
             try
             {
                 var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
@@ -123,8 +118,7 @@ namespace DoctorWebASP.Models.Services
 
                 var action = "ObtenerSelectListObservacionMedica";
                 var request = new RestRequest(resource: action, method: Method.GET);
-               // request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
+             
 
                 var response = client.Execute(request);
 
@@ -151,47 +145,7 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-        /*
-        public SelectList ObtenerSelectListObservacionMedica()
-        {
-            //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
-            try
-            {
-                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
-
-
-                var action = "ObtenerSelectListObservacionMedica";
-                var request = new RestRequest(resource: action, method: Method.GET);
-                //request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
-
-                var response = client.Execute(request);
-
-                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<ObservacionMedica>>>();
-                    if (resultado != null && resultado.SinProblemas)
-                    {
-                        SelectList selectList = new SelectList(resultado.Contenido, "Diagnostico", "Indicacion", "Paciente");
-                        return selectList;
-                    }
-                    else
-                        throw new DoctorWebException(resultado.Mensaje);
-                }
-                else
-                {
-                    throw new DoctorWebException("No finalizo");
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        */
+      
 
     }
 }

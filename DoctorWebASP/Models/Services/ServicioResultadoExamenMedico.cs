@@ -12,13 +12,14 @@ using Microsoft.AspNet.Identity;
 
 namespace DoctorWebASP.Models.Services
 {
+    // Clase de Resultado Medico para la Conexion con servicio Web
 	public class ServicioResultadoExamenMedico : IServicioResultadoExamenMedico
     {
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para eliminar una Cita
+        /// Metodo del cliente que realiza el llamado para eliminar un Resultado Medico
         /// </summary>
-        /// <param name="cita">Cita a Eliminar</param>
-        /// <param name="calendario">Calendario para devolver su disponibilidad</param>
+        /// <param name="resultadoExamenMedico">Resultado a Eliminar</param>
+     
         public void EliminarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
             try
@@ -59,10 +60,10 @@ namespace DoctorWebASP.Models.Services
         }
 
         /// <summary>
-        /// Metodo del cliente que realiza el llamado para Guardar una Cita
+        /// Metodo del cliente que realiza el llamado para Guardar un Resultado Medico
         /// </summary>
-        /// <param name="cita">Cita que se guardará</param>
-        /// <param name="calendario">Calendario al que se le quita la disponibilidad</param>
+        /// <param name="resultadoExamenMedico">Resultado que se guardará</param>
+       
         public void GuardarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
             try
@@ -105,10 +106,10 @@ namespace DoctorWebASP.Models.Services
 
 
         /// <summary>
-        /// Metodo del cliente para obtener la lista de citas de un doctor especifico
+        /// Metodo del cliente para obtener la lista de Examenes Medicos
         /// </summary>
-        /// <param name="userId">Identificador de usuario del doctor</param>
-        /// <returns>Lista de citas</returns>
+      
+        /// <returns>Lista de Resultados</returns>
         public List<ResultadoExamenMedico> ObtenerSelectListResultadoExamenMedico()
         {
               try
@@ -144,47 +145,7 @@ namespace DoctorWebASP.Models.Services
             }
         }
 
-        /*
-        public SelectList ObtenerSelectListObservacionMedica()
-        {
-            //return new SelectList(db.CentrosMedicos.ToList(), "Rif", "Nombre");
-            try
-            {
-                var client = new RestClient(baseUrl: Utilidades.ObtenerUrlServicioWeb("ServicioObservacionMedica"));
-
-
-                var action = "ObtenerSelectListObservacionMedica";
-                var request = new RestRequest(resource: action, method: Method.GET);
-                //request.AddQueryParameter("userId", userId);
-                //var json = JsonConvert.SerializeObject(body);
-
-                var response = client.Execute(request);
-
-                if (response != null && response.StatusCode == System.Net.HttpStatusCode.OK)
-                {
-                    var datos = (JObject)JsonConvert.DeserializeObject(response.Content);
-                    var resultado = datos[$"{action}Result"].ToObject<ResultadoServicio<List<ObservacionMedica>>>();
-                    if (resultado != null && resultado.SinProblemas)
-                    {
-                        SelectList selectList = new SelectList(resultado.Contenido, "Diagnostico", "Indicacion", "Paciente");
-                        return selectList;
-                    }
-                    else
-                        throw new DoctorWebException(resultado.Mensaje);
-                }
-                else
-                {
-                    throw new DoctorWebException("No finalizo");
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-
-        */
+     
 
     }
 }
