@@ -478,6 +478,7 @@ namespace DoctorWebPruebasUnitarias
                 .Setup(dao => dao.Fabrica)
                 .Returns(() => { return this.mockFabric.Object; });
 
+    
             IServicioReportes servicio = new ServicioReportes(this.mockDao.Object, this.mockUtils.Object);
 
             //Ejecutar
@@ -524,6 +525,19 @@ namespace DoctorWebPruebasUnitarias
 
             //Evaluar
             Assert.IsFalse(resultado.SinProblemas);
+        }
+
+        [TestMethod]
+        public void ComprobandoConstructorBase()
+        {
+            //Inicializar
+            IServicioReportes servicio = null;
+
+            //Ejecutar
+            servicio = new ServicioReportes();
+
+            //Evaluar
+            Assert.IsNotNull(servicio);
         }
     }
 }
