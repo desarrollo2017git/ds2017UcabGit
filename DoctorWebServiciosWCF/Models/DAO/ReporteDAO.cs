@@ -38,6 +38,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (result == null)
                     throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#1 | App: Servicio | Tipo: Preestablecido | Descripción: getCantidadUsuariosRegistrados | Resultado: {result.Count()} usuarios.");
                 return result.Count();
             }
             catch (FormatException e)
@@ -93,6 +94,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#2 | App: Servicio | Tipo: Preestablecido | Descripción: getPromedioEdadPaciente | Resultado: {promedio} años.");
                 return promedio;
             }
             catch (DivideByZeroException e)
@@ -144,6 +146,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#3 | App: Servicio | Tipo: Preestablecido | Descripción: getPromedioCitasPorMedico | Resultado: {promedio} citas.");
                 return promedio;
             }
             catch (DivideByZeroException e)
@@ -223,6 +226,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#4 | App: Servicio | Tipo: Preestablecido | Descripción: getPromedioRecursosDisponibles | Resultado: {promedio} recursos.");
                 return promedio;
             }
             catch (DivideByZeroException e)
@@ -278,6 +282,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retorna un tipo de dato no válido.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#5 | App: Servicio | Tipo: Preestablecido | Descripción: getPromedioUsoApp | Resultado: {promedio}.");
                 return promedio;
             }
             catch (DivideByZeroException e)
@@ -336,6 +341,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte#6 | App: Servicio | Tipo: Preestablecido | Descripción: getPromedioCitasCanceladasPorMedico | Resultado: {promedio} citas.");
                 return promedio;
             }
             catch (DivideByZeroException e)
@@ -393,6 +399,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                     filtros.Add(tipo.Name, attributos);
                 }
 
+                Utilidades.Instancia.Debug($"Obteniendo Reporte | App: Servicio | Tipo: Configurado | Descripción: obtenerAtributos | Resultado: {filtros.ToString()}.");
                 return filtros;
             }
             catch (DoctorWebException e)
@@ -425,6 +432,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
                         using (var reader = cmd.ExecuteReader())
                         {
                             dt.Load(reader);
+                            Utilidades.Instancia.Debug($"Obteniendo Reporte | App: Servicio | Tipo: Configurado | Descripción: generarReporteConfigurado | Resultado: {dt.Columns.ToString()}.");
                         }
                     }
                 }
