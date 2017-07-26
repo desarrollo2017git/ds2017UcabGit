@@ -23,11 +23,22 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Instancia dao para interactuar con la Base de datos.
         /// </summary>
-        private readonly IReporteDAO dao = Utilidades.Instancia.Fabrica.CrearReporteDAO();
+        private IReporteDAO dao = null;
+        private IUtilidades utils = null;
 
-        public string DoWork(string codigo)
+        /// <summary>
+        /// Constructor Base
+        /// </summary>
+        public ServicioReportes() : this(Utilidades.Instancia.Fabrica.CrearReporteDAO(), Utilidades.Instancia) { }
+
+        /// <summary>
+        /// Constructor que permite cambiar el dao utilizado por el servicio.
+        /// </summary>
+        /// <param name="reporteDAO">Instrancia de dao a utilizar en el servicio.</param>
+        public ServicioReportes(IReporteDAO reporteDAO, IUtilidades utils)
         {
-            return "Hola mundo";
+            this.dao = reporteDAO;
+            this.utils = utils;
         }
 
         /// <summary>

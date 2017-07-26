@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Extensiones.cs" />
     <Compile Include="G02ASPCitas.cs" />
+    <Compile Include="G08WCFReportes.cs" />
     <Compile Include="G09ASPNotificaciones.cs" />
     <Compile Include="G09WCFNotificaciones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -19,9 +19,6 @@ namespace DoctorWebServiciosWCF.Services
     [ServiceContract]
     public interface IServicioReportes
     {
-        [OperationContract]
-        [WebGet(UriTemplate = "/obtener/{codigo}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        string DoWork(string codigo);
 
         /// <summary>
         /// Método utilizado para indicar que operación se debe realizar según los parámetros indicados.
