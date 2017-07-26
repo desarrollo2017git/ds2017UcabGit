@@ -19,7 +19,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Metodo del servicio web para eliminar un resultado de examen medico
         /// </summary>
-        /// <param name="resultadoExamenMedico">observacion a eliminar</param>
+        /// <param name="resultadoExamenMedico">resultado a eliminar</param>
         /// <returns>Resultado del proceso</returns>
         public ResultadoProceso EliminarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
@@ -39,7 +39,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Metodo del servicio web para guardar un resultado medico
         /// </summary>
-        /// <param name="resultadoExamenMedico">observacion a guardar</param>
+        /// <param name="resultadoExamenMedico">resultado a guardar</param>
         /// <returns>Resultado proceso</returns>
         public ResultadoProceso GuardarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico)
         {
@@ -59,7 +59,7 @@ namespace DoctorWebServiciosWCF.Services
         /// <summary>
         /// Metodo del servicio web para obtener la lista de resultados de examen medico
         /// </summary>
-        /// <returns>Resultado servicio lista de observaciones</returns>
+        /// <returns>Resultado servicio lista de resultados</returns>
         public ResultadoServicio<List<ResultadoExamenMedico>> ObtenerSelectListResultadoExamenMedico()
         {
             var resultado = new ResultadoServicio<List<ResultadoExamenMedico>>();

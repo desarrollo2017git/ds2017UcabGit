@@ -8,8 +8,7 @@ using System.Linq;
 
 namespace DoctorWebServiciosWCF.Services
 {
-    // NOTA: puede usar el comando "Rename" del menú "Refactorizar" para cambiar el nombre de clase "ServicioObservacionDeAtencionClinica" en el código, en svc y en el archivo de configuración a la vez.
-    // NOTA: para iniciar el Cliente de prueba WCF para probar este servicio, seleccione ServicioObservacionDeAtencionClinica.svc o ServicioObservacionDeAtencionClinica.svc.cs en el Explorador de soluciones e inicie la depuración.
+   
     public class ServicioObservacionDeAtencionClinica : IServicioObservacionDeAtencionClinica
     {
         public IObservacionDeAtencionClinicaDAO Dao = new ObservacionDeAtencionClinicaDAO();
