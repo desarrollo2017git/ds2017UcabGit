@@ -506,16 +506,40 @@ namespace DoctorWebServiciosWCF.Models.DAO
                     }
 
                 }
-                // CASO1 - JOIN MEDICO|PACIENTE
-                if (entidades.Count() == 2 && entidades.Any("Medico".Contains) && entidades.Any("Paciente".Contains))
+                if (entidades.Count() == 2)
                 {
-                    FROM = FROM + ", Citas as Cita";
-                    WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = Cita.CentroMedico_CentroMedicoId and Paciente.PersonaId = Cita.Paciente_PersonaId";
+                    // CASO1 - JOIN MEDICO|PACIENTE
+                    if (entidades.Any("Medico".Contains) && entidades.Any("Paciente".Contains))
+                    {
+                        FROM = FROM + ", Citas as Cita";
+                        WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = Cita.CentroMedico_CentroMedicoId and Paciente.PersonaId = Cita.Paciente_PersonaId";
+                    }
+                    // CASO2 - JOIN CENTROMEDICO|MEDICO
+                    else if (entidades.Any("CentroMedico".Contains) && entidades.Any("Medico".Contains))
+                    {
+                        WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId";
+                    }
+                    // CASO3 - JOIN CENTROMEDICO|PACIENTE
+                    else if (entidades.Any("CentroMedico".Contains) && entidades.Any("Paciente".Contains))
+                    {
+                        FROM = FROM + ", Personas as Medico, Citas as Cita";
+                        WHERE = WHERE + " and Paciente.PersonaId = Cita.Paciente_PersonaId and Medico.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId and Cita.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId and Medico.Discriminator = 'Medico'";
+                    }
+                    // CASO4 - JOIN CENTROMEDICO|RECURSO HOSPITALARIO
+                    else if (entidades.Any("CentroMedico".Contains) && entidades.Any("RecursoHospitalario".Contains))
+                    {
+                        FROM = FROM + ", Almacens as Almacen";
+                        WHERE = WHERE + " and CentroMedico.CentroMedicoId =  Almacen.CentroMedico_CentroMedicoId and RecursoHospitalario.RecursoHospitalarioId = Almacen.RecursoHospitalario_RecursoHospitalarioId";
+                    }
                 }
-                // CASO2 - JOIN CENTROMEDICO|MEDICO
-                if (entidades.Count() == 2 && entidades.Any("CentroMedico".Contains) && entidades.Any("Medico".Contains))
+                else if (entidades.Count() == 3)
                 {
-                    WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId";
+                    // CASO1 - JOIN CENTROMEDICO|PACIENTE|MEDICO|
+                    if (entidades.Any("CentroMedico".Contains) && entidades.Any("Paciente".Contains) && entidades.Any("Medico".Contains))
+                    {
+                        FROM = FROM + ", Citas as Cita";
+                        WHERE = WHERE + " and Paciente.PersonaId = Cita.Paciente_PersonaId and Medico.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId and Cita.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId";
+                    }
                 }
                 var query = "";
                 if (String.IsNullOrEmpty(WHERE))
