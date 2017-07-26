@@ -3,9 +3,12 @@ using DoctorWebServiciosWCF.Helpers;
 using DoctorWebServiciosWCF.Models;
 using DoctorWebServiciosWCF.Models.DAO;
 using DoctorWebServiciosWCF.Models.Results;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
@@ -26,7 +29,14 @@ namespace DoctorWebServiciosWCF.Services
             return "Hola mundo";
         }
 
-        public ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin)
+        /// <summary>
+        /// Método utilizado para indicar que operación se debe realizar según los parámetros indicados.
+        /// </summary>
+        /// <param name="codigo">Código que indica el id de la operación a realizar.</param>
+        /// <param name="fechaInicio">Fecha de inicio del periodo seleccionado.</param>
+        /// <param name="fechaFin">Fecha de fin del periodo seleccionado.</param>
+        /// <returns>Resultado obtenido en la operación realizada.</returns>
+        public ResultadoProceso ReportesPreestablecidos(string codigo, string fechaInicio, string fechaFin)
         {
             var resultado = Utilidades.Instancia.Fabrica.CrearResultadoProceso();
 
@@ -36,38 +46,32 @@ namespace DoctorWebServiciosWCF.Services
                 if (!int.TryParse(codigo, out id))
                     throw new FormatException("El código debe ser un número.");
 
-                if (!tipo.Equals(ReporteTipo.preestablecido.ToString()) && !tipo.Equals(ReporteTipo.configurado.ToString()))
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el tipo " + tipo);
+                if (!(id >= 1 && id <= 6))
+                    throw Fabrica.Instancia.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
 
-                if (tipo.Equals(ReporteTipo.preestablecido.ToString()) && !(id >= 1 && id <= 6))
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("No se puede realizar ninguna operación para el código " + codigo);
-
-                if (tipo.Equals(ReporteTipo.preestablecido.ToString()))
+                switch (id)
                 {
-                    switch (id)
-                    {
-                        case 1:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
-                            break;
-                        case 2:
-                            resultado.Inicializar(dao.getPromedioEdadPaciente().ToString());
-                            break;
-                        case 3:
-                            resultado.Inicializar(dao.getPromedioCitasPorMedico().ToString());
-                            break;
-                        case 4:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
-                            break;
-                        case 5:
-                            resultado.Inicializar(dao.getPromedioUsoApp().ToString());
-                            break;
-                        case 6:
-                            comprobarFecha(fechaInicio, fechaFin);
-                            resultado.Inicializar(dao.getPromedioCitasCanceladasPorMedico(fechaInicio, fechaFin).ToString());
-                            break;
-                    }
+                    case 1:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getCantidadUsuariosRegistrados(fechaInicio, fechaFin).ToString());
+                        break;
+                    case 2:
+                        resultado.Inicializar(dao.getPromedioEdadPaciente().ToString());
+                        break;
+                    case 3:
+                        resultado.Inicializar(dao.getPromedioCitasPorMedico().ToString());
+                        break;
+                    case 4:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getPromedioRecursosDisponibles(fechaInicio, fechaFin).ToString());
+                        break;
+                    case 5:
+                        resultado.Inicializar(dao.getPromedioUsoApp().ToString());
+                        break;
+                    case 6:
+                        comprobarFecha(fechaInicio, fechaFin);
+                        resultado.Inicializar(dao.getPromedioCitasCanceladasPorMedico(fechaInicio, fechaFin).ToString());
+                        break;
                 }
             }
             catch (Exception ex)
@@ -78,10 +82,53 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Objeto que contiene los atributos de las entidades seleccionadas.</returns>
+        public ResultadoServicio<object> ObtenerAtributos(List<string> entidades)
+        {
+            var resultado = Fabrica.Instancia.CrearResultadoDe<object>();
+            try
+            {
+                var obj = JsonConvert.SerializeObject(dao.obtenerAtributos(entidades));
+                resultado.Inicializar(obj);
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
+
+            return resultado;
+        }
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de métricas segun las entidades y atributos seleccionados.
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que contiene las entidades seleccionadas.</param>
+        /// <returns>Resultado que contiene las métricas que se pueden realizar según los parámetros indicados.</returns>
+        public List<String> ObtenerMetricas(List<String> entidades)
+        {
+            List<string> attributes = new List<string>();
+
+            return entidades;
+        }
+
+        /// <summary>
+        /// Método utilizado para comprobar que las fechas ingresadas como parametros de los reportes 1, 4 y 6, sea válida.
+        /// </summary>
+        /// <param name="fechaInicio">Fecha de inicio del periodo seleccionado.</param>
+        /// <param name="fechaFin">Fecha de fin del periodo seleccionado.</param>
         public void comprobarFecha(string fechaInicio, string fechaFin)
         {
             if (String.IsNullOrEmpty(fechaInicio) || String.IsNullOrEmpty(fechaFin))
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion("La fecha de inicio o fecha fin están vacías o son nulas");
+        }
+
+        public void ReportesConfigurados(Dictionary<string, string> datos)
+        {
+            throw new NotImplementedException();
         }
     }
 }

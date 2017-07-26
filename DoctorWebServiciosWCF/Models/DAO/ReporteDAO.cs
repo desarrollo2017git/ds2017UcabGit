@@ -1,5 +1,6 @@
 ﻿using DoctorWebServiciosWCF.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -10,6 +11,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
         private string lastTimeOnDay = "11:59:59 PM";
         private string firstTimeOnDay = "12:00:00 AM";
 
+        #region REPORTES PREESTABLECIDOS
+        #region REPORTE #1 - Cantidad de usuarios registrados en un tiempo determinado
+        /// <summary>
+        /// Método utilizado para obtener la cantidad de usuarios registrados durante el periodo de tiempo seleccionado por el usuario.
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Cantidad de usuarios registrados en un periodo de tiempo determinado.</returns>
+        /// <exception cref="System.FormatException">Excepción lanzada en caso de que el formato de los parámetros este incorrecto.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
         public int getCantidadUsuariosRegistrados(string fechaInicioStr, string fechaFinStr)
         {
             try
@@ -39,97 +51,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
+        #endregion
 
-        public double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
-        {
-            try
-            {
-                DateTime dtFechaInicio = DateTime.Parse(fechaInicioStr, CultureInfo.InvariantCulture);
-                DateTime dtFechaFin = DateTime.Parse(fechaFinStr, CultureInfo.InvariantCulture);
-
-                double? cantidadCitasCanceladas = (from c in db.Calendarios
-                                                   where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
-                                                   select c).Count();
-                double? cantidadMedicos = (from p in db.Personas
-                                           where p is Medico
-                                           select p).Count();
-
-                if (cantidadCitasCanceladas == null || cantidadMedicos == null)
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
-
-                if (cantidadMedicos == 0)
-                    throw new DivideByZeroException("Hay un error de división entre cero.");
-
-                double promedio = (double)cantidadCitasCanceladas / (double)cantidadMedicos;
-
-                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
-                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
-
-                return promedio;
-            }
-            catch (DivideByZeroException e)
-            {
-                throw e;
-            }
-            catch (NotFiniteNumberException e)
-            {
-                throw e;
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
-            catch (DoctorWebException e)
-            {
-                throw e;
-            }
-            catch (Exception e)
-            {
-                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
-            }
-        }
-
-        public double getPromedioCitasPorMedico()
-        {
-            try
-            {
-                double? cantidadCitas = (from c in db.Calendarios
-                                         where !c.Cancelada & c.Disponible == 0
-                                         select c).Count();
-                double? cantidadMedicos = (from p in db.Personas
-                                           where p is Medico
-                                           select p).Count();
-                if (cantidadMedicos == null || cantidadCitas == null)
-                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
-
-                if (cantidadMedicos == 0)
-                    throw new DivideByZeroException("Hay un error de división entre cero.");
-
-                double promedio = (double)cantidadCitas / (double)cantidadMedicos;
-
-                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
-                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
-
-                return promedio;
-            }
-            catch (DivideByZeroException e)
-            {
-                throw e;
-            }
-            catch (NotFiniteNumberException e)
-            {
-                throw e;
-            }
-            catch (DoctorWebException e)
-            {
-                throw e;
-            }
-            catch (Exception e)
-            {
-                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
-            }
-        }
-
+        #region REPORTE #2 - Promedio de edad de los pacientes.
+        /// <summary>
+        /// Método utilizado para obtener la edad promedio de los pacientes.
+        /// </summary>
+        /// <returns>Promedio de edad de los pacientes.</returns>
+        /// <exception cref="System.DivideByZeroException">Excepción lanzada en caso de ocurrir un división entre cero en las operaciones realizadas por el método.</exception>
+        /// <exception cref="System.NotFiniteNumberException">Excepción lanzada en caso de que las operaciones realizadas por el método arrojen un número no válido.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
         public double getPromedioEdadPaciente()
         {
             try
@@ -178,7 +110,71 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
+        #endregion
 
+        #region REPORTE #3 - Promedio de citas por médico.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas atendidas por médico.
+        /// </summary>
+        /// <returns>Promedio de citas atendidas por médico</returns>
+        /// <exception cref="System.DivideByZeroException">Excepción lanzada en caso de ocurrir un división entre cero en las operaciones realizadas por el método.</exception>
+        /// <exception cref="System.NotFiniteNumberException">Excepción lanzada en caso de que las operaciones realizadas por el método arrojen un número no válido.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
+        public double getPromedioCitasPorMedico()
+        {
+            try
+            {
+                double? cantidadCitas = (from c in db.Calendarios
+                                         where !c.Cancelada & c.Disponible == 0
+                                         select c).Count();
+                double? cantidadMedicos = (from p in db.Personas
+                                           where p is Medico
+                                           select p).Count();
+                if (cantidadMedicos == null || cantidadCitas == null)
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadMedicos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)cantidadCitas / (double)cantidadMedicos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
+            }
+        }
+        #endregion
+
+        #region REPORTE #4 - Promedio de recursos disponibles en un tiempo determinado.
+        /// <summary>
+        /// Método utilizado para obtener el promedio de recursos disponibles en un periodo de tiempo seleccionado por el usuario.
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Promedio de recursos disponibles en un periodo de tiempo determinado.</returns>
+        /// /// <exception cref="System.DivideByZeroException">Excepción lanzada en caso de ocurrir un división entre cero en las operaciones realizadas por el método.</exception>
+        /// <exception cref="System.NotFiniteNumberException">Excepción lanzada en caso de que las operaciones realizadas por el método arrojen un número no válido.</exception>
+        /// <exception cref="System.FormatException">Excepción lanzada en caso de que el formato de los parámetros este incorrecto.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
         public double getPromedioRecursosDisponibles(string fechaInicioStr, string fechaFinStr)
         {
             try
@@ -225,13 +221,13 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
                     throw new NotFiniteNumberException("La operación retornó un número no válido.");
 
-                return result.Count();
+                return promedio;
             }
-            catch(DivideByZeroException e)
+            catch (DivideByZeroException e)
             {
                 throw e;
             }
-            catch(NotFiniteNumberException e)
+            catch (NotFiniteNumberException e)
             {
                 throw e;
             }
@@ -248,7 +244,17 @@ namespace DoctorWebServiciosWCF.Models.DAO
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
         }
+        #endregion
 
+        #region REPORTE #5 - Promedio de uso de la aplicación
+        /// <summary>
+        /// Método utilizado para obtener el promedio de uso de la aplicación.
+        /// </summary>
+        /// <returns>Promedio de uso de la aplicación.</returns>
+        /// <exception cref="System.DivideByZeroException">Excepción lanzada en caso de ocurrir un división entre cero en las operaciones realizadas por el método.</exception>
+        /// <exception cref="System.NotFiniteNumberException">Excepción lanzada en caso de que las operaciones realizadas por el método arrojen un número no válido.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
         public double getPromedioUsoApp()
         {
             try
@@ -288,7 +294,113 @@ namespace DoctorWebServiciosWCF.Models.DAO
             {
                 throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
+        }
+        #endregion
 
+        #region REPORTE #6 - Promedio de citas canceladas por médico en un tiempo determinado
+        /// <summary>
+        /// Método utilizado para obtener el promedio de citas canceladas por médico en un periodo de tiempo seleccionado por el usuario.
+        /// </summary>
+        /// <param name="fechaInicioStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
+        /// <returns>Promedio de citas canceladas en un periodo de tiempo determinado.</returns>
+        /// <exception cref="System.DivideByZeroException">Excepción lanzada en caso de ocurrir un división entre cero en las operaciones realizadas por el método.</exception>
+        /// <exception cref="System.NotFiniteNumberException">Excepción lanzada en caso de que las operaciones realizadas por el método arrojen un número no válido.</exception>
+        /// <exception cref="System.FormatException">Excepción lanzada en caso de que el formato de los parámetros este incorrecto.</exception>
+        /// <exception cref="DoctorWebException">Excepción lanzada en caso de ocurrir un problema en la consulta de la base de datos.</exception>
+        /// <exception cref="System.Exception">Excepción lanzada en caso de existir algún otro tipo de error y que no pueda ser capturado por las excepciones anteriores.</exception>
+        public double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr)
+        {
+            try
+            {
+                DateTime dtFechaInicio = DateTime.Parse(fechaInicioStr, CultureInfo.InvariantCulture);
+                DateTime dtFechaFin = DateTime.Parse(fechaFinStr, CultureInfo.InvariantCulture);
+
+                double? cantidadCitasCanceladas = (from c in db.Calendarios
+                                                   where c.Cancelada & c.Disponible == 1 & c.HoraInicio >= dtFechaInicio & c.HoraFin <= dtFechaFin
+                                                   select c).Count();
+                double? cantidadMedicos = (from p in db.Personas
+                                           where p is Medico
+                                           select p).Count();
+
+                if (cantidadCitasCanceladas == null || cantidadMedicos == null)
+                    throw Utilidades.Instancia.Fabrica.CrearExcepcion("Hay un problema con la consulta en la base de datos.");
+
+                if (cantidadMedicos == 0)
+                    throw new DivideByZeroException("Hay un error de división entre cero.");
+
+                double promedio = (double)cantidadCitasCanceladas / (double)cantidadMedicos;
+
+                if (Double.IsInfinity(promedio) || Double.IsNaN(promedio))
+                    throw new NotFiniteNumberException("La operación retornó un número no válido.");
+
+                return promedio;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw e;
+            }
+            catch (NotFiniteNumberException e)
+            {
+                throw e;
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
+            }
+        }
+        #endregion
+        #endregion
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <exception cref="DoctorWebException">Esta excepción es lanzada en caso de existir algun error en al ejecución.</exception>
+        /// <exception cref="System.Exception">Esta es la excepción general, es lanzada en caso de existir un error que no fue atrapado por excepciones especificas.</exception>
+        /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
+        public Dictionary<string, object> obtenerAtributos(List<string> entidades)
+        {
+            try
+            {
+                String PROJECT_MODEL_STR = "DoctorWebServiciosWCF.Models.";
+
+                object item;
+                var filtros = new Dictionary<string, object>();
+
+                foreach (var entidad in entidades)
+                {
+                    // create the object from the specification string
+                    var tipo = Type.GetType(PROJECT_MODEL_STR + entidad);
+                    item = Activator.CreateInstance(Type.GetType(PROJECT_MODEL_STR + entidad));
+
+                    var attributos = new Dictionary<string, string>();
+                    foreach (var property in item.GetType().GetProperties())
+                    {
+                        if (!property.PropertyType.ToString().Contains("Models") && !property.Name.Contains("Concat") && !property.Name.Contains("Application") && !property.Name.Contains("NombreCompleto"))
+                            attributos.Add(key: property.Name, value: "");
+                    }
+                    filtros.Add(tipo.Name, attributos);
+                }
+
+                return filtros;
+            }
+            catch (DoctorWebException e)
+            {
+                throw e;
+            }
+            catch (Exception e)
+            {
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
+            }
         }
     }
 }

@@ -34,6 +34,16 @@ namespace DoctorWebASP.Controllers.Helpers
         }
 
         /// <summary>
+        /// Permite crear una instancia resultado del servicio.
+        /// </summary>
+        /// <returns>returna una instancia resultado del servicio.</returns>
+        internal static ResultadoServicio<T> CrearResultadoDe<T>()
+            where T : class
+        {
+            return new ResultadoServicio<T>();
+        }
+
+        /// <summary>
         /// Permite crear una instancia de servicios notificaciones.
         /// </summary>
         /// <returns>Retorna la instancia para consumir los servicios</returns>

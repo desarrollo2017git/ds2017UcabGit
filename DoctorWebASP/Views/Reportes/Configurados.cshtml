@@ -1,9 +1,9 @@
 ﻿@using DoctorWebASP.Controllers.Helpers
-@model IEnumerable<string>
+@model Dictionary<string, string>
 
 @{
     ViewBag.Title = "Configurados";
-    ViewData.indicarPaginaActual(MenuPaginas.Configurados);
+    ViewData.IndicarPaginaActual(EnumDoctorWebPagina.Configurados);
 }
 
 <section class="content-header">
@@ -23,7 +23,7 @@
             <div class="row">
 
                 <!-- Selección de las entidades involucradas en el reporte-->
-                <div class="col-xs-4">
+                <div class="col-xs-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title" style="font-size:medium">Selección de entidad(es)</h3>
@@ -38,9 +38,9 @@
                                     <div class="form-group">
                                         <label>Entidades</label>
                                         <select class="form-control select2" multiple="multiple" data-placeholder="Seleccione la(s) entidad(es) que desea" style="width: 100%;" id="select-entities">
-                                            @foreach (var entities in Model)
+                                            @foreach(KeyValuePair<string,string> entity in Model)
                                             {
-                                                <option value="@entities">@entities</option>
+                                                <option value="@entity.Key">@( String.IsNullOrEmpty(entity.Value) ? entity.Key : entity.Value )</option>
                                             }
                                         </select>
                                     </div>
@@ -54,7 +54,7 @@
                 </div>
 
                 <!-- Selección de los atributos involucrados en el reporte-->
-                <div class="col-xs-4">
+                <div class="col-xs-3">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title" style="font-size:medium">Selección de atributo(os)</h3>
@@ -80,7 +80,7 @@
                 </div>
 
                 <!-- Selección de las métricas para el reporte-->
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title" style="font-size:medium">Selección de métrica(as)</h3>
@@ -93,8 +93,32 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group">
-                                        <label>Métricas</label>
-                                        <select class="form-control select" data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled></select>
+                                        @*<select class="form-control select" data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled></select>*@
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <th>Atributo</th>
+                                                <th>Condición</th>
+                                                <th>Valor</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Nombre</td>
+                                                    <td>
+                                                        <select class="form-control select2" data-placeholder="Condición" style="width: 100%;">
+                                                            <option value="Igual">Igual ( = )</option>
+                                                            <option value="Distinto">Distinto ( != )</option>
+                                                            <option value="Mayor que">Mayor que ( > )</option>
+                                                            <option value="Menor que">Menor que ( < )</option>
+                                                            <option value="Mayor o igual que">Mayor o igual que ( >= )</option>
+                                                            <option value="Menor o igual que">Menor o igual que ( <= )</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" placeholder="Valor" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -157,15 +181,22 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
+                        console.log(result);
+                        object = jQuery.parseJSON(result.answer);
+                        console.log(object);
                         var selectAttr = $("#select-attributes");
                         var submitAttr = $("#submit-attributes");
 
                         $(selectAttr).empty();
-
-                        for (var i in result.atributos) {
-                            var newOption = new Option(result.atributos[i], result.atributos[i], true, false);
-                            selectAttr.append(newOption).trigger('change');
-                        }
+                        Object.keys(object).forEach(function (entidad, index) {
+                            console.log(entidad);
+                            for (var atributo in object[entidad]) {
+                                console.log(atributo);
+                                var opcion = entidad + '.' + atributo;
+                                var newOption = new Option(opcion, opcion, true, false);
+                                selectAttr.append(newOption).trigger('change');
+                            }
+                        });
 
                         $(selectAttr).prop('disabled', false);
                         $(submitAttr).prop('disabled', false);
@@ -201,6 +232,7 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
+                        console.log(result);
                         var selectMet = $("#select-metrics");
                         var submitMet = $("#generate-report");
 
@@ -232,6 +264,7 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
+                        console.log(result);
                         var tableRep = $("#report");
                         var finish = $("#finish");
 

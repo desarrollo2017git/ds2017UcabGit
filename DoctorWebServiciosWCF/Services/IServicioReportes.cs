@@ -1,4 +1,5 @@
 ﻿using DoctorWebServiciosWCF.Models.Results;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,9 @@ using System.Text;
 
 namespace DoctorWebServiciosWCF.Services
 {
+    /// <summary>
+    /// Interfaz con las primitivas que debe implementar la clase Servicio del módulo de Reportes.
+    /// </summary>
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IReporteService" in both code and config file together.
     [ServiceContract]
     public interface IServicioReportes
@@ -17,8 +21,38 @@ namespace DoctorWebServiciosWCF.Services
         [WebGet(UriTemplate = "/obtener/{codigo}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
         string DoWork(string codigo);
 
+        /// <summary>
+        /// Método utilizado para indicar que operación se debe realizar según los parámetros indicados.
+        /// </summary>
+        /// <param name="codigo">Código que indica el id de la operación a realizar.</param>
+        /// <param name="fechaInicio">Fecha de inicio del periodo seleccionado.</param>
+        /// <param name="fechaFin">Fecha de fin del periodo seleccionado.</param>
+        /// <returns>Resultado obtenido en la operación realizada.</returns>
         [OperationContract]
-        [WebGet(UriTemplate = "/reportes/{tipo}/{codigo}?fechaInicio={fechaInicio}&fechaFin={fechaFin}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
-        ResultadoProceso Reportes(string tipo, string codigo, string fechaInicio, string fechaFin);
+        [WebGet(UriTemplate = "/reportes/preestablecidos/{codigo}?fechaInicio={fechaInicio}&fechaFin={fechaFin}", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped)]
+        ResultadoProceso ReportesPreestablecidos(string codigo, string fechaInicio, string fechaFin);
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Objeto que contiene los atributos de las entidades seleccionadas.</returns>
+        [OperationContract]
+        [WebInvoke(UriTemplate = "obtenerAtributos", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        //ResultadoServicio<JObject> ObtenerAtributos(List<string> entidades);
+        ResultadoServicio<object> ObtenerAtributos(List<string> entidades);
+
+        /// <summary>
+        /// Método utilizado para llenar una lista de métricas segun las entidades y atributos seleccionados.
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que contiene las entidades seleccionadas.</param>
+        /// <returns>Resultado que contiene las métricas que se pueden realizar según los parámetros indicados.</returns>
+        [OperationContract]
+        [WebInvoke(UriTemplate = "obtenerMetricas", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        List<String> ObtenerMetricas(List<string> atributos);
+
+        [OperationContract]
+        [WebInvoke(UriTemplate = "/reportes/configurados", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
+        void ReportesConfigurados(Dictionary<string, string> datos);
     }
 }

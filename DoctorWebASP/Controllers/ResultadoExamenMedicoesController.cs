@@ -1,26 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using DoctorWebASP.Models;
+using DoctorWebASP.ViewModels;
+using PagedList;
+using Microsoft.AspNet.Identity;
+using DoctorWebASP.Models.Services;
 
 namespace DoctorWebASP.Controllers
 {
+
+    /// <summary>
+    /// Clase controladora de Clase ObservacionMedica
+    /// </summary>
     public class ResultadoExamenMedicoesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: ResultadoExamenMedicoes
-        public ActionResult Index()
-        {
-            return View(db.ResultadoExamenMedicos.ToList());
-        }
+            private ApplicationDbContext db = new ApplicationDbContext();
+            public IServicioResultadoExamenMedico consulta { get; set; }
+            public ResultadoExamenMedicoesController() : this(new ServicioResultadoExamenMedico())
+            {
+            }
 
-        // GET: ResultadoExamenMedicoes/Details/5
+            public ResultadoExamenMedicoesController(IServicioResultadoExamenMedico db)
+            {
+                this.consulta = db;
+            }
+
+        // GET: ResultadoExamenMedico
+        /// <summary>
+        /// Metodo que llama a la interfaz de consulta de Resultados. Muestra lista almacenada
+        /// </summary>
+        /// <returns> Interfaz para la consulta de resultados </returns>
+        [Authorize]
+            public ActionResult Index()
+            {
+                if (consulta != null)
+                {
+
+
+                    return View(consulta.ObtenerSelectListResultadoExamenMedico());
+                }
+                return View(db.ResultadoExamenMedicos.ToList());
+
+
+            }
+
+        /// <summary>
+        /// Metodo para consulta del detalle de un resultado
+        /// </summary>
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -35,22 +65,26 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // GET: ResultadoExamenMedicoes/Create
+        /// <summary>
+        /// Metodo para la agregacion de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ResultadoExamenMedicoes/Create
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ResultadoExamenMedico/Create
+        /// <summary>
+        /// Metodo para la agregacion de un resultado en Base de Datos Remota via Web Service
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ResultadoExamenMedicoID,Comentario")] ResultadoExamenMedico resultadoExamenMedico)
         {
             if (ModelState.IsValid)
             {
-                db.ResultadoExamenMedicos.Add(resultadoExamenMedico);
+                // db.ObservacionMedicas.Add(observacionMedica);
+                consulta.GuardarResultadoExamenMedico(resultadoExamenMedico);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -58,7 +92,9 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // GET: ResultadoExamenMedicoes/Edit/5
+        /// <summary>
+        /// Metodo para editar de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -73,23 +109,25 @@ namespace DoctorWebASP.Controllers
             return View(resultadoExamenMedico);
         }
 
-        // POST: ResultadoExamenMedicoes/Edit/5
-        // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: ResultadoExamenMedicoes/Edit/id
+        /// <summary>
+        /// Metodo para editar de un Resultado con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ResultadoExamenMedicoID,Comentario")] ResultadoExamenMedico resultadoExamenMedico)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(resultadoExamenMedico).State = EntityState.Modified;
+               // db.Entry(resultadoExamenMedico).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(resultadoExamenMedico);
         }
-
-        // GET: ResultadoExamenMedicoes/Delete/5
+        /// <summary>
+        /// Metodo para eliminar de un Resultado con Base de Datos local
+        /// </summary>
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,12 +143,16 @@ namespace DoctorWebASP.Controllers
         }
 
         // POST: ResultadoExamenMedicoes/Delete/5
+        /// <summary>
+        /// Metodo para eliminar de un Resultado con Base de Datos remota via WebService
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             ResultadoExamenMedico resultadoExamenMedico = db.ResultadoExamenMedicos.Find(id);
-            db.ResultadoExamenMedicos.Remove(resultadoExamenMedico);
+            //db.ObservacionMedicas.Remove(observacionMedica);
+            consulta.EliminarResultadoExamenMedico(resultadoExamenMedico);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

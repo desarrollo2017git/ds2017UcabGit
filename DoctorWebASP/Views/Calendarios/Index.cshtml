@@ -48,7 +48,6 @@
         <!-- /.row -->
     </section>
     <!-- /.content -->
-</div>
 <!-- /.content-wrapper -->
 <script>
     $(function () {
@@ -88,7 +87,7 @@
         y = date.getFullYear();
     $.ajax({
         type: 'POST',
-        url: '@Url.Action("Json", "Calendarios")'
+        url: '@Url.Action("Json")'
     })
     $('#calendar').fullCalendar({
         events: '/Content/calendario.json',
