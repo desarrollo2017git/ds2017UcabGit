@@ -9,20 +9,22 @@ using System.Web.Mvc;
 
 namespace DoctorWebASP.Models.Services
 {
+
+    // Interface de Metodos para la invocacion del servicio Web
     public interface IServicioResultadoExamenMedico
     {
 
 
-        // Metodo del cliente que realiza el llamado para Guardar una Observacion Medica
+        // Metodo del cliente que realiza el llamado para Guardar un Resultado Medico
         void GuardarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico);
 
 
         // Metodo en el cliente utilizado para obtener una lista de todos
-        // Observaciones Medicas
+        // Resultados Medicos
         List<ResultadoExamenMedico> ObtenerSelectListResultadoExamenMedico();
 
 
-        // Metodo del cliente que realiza el llamado para eliminar una Cita
+        // Metodo del cliente que realiza el llamado para eliminar un Resultado Medico
         void EliminarResultadoExamenMedico(ResultadoExamenMedico resultadoExamenMedico);
     }
 }
