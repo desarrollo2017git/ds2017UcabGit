@@ -44,6 +44,11 @@ namespace DoctorWebServiciosWCF.Services
         //ResultadoServicio<JObject> ObtenerAtributos(List<string> entidades);
         ResultadoServicio<object> ObtenerAtributos(List<string> entidades);
 
+        /// <summary>
+        /// Método utilizado para indicar que operación a realizar.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Resultado obtenido en la operación realizada.</returns>
         [OperationContract]
         [WebInvoke(UriTemplate = "/reportes/configurados", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, Method = "POST", BodyStyle = WebMessageBodyStyle.Wrapped)]
         ResultadoServicio<string> ReportesConfigurados(List<DatosConfigurados> datosConfigurados);

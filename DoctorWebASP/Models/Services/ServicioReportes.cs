@@ -338,6 +338,12 @@ namespace DoctorWebASP.Models.Services
         }
         #endregion
 
+        #region PASO #3: Obtener reportes según la selección del usuario.
+        /// <summary>
+        /// Método que se encarga de procesar el query, con los datos seleccionados por el cliente.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
         public ResultadoServicio<string> procesarQuery(List<DatosConfigurados> datosConfigurados)
         {
             try
@@ -376,6 +382,7 @@ namespace DoctorWebASP.Models.Services
                 throw Fabrica.CrearExcepcion(interna: e);
             }
         }
+        #endregion
         #endregion
 
         /// <summary>

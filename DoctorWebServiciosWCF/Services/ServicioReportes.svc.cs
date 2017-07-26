@@ -104,6 +104,11 @@ namespace DoctorWebServiciosWCF.Services
             return resultado;
         }
 
+        /// <summary>
+        /// Método utilizado para indicar que operación a realizar.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Resultado obtenido en la operación realizada.</returns>
         public ResultadoServicio<string> ReportesConfigurados(List<DatosConfigurados> datosConfigurados)
         {
             var resultado = Fabrica.Instancia.CrearResultadoDe<string> ();

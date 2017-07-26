@@ -93,14 +93,8 @@
                             <div class="row">
                                 <div class="col-xs-12">
                                     <div class="form-group">
-                                        @*<select class="form-control select" data-placeholder="Seleccione la métrica que desea" style="width: 100%;" id="select-metrics" disabled></select>*@
                                         <table class="table table-condensed" id="contidions">
-                                            <thead>
-                                                <th>Atributo</th>
-                                                <th>Condición</th>
-                                                <th>Valor</th>
-                                            </thead>
-
+                                        
                                         </table>
                                     </div>
                                 </div>
@@ -289,42 +283,46 @@
                     data: JSON.stringify(parameters),
                     datatype: "application/json",
                     success: function (result) {
-                        console.log("ajax");
                         console.log(result);
-                        var queryObj = JSON.parse(result);
-                        console.log(Object.keys(queryObj));
-                        //$.each(JSON.parse(result), function (key, value) {
-                        //    console.log(value);
-                        //});
-                        //var tableRep = $("#report");
-                        //var finish = $("#finish");
 
-                        //$(tableRep).empty();
+                        var queryObj = JSON.parse(result.answer);
+                        console.log(Object.keys(queryObj[0]));
 
-                        //var selections = $('#select-entities option:selected');
-                        //var tBodyContent = '';
-                        //var element = '';
+                        var tableReport = $("#report");
+                        var finish = $("#finish");
 
-                        //tBodyContent += '<thead><tr>';
+                        $(tableReport).empty();
 
-                        //$(selections).each(function (index) {
-                        //    element = '<th>' + $(this).val() + '</th>';
-                        //    tBodyContent += element;
-                        //});
+                        var tBodyContent = '';
+                        var element = '';
+                        var keys = Object.keys(queryObj[0]);
 
-                        //tBodyContent += '</tr></thead><tbody>';
+                        tBodyContent += '<thead><tr>';
 
-                        //$.each(JSON.parse(result), function (key, value) {
-                        //    element =
-                        //        '<tr>' +
-                        //            '<td>' + value.Medico + '</td>' +
-                        //            '<td>' + value.Paciente + '</td>' +
-                        //        '</tr>';
-                        //    tBodyContent += element;
-                        //});
+                        for (i = 0; i < keys.length; ++i) {                            
+                            element += '<th>' + keys[i].toString() + '</th>';
+                        }
 
-                        //$(tableRep).append('</tbody>' + tBodyContent);
-                        //$(finish).prop('disabled', false);
+                        tBodyContent += element;
+                        tBodyContent += '</tr></thead><tbody>';
+
+                        element = "";
+
+                        for (i = 0; i < queryObj.length; ++i) {
+                            element += '<tr>';
+                            for (j = 0; j < keys.length; ++j) {
+                                if ([keys[j]] != null) {
+                                    element += '<td>' + queryObj[i][keys[j]] + '</td>';
+                                } else {
+                                    element += '<td> NA </td>';
+                                }
+                            }
+                            element += '</tr>';
+                        }
+                        tBodyContent += element;
+
+                        $(tableReport).append('</tbody>' + tBodyContent);
+                        $(finish).prop('disabled', false);
                     },
                     error: function (xmlhttprequest, textstatus, errorthrown) {
                         alert(" Ha habido un error de conexión, vuelva a intentarlo. ");

@@ -368,6 +368,7 @@ namespace DoctorWebServiciosWCF.Models.DAO
         #endregion
         #endregion
 
+        #region REPORTES CONFIGURADOS
         /// <summary>
         /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
         /// </summary>
@@ -412,6 +413,11 @@ namespace DoctorWebServiciosWCF.Models.DAO
             }
         }
 
+        /// <summary>
+        /// Método que se encarga de generar el reporte según el query procesado.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Contenido del query.</returns>
         public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
         {
             var SELECT = "";
@@ -499,5 +505,6 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
             return (Newtonsoft.Json.JsonConvert.SerializeObject(dt));
         }
+        #endregion
     }
 }

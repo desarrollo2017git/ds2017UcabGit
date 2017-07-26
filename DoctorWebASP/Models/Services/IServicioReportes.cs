@@ -61,9 +61,9 @@ namespace DoctorWebASP.Models.Services
         ResultadoServicio<String> obtenerAtributos(List<string> selectedEntities);
 
         /// <summary>
-        /// Método utilizado para obtener los atributos de la(s) entidad(es) seleccionada(s) por el usuario.
+        /// Método que se encarga de procesar el query, con los datos seleccionados por el cliente.
         /// </summary>
-        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
         /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
         ResultadoServicio<string> procesarQuery(List<DatosConfigurados> datosConfigurados);
         #endregion
