@@ -123,7 +123,15 @@ namespace DoctorWebServiciosWCF.Services
         public ResultadoServicio<string> ReportesConfigurados(List<DatosConfigurados> datosConfigurados)
         {
             var resultado = Fabrica.Instancia.CrearResultadoDe<string> ();
-            resultado.Inicializar(dao.generarReporteConfigurado(datosConfigurados));
+
+            try
+            {
+                resultado.Inicializar(dao.generarReporteConfigurado(datosConfigurados));
+            }
+            catch (Exception ex)
+            {
+                resultado.Mensaje = ex.Message;
+            }
 
             return resultado;
         }
