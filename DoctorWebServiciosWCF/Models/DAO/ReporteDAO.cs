@@ -420,130 +420,149 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <returns>Contenido del query.</returns>
         public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
         {
-            // MEDICO - PACIENTE
-            var WHEREMEDPAC = "";
-
-            var SELECT = "";
-            var FROM = "";
-            var WHERE = "";
-            var firstSelect = true;
-            var firstFrom = true;
-            var firstWhere = true;
-            var addFromPaciente = true;
-            var addFromMedico = true;
-            var addFromCentroMedico = true;
-            var addFromRecursoHospitalario = true;
-            foreach (var datos in datosConfigurados)
-            {
-                var instancia = "";
-                if (datos.Instancia == "Medico")
-                {
-                    instancia = "Personas";
-                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
-                    if (addFromMedico)
-                    {
-                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
-                        agregarWhere(ref WHERE, "Discriminator", "=", "Medico", datos.Instancia, ref firstWhere);
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                        addFromMedico = false;
-                    }
-                    else
-                    {
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                    }
-                }
-                if (datos.Instancia == "Paciente")
-                {
-                    instancia = "Personas";
-                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
-                    if (addFromPaciente)
-                    {
-                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
-                        agregarWhere(ref WHERE, "Discriminator", "=", "Paciente", datos.Instancia, ref firstWhere);
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                        addFromPaciente = false;
-                    }
-                    else
-                    {
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                    }
-                }
-                if (datos.Instancia == "CentroMedico")
-                {
-                    instancia = "CentroMedicoes";
-                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
-                    if (addFromCentroMedico)
-                    {
-                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                        addFromCentroMedico = false;
-                    }
-                    else
-                    {
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                    }
-                }
-                if (datos.Instancia == "RecursoHospitalario")
-                {
-                    instancia = "RecursoHospitalarios";
-                    agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
-                    if (addFromRecursoHospitalario)
-                    {
-                        agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                        addFromRecursoHospitalario = false;
-                    }
-                    else
-                    {
-                        agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
-                    }
-                }
-
-            }
-            var query = "";
-            if (String.IsNullOrEmpty(WHERE))
-                query = "SELECT " + SELECT + " FROM " + FROM;
-            else
-                query = "SELECT " + SELECT + " FROM " + FROM + " WHERE " + WHERE;
-            Utilidades.Instancia.Debug($"{query}.");
-            DataTable dt = new DataTable();
-            var context = db;
-            var conn = context.Database.Connection;
-            var connectionState = conn.State;
             try
             {
-                using (context)
+                var SELECT = "";
+                var FROM = "";
+                var WHERE = "";
+                var firstSelect = true;
+                var firstFrom = true;
+                var firstWhere = true;
+                var addFromPaciente = true;
+                var addFromMedico = true;
+                var addFromCentroMedico = true;
+                var addFromRecursoHospitalario = true;
+
+                List<string> entidades = new List<string>();
+
+                foreach (var datos in datosConfigurados)
                 {
-                    if (connectionState != ConnectionState.Open)
-                        conn.Open();
-                    using (var cmd = conn.CreateCommand())
+                    var instancia = "";
+                    if (datos.Instancia == "Medico")
                     {
-                        //cmd.CommandText = "SELECT * FROM Personas";
-                        cmd.CommandText = query;
-                        //cmd.CommandType = CommandType.StoredProcedure;
-                        //cmd.Parameters.Add(new SqlParameter("jobCardId", 100525));
-                        using (var reader = cmd.ExecuteReader())
+                        instancia = "Personas";
+                        agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                        if (addFromMedico)
                         {
-                            dt.Load(reader);
-                            Utilidades.Instancia.Debug($"Obteniendo Reporte | App: Servicio | Tipo: Configurado | Descripción: generarReporteConfigurado | Resultado: {dt.Columns.ToString()}.");
+                            entidades.Add(datos.Instancia);
+                            agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                            agregarWhere(ref WHERE, "Discriminator", "=", "Medico", datos.Instancia, ref firstWhere);
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                            addFromMedico = false;
+                        }
+                        else
+                        {
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        }
+                    }
+                    if (datos.Instancia == "Paciente")
+                    {
+                        instancia = "Personas";
+                        agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                        if (addFromPaciente)
+                        {
+                            entidades.Add(datos.Instancia);
+                            agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                            agregarWhere(ref WHERE, "Discriminator", "=", "Paciente", datos.Instancia, ref firstWhere);
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                            addFromPaciente = false;
+                        }
+                        else
+                        {
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        }
+                    }
+                    if (datos.Instancia == "CentroMedico")
+                    {
+                        instancia = "CentroMedicoes";
+                        agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                        if (addFromCentroMedico)
+                        {
+                            entidades.Add(datos.Instancia);
+                            agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                            addFromCentroMedico = false;
+                        }
+                        else
+                        {
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        }
+                    }
+                    if (datos.Instancia == "RecursoHospitalario")
+                    {
+                        instancia = "RecursoHospitalarios";
+                        agregarAtributo(ref SELECT, datos.Atributo, datos.Instancia, ref firstSelect);
+                        if (addFromRecursoHospitalario)
+                        {
+                            entidades.Add(datos.Instancia);
+                            agregarFrom(ref FROM, instancia, datos.Instancia, ref firstFrom);
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                            addFromRecursoHospitalario = false;
+                        }
+                        else
+                        {
+                            agregarWhere(ref WHERE, datos.Atributo, datos.Condicional, datos.Valor, datos.Instancia, ref firstWhere);
+                        }
+                    }
+
+                }
+                // CASO1 - JOIN MEDICO|PACIENTE
+                if (entidades.Count() == 2 && entidades.Any("Medico".Contains) && entidades.Any("Paciente".Contains))
+                {
+                    FROM = FROM + ", Citas as Cita";
+                    WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = Cita.CentroMedico_CentroMedicoId and Paciente.PersonaId = Cita.Paciente_PersonaId";
+                }
+                // CASO2 - JOIN CENTROMEDICO|MEDICO
+                if (entidades.Count() == 2 && entidades.Any("CentroMedico".Contains) && entidades.Any("Medico".Contains))
+                {
+                    WHERE = WHERE + " and Medico.CentroMedico_CentroMedicoId = CentroMedico.CentroMedicoId";
+                }
+                var query = "";
+                if (String.IsNullOrEmpty(WHERE))
+                    query = "SELECT " + SELECT + " FROM " + FROM;
+                else
+                    query = "SELECT " + SELECT + " FROM " + FROM + " WHERE " + WHERE;
+                Utilidades.Instancia.Debug($"{query}.");
+                DataTable dt = new DataTable();
+                var context = db;
+                var conn = context.Database.Connection;
+                var connectionState = conn.State;
+                try
+                {
+                    using (context)
+                    {
+                        if (connectionState != ConnectionState.Open)
+                            conn.Open();
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = query;
+                            using (var reader = cmd.ExecuteReader())
+                            {
+                                dt.Load(reader);
+                                Utilidades.Instancia.Debug($"Obteniendo Reporte | App: Servicio | Tipo: Configurado | Descripción: generarReporteConfigurado | Resultado: {dt.Columns.ToString()}.");
+                            }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    if (connectionState != ConnectionState.Open)
+                        conn.Close();
+                }
+                return (Newtonsoft.Json.JsonConvert.SerializeObject(dt));
             }
-            catch (Exception ex)
+            catch(DoctorWebException e)
             {
-                throw ex;
+                throw e;
             }
-            finally
+            catch (Exception e)
             {
-                if (connectionState != ConnectionState.Open)
-                    conn.Close();
+                throw Utilidades.Instancia.Fabrica.CrearExcepcion(interna: e);
             }
-            //return dt;
-
-            //var query = db.Database.SqlQuery<dynamic>("SELECT * FROM Personas").ToList();
-
-            return (Newtonsoft.Json.JsonConvert.SerializeObject(dt));
         }
         #endregion
 
