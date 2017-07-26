@@ -12,7 +12,7 @@ namespace DoctorWebASP.Models
         {
             this.Seguros = new HashSet<Seguro>();
         }
-        public string TipoSangre { get; set; }
+        public virtual string TipoSangre { get; set; }
         public virtual ICollection<Seguro> Seguros { get; set; }
         public virtual ICollection<HistoriaMedica> HistoriasMedicas { get; set; }
         public virtual ICollection<Cita> Citas { get; set; }
