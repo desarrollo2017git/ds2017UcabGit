@@ -259,7 +259,10 @@
     <Compile Include="Models\Services\IServicioalendarios.cs" />
     <Compile Include="Models\Services\IServicioCitas.cs" />
     <Compile Include="Models\Services\IServicioNotificaciones.cs" />
+    <Compile Include="Models\Services\IServicioObservacionDeAtencionClinica.cs" />
+    <Compile Include="Models\Services\IServicioObservacionMedica.cs" />
     <Compile Include="Models\Services\IServicioReportes.cs" />
+    <Compile Include="Models\Services\IServicioResultadoExamenMedico.cs" />
     <Compile Include="Models\Services\ServicioCalendarios.cs" />
     <Compile Include="Models\Services\ServicioCitas.cs" />
     <Compile Include="Global.asax.cs">
@@ -289,7 +292,10 @@
     <Compile Include="Models\Results\ResultadoProceso.cs" />
     <Compile Include="Models\Results\ResultadoServicio.cs" />
     <Compile Include="Models\Results\ResultadoServicioPaginado.cs" />
+    <Compile Include="Models\Services\ServicioObservacionDeAtencionClinica.cs" />
+    <Compile Include="Models\Services\ServicioObservacionMedica.cs" />
     <Compile Include="Models\Services\ServicioReportes.cs" />
+    <Compile Include="Models\Services\ServicioResultadoExamenMedico.cs" />
     <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\UsoRecurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
