@@ -71,6 +71,11 @@ namespace DoctorWebServiciosWCF.Helpers
             return new ReporteDAO();
         }
 
+        public IPacienteDAO CrearPacienteDAO()
+        {
+            return new CrearPacienteDAO();
+        }
+
         /// <summary>
         /// Utilidad para crear excepciones
         /// </summary>
