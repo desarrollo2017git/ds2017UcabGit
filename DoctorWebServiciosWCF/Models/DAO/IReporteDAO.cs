@@ -48,8 +48,21 @@ namespace DoctorWebServiciosWCF.Models.DAO
         /// <param name="fechaFinStr">Fecha incicial para el periodo de conteo de registro de usuarios.</param>
         /// <returns>Promedio de citas canceladas en un periodo de tiempo determinado.</returns>
         double getPromedioCitasCanceladasPorMedico(string fechaInicioStr, string fechaFinStr);
-		#endregion
+        #endregion
+
+        #region REPORTES CONFIGURADOS
+        /// <summary>
+        /// Método utilizado para llenar una lista de atributos, según el parámetro recibido. 
+        /// </summary>
+        /// <param name="selectedEntities">Parámetro que indica las entidades seleccionadas.</param>
+        /// <returns>Retorna un objeto "resultado" que indica si fue fue exitosa o fallida la operación.</returns>
         Dictionary<string, object> obtenerAtributos(List<String> entidades);
+        /// <summary>
+        /// Método que se encarga de generar el reporte según el query procesado.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Contenido del query.</returns>
         string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados);
+        #endregion
     }
 }

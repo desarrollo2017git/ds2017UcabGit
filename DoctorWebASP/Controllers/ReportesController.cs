@@ -254,6 +254,11 @@ namespace DoctorWebASP.Controllers
         #endregion
 
         #region PASO #3: Obtener reportes según la selección del usuario.
+        /// <summary>
+        /// Método utilizado para obtener el reporte según los datos seleccionados por el usuario.
+        /// </summary>
+        /// <param name="datosConfigurados">Objeto que contiene todas las opciones seleccionadas por el usuario.</param>
+        /// <returns>Reporte generado con los datos seleccionados por el usuario</returns>
         [HttpPost]
         public JsonResult getReport(List<DatosConfigurados> datosConfigurados)
         {
