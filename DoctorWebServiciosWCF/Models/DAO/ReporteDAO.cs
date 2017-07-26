@@ -414,6 +414,52 @@ namespace DoctorWebServiciosWCF.Models.DAO
 
         public string generarReporteConfigurado(List<DatosConfigurados> datosConfigurados)
         {
+            var SELECT = "";
+            var FROM = "";
+            var WHERE = "";
+            var firstSelect = true;
+            var firstFrom = true;
+            var firstWhere = true;
+            List<string> entidades = new List<string>();
+            foreach (var datos in datosConfigurados)
+            {
+                var instancia = "";
+                var discriminador = "";
+                if (datos.Instancia == "Medico" || datos.Instancia == "Paciente")
+                {
+                    instancia = "Personas";
+                    if (!entidades.Any(instancia.Contains))
+                    {
+                        discriminador = (datos.Instancia == "Medico") ? (instancia + ".Discriminator" + " = 'Medico'") : (instancia + ".Discriminator" + " = 'Paciente'");
+                        if (firstWhere)
+                        {
+                            WHERE = WHERE + discriminador;
+                            firstWhere = false;
+                        }
+                        else
+                        {
+                            WHERE = WHERE + " and " + discriminador;
+                        }
+                    }
+                }
+                if (datos.Instancia == "CentroMedico")
+                    instancia = "CentroMedicoes";
+                if (datos.Instancia == "RecursosMedicos")
+                    instancia = "RecursosMedicoes";
+
+                var atributo = instancia + "." + datos.Atributo;
+                SELECT = (firstSelect) ? (SELECT + atributo) : (SELECT + ", " + atributo);
+                if (!entidades.Any(instancia.Contains))
+                {
+                    FROM = (firstFrom) ? (FROM + instancia) : (FROM + ", " + instancia);
+                    entidades.Add(instancia);
+                }
+                if (!String.IsNullOrEmpty(datos.Valor))
+                    WHERE = (firstWhere) ? (WHERE + atributo + " " + datos.Condicional + " '" + datos.Valor + "'") : (WHERE + " and " + atributo + " " + datos.Condicional + " '" + datos.Valor + "'");
+                firstSelect = firstFrom = firstWhere = false;
+            }
+            var query = "SELECT " + SELECT + " FROM " + FROM + " WHERE " + WHERE;
+            Utilidades.Instancia.Debug($"{query}.");
             DataTable dt = new DataTable();
             var context = db;
             var conn = context.Database.Connection;
@@ -426,7 +472,8 @@ namespace DoctorWebServiciosWCF.Models.DAO
                         conn.Open();
                     using (var cmd = conn.CreateCommand())
                     {
-                        cmd.CommandText = "SELECT * FROM Personas";
+                        //cmd.CommandText = "SELECT * FROM Personas";
+                        cmd.CommandText = query;
                         //cmd.CommandType = CommandType.StoredProcedure;
                         //cmd.Parameters.Add(new SqlParameter("jobCardId", 100525));
                         using (var reader = cmd.ExecuteReader())
